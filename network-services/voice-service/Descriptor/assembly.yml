@@ -1,0 +1,110 @@
+name: assembly::voice-service::1.0
+description: Voice Service
+properties:
+  overlay_networks_name:
+    description: The name of the voice overlay network assembly
+    type: string
+    required: true
+  voice_service_ipaddress:
+    description: the ip address of the endpoint for the voice service
+    type: string
+    read-only: true
+    value: ${gateway.data_address}
+  deploymentLocation:
+    type: string
+    default: local
+  resourceManager:
+    type: string
+    default: defaultrm
+  internal_networkname:
+    default: internal
+  internal_subnet:
+    default: 10.20.252.0/24
+  internal_iprange:
+    default: 10.20.252.0/24
+  internal_gateway:
+    default: 10.20.252.1
+composition:
+  gateway:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      mgmt_network:
+        value: ${overlay_networks.mgmt_network}
+      data_network:
+        value: ${overlay_networks.data_network}
+      backend_network:
+        value: ${internal.networkname}
+    type: assembly::voip-gateway::1.0
+    quantity: 1
+  voip-server:
+    properties:
+      mgmt_network:
+        value: ${overlay_networks.mgmt_network}
+      data_network:
+        value: ${internal.networkname}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: assembly::ip-pbx-vnf::1.0
+    cluster:
+      initial-quantity: 1
+      minimum-nodes: 1
+      maximum-nodes: 10
+      scaling-increment: 1
+  internal:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      networkname:
+        value: ${internal_networkname}
+      subnet:
+        value: ${internal_subnet}
+      iprange:
+        value: ${internal_iprange}
+      gateway:
+        value: ${internal_gateway}
+    type: assembly::docker-network::1.0
+references:
+  overlay_networks:
+    properties:
+      name:
+        value: ${overlay_networks_name}
+    type: assembly::voice-overlay-networks::1.0
+relationships:
+  manageDispatchList:
+    properties:
+      ipaddr:
+        value: ${source.data_address}
+      port:
+        value: '5060'
+    source-state: Active
+    target-state: Active
+    source-state-modifier: post
+    target-state-modifier: post
+    lifecycle:
+      Create:
+      - target.addToDispatchList
+      Cease:
+      - target.deleteFromDispatchList
+    source-capabilities:
+    - voip-server.poolNode
+    target-requirements:
+    - gateway.poolController
+policies:
+  scaleVoipServer:
+    properties:
+      scaleOut_threshold:
+        value: 58
+      scaleIn_threshold:
+        value: 32
+      smoothing:
+        value: 3
+    type: policy::scale
+    metric: gateway.h_load
+    target: voip-server

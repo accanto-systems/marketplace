@@ -1,0 +1,55 @@
+pipeline{
+    agent any
+    stages{
+        stage('fetch and onboard dependencies'){
+            steps{
+				sh "lmctl env list"
+				sh "wget http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/chaos-monkey-docker/chaos-monkey-docker-1.0.tgz"
+				sh "lmctl pkg push chaos-monkey-docker-1.0.tgz testing" 
+				sh "wget http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/docker-network/docker-network-1.0.tgz"
+				sh "lmctl pkg push docker-network-1.0.tgz testing" 
+				sh "wget http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/ip-pbx/ip-pbx-1.0.tgz"
+				sh "lmctl pkg push ip-pbx-1.0.tgz testing" 
+				sh "wget http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/sip-traffic-manager/sip-traffic-manager-1.0.tgz"
+				sh "lmctl pkg push sip-traffic-manager-1.0.tgz testing"
+				sh "wget http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/sip-performance/sip-performance-1.0.tgz"
+				sh "lmctl pkg push sip-performance-1.0.tgz testing" 
+				sh "wget http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/voice-load-generator/voice-load-generator-1.0.tgz"
+				sh "lmctl pkg push voice-load-generator-1.0.tgz testing"
+				sh "wget http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/voice-overlay-networks/voice-overlay-networks-1.0.tgz"
+				sh "lmctl pkg push voice-overlay-networks-1.0.tgz testing"			
+            }
+        }	    
+        stage('onboard voice-service'){
+            steps{
+				sh "lmctl project push testing"               
+            }
+        }
+        stage('test voice-service basic'){
+            steps{
+                sh "lmctl project test --tests 'Activate Service' testing"				
+            }
+        }
+        stage('test voice-service basic load'){
+            steps{
+                sh "lmctl project test --tests 'Apply Load' testing"				
+            }
+        }
+        stage('test voice-service scaling'){
+            steps{
+                sh "lmctl project test --tests 'Scale test' testing"				
+            }
+        }
+        stage('test voice-service healing'){
+            steps{
+                sh "lmctl project test --tests 'VOIP Server Complex Heal' testing"
+                sh "lmctl project test --tests 'VOIP Server Heal' testing"				
+            }
+        }
+        stage('package voice-service'){
+            steps{
+                sh "curl -v -u admin:admin123 --upload-file ./_lmctl/_build/voice-service-1.0.tgz http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/voice-service-service/"              
+            }
+        }
+    }
+}

@@ -1,0 +1,89 @@
+name: resource::asterisk-vnfc::1.0
+description: asterisk server vnfc
+
+properties:
+  instance_name:
+    type: string
+    description: the name of this resource instance
+    value: ${instance.name}
+
+    
+  instance_index:
+    type: string
+    default: not_set
+ 
+  internal_index:
+    type: string
+    value: ${instance.index} 
+   
+  image:
+    type: string
+    description: "the docker image name"
+    default: accanto/ip-pbx:1.0
+
+  data_network:
+    type: string
+    descripion: name of data network 
+    required: true
+    
+  data_network_type:
+    type: string
+    descripion: type of network - either docker or ovs
+    default: "docker"
+    
+  ovs_data_ip:
+    type: string
+    descripion: ip_address to be assigned if using ovs networks
+    
+  mgmt_network:
+    type: string
+    descripion: name of management network
+    required: true
+    
+
+  gw_address:
+    type: string
+    description: if a gw is in front then pass in its private or internal ip address
+  
+  instanceid:
+    description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
+    value: ${instance.id}
+    
+  mgmt_address:
+    type: string
+    description: managemet ip address of this vnfc
+    read-only: true
+
+  data_address:
+    type: string
+    description: assigned ip address on voip network. This is the voip endpoint 
+    read-only: true
+    
+  integrity_smoothing:
+     type: string
+     description: Integrity smoothing
+     default: 3
+     
+  publication_period:
+    type: string
+    description: Metric publication period in seconds
+    default: 60
+
+lifecycle:
+- Install
+- Configure
+- Start
+- Integrity
+- Stop
+- Uninstall
+metrics:
+  h_integrity:
+    type: "metric::integrity"
+    publication-period: "10"
+policies:
+  heal:
+    metric: "h_integrity"
+    type: "policy::heal"
+    properties:
+      smoothing:
+        value: ${integrity_smoothing}

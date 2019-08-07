@@ -1,0 +1,23 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Integrity Lifecycle Transition
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+
+  tasks:
+  - name: Check if Asterisk is running
+    shell: "ps aux"
+    register: asterisk_status
+
+  - name: Report status of Asterisk
+    fail:
+      msg: Asterisk is not running.
+    when: asterisk_status.stdout.find('asterisk') == -1
+
+

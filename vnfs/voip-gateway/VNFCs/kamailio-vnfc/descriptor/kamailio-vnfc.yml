@@ -1,0 +1,89 @@
+name: resource::kamailio-vnfc::1.0
+description: kamailio SIP and RTP gateway
+
+properties:
+  image:
+    type: string
+    description: "the docker image name"
+    default: accanto/kamailio:1.0
+  mgmt_network:
+    type: string
+    descripion: name of docker management network
+    default: mgmtbr0
+  mgmt_address:
+    type: string
+    description: managemet ip address of this vnfc
+    read-only: true
+  instanceid:
+    description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
+    value: ${instance.id}
+  data_network:
+    type: string
+    descripion: docker network name of data network 
+  data_network_type:
+    type: string
+    descripion: type of network docker or ovs
+    default: docker
+  ovs_data_address:
+    type: string
+    description: manually assigned address for the ovs based data port
+  data_address:
+    type: string
+    description: assigned ip address on user data network. This is the voip endpoint
+    read-only: true
+  backend_network:
+    type: string
+    description: backend network name. 
+  backend_network_type:
+    type: string
+    descripion: type of network docker or ovs
+    default: docker
+  ovs_backend_address:
+    type: string
+    description: manually assigned address for the ovs based backend port    
+  backend_address:
+    type: string
+    description: assigned ip address on backend network. 
+    read-only: true
+
+  hostname:
+    type: string
+    description: hostname address of this container
+    value: ${instance.name}
+
+lifecycle:
+- Install
+- Configure
+- Start
+- Integrity
+- Stop
+- Uninstall
+
+operations:
+  addToDispatchList:
+    properties:
+      ipaddr:
+        type: string
+        description: address of the asterisk to add to pool
+        required: true
+      port:
+        type: string
+        description: port of the asterisk to add to pool
+        default: 5060
+        required: true
+  deleteFromDispatchList:
+    properties:
+      ipaddr:
+        type: string
+        description: address of the asterisk to remove from the pool
+        required: true
+      port:
+        type: string
+        description: address of the asterisk to remove from the pool
+        default: 5060
+        required: true
+
+metrics:
+  h_load:
+    type: metric::load
+    publication_period: 60

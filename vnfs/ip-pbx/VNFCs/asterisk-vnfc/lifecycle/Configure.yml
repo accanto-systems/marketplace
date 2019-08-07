@@ -1,0 +1,56 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Configure Lifecycle Transition
+  hosts: "{{ mgmt_address }}"
+  gather_facts: False
+  become: true
+
+  vars: 
+    bindIP: "{{ data_address }}"
+    subnet: "{{ data_subnet.split('/')[0] }}"
+  tasks:
+  - name: copy
+    become: yes
+    copy:
+      src: ./config/extensions.conf
+      dest: /etc/asterisk/extensions.conf
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: write the sip config file
+    become: yes
+    template:
+      src: ./config/sip.conf.template
+      dest: /etc/asterisk/sip.conf
+
+  - name: create pythonmonitor
+    file: 
+      path: /pythonmonitor
+      state: directory
+
+  - name: copy monitor.py
+    template:
+      src: ./config/pythonmonitor/monitor.py
+      dest: /pythonmonitor/
+
+  - name: create /etc/collectd
+    file: 
+      path: /etc/collectd
+      state: directory
+
+  - name: copy collectd.conf
+    copy:
+      src: ./config/collectd.conf
+      dest: /etc/collectd/collectd.conf
+      
+
+  - name: add kafka.lm to hosts
+    become: yes
+    shell: "echo {{ almip }} kafka.lm >> /etc/hosts"
+

@@ -1,0 +1,9 @@
+{
+    "name": "von-test",
+    "projectId": "assembly::voice-service::1.0",
+    "description": "test networks",
+    "descriptorName": "assembly::voice-overlay-networks::1.0",
+    "properties": {},
+    "createdAt": "2019-03-20T10:03:15.282Z",
+    "lastModifiedAt": "2019-04-03T15:11:20.213Z"
+}

@@ -1,0 +1,10 @@
+name: chaos-monkey
+vnfcs:
+  definitions:
+    chaos-monkey-docker-vnfc:
+      directory: chaos-monkey-docker-vnfc
+  packages:
+    ansible-rm-vnfcs:
+      packaging-type: ansible-rm
+      executions:
+      - vnfc: chaos-monkey-docker-vnfc

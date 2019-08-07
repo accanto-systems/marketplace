@@ -1,0 +1,150 @@
+{
+    "name": "Scale test",
+    "projectId": "assembly::voice-service::1.0",
+    "description": "Test that the Voip Server cluster scales",
+    "stages": [
+        {
+            "name": "Scaling",
+            "steps": [
+                {
+                    "stepDefinitionName": "MetricDefinitions::SpecifyMetricDefinition",
+                    "properties": {
+                        "metricTypeField": "type_instance",
+                        "valueField": "values",
+                        "resourceIdField": "host",
+                        "metricDefinitionName": "collectd",
+                        "timestampField": "time"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StartRecordingMultipleMetrics",
+                    "properties": {
+                        "topicName": "resource_metrics",
+                        "metricDefinitionName": "collectd",
+                        "resourceId": "vs-test1__gateway__kamailio",
+                        "metrics": "[{\"Metric Id\":\"current transactions\",\"Metric Name\":\"Current Transactions\"},{\"Metric Id\":\"Load\",\"Metric Name\":\"Load For Scale\"},{\"Metric Id\":\"managed_servers\",\"Metric Name\":\"Servers\"}]"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StartRecordingMultipleMetrics",
+                    "properties": {
+                        "topicName": "resource_metrics",
+                        "metricDefinitionName": "collectd",
+                        "resourceId": "vlg-test1__sipp-server__sipp",
+                        "metrics": "[{\"Metric Id\":\"failed calls\",\"Metric Name\":\"Sipp Failed Calls\"},{\"Metric Id\":\"current calls\",\"Metric Name\":\"Sipp Current Calls\"},{\"Metric Id\":\"call rate\",\"Metric Name\":\"Sipp Call Rate\"},{\"Metric Id\":\"outgoing calls\",\"Metric Name\":\"Sipp Outgoing Calls\"}]"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StartRecordingMetrics",
+                    "properties": {
+                        "topicName": "resource_metrics",
+                        "metricDefinitionName": "collectd",
+                        "resourceId": "vs-test1__gateway__kamailio",
+                        "metricName": "Load",
+                        "metricType": "current_transactions"
+                    }
+                },
+                {
+                    "stepDefinitionName": "IntentEngine::UpgradeAssembly",
+                    "properties": {
+                        "descriptorName": "assembly::sip-traffic-manager::1.0",
+                        "properties": "[{\"Key\":\"calls\",\"Value\":\"12\"}]",
+                        "assemblyName": "vs-test-traffic-manager"
+                    }
+                },
+                {
+                    "stepDefinitionName": "AssemblyEvents::SuccessfulProcess",
+                    "properties": {
+                        "processType": "Scale Out Assembly",
+                        "assemblyName": "vs-test1"
+                    }
+                },
+                {
+                    "stepDefinitionName": "Utilities::SleepForTime",
+                    "properties": {
+                        "sleepTime": "30",
+                        "timeUnit": "seconds"
+                    }
+                },
+                {
+                    "stepDefinitionName": "IntentEngine::UpgradeAssembly",
+                    "properties": {
+                        "descriptorName": "assembly::sip-traffic-manager::1.0",
+                        "properties": "[{\"Key\":\"calls\",\"Value\":\"8\"}]",
+                        "assemblyName": "vs-test-traffic-manager"
+                    }
+                },
+                {
+                    "stepDefinitionName": "AssemblyEvents::SuccessfulProcess",
+                    "properties": {
+                        "processType": "Scale In Assembly",
+                        "assemblyName": "vs-test1"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
+                    "properties": {
+                        "metricName": "Sipp Failed Calls"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
+                    "properties": {
+                        "metricName": "Sipp Call Rate"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
+                    "properties": {
+                        "metricName": "Sipp Outgoing Calls"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
+                    "properties": {
+                        "metricName": "Sipp Current Calls"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue",
+                    "properties": {
+                        "value": "0",
+                        "metricName": "Sipp Failed Calls"
+                    }
+                }
+            ]
+        }
+    ],
+    "assemblyActors": [
+        {
+            "instanceName": "von-test",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "von-test"
+        },
+        {
+            "instanceName": "vs-test1",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "vs-test"
+        },
+        {
+            "instanceName": "vlg-test1",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "vlg-test"
+        },
+        {
+            "instanceName": "vs-test-traffic-manager",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "vs-test-traffic-manager"
+        }
+    ],
+    "createdAt": "2019-03-20T10:03:18.854Z",
+    "lastModifiedAt": "2019-04-03T15:11:20.848Z"
+}

@@ -1,0 +1,23 @@
+name: resource::router::0.1
+description: Neutron Router VNFC
+
+properties:
+  router_name:
+    type: string
+    description: name of the network
+    default: router1
+  network:
+    type: string
+    description: name or id of the network
+    default: public
+  interfaces:
+    type: string
+    description: list of subnets to attach to the network
+  router_id:
+    type: string
+    description: name of the network
+    read_only: true
+
+lifecycle:
+- Install
+- Uninstall

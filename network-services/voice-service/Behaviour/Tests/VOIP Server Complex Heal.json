@@ -1,0 +1,75 @@
+{
+    "name": "VOIP Server Complex Heal",
+    "projectId": "assembly::voice-service::1.0",
+    "description": "Heal instance when the container has been removed",
+    "stages": [
+        {
+            "name": "Default Stage",
+            "steps": [
+                {
+                    "stepDefinitionName": "MetricRecording::StartRecordingInternalIntegrityMetrics",
+                    "properties": {
+                        "topicName": "alm__integrity",
+                        "metricType": "h_integrity",
+                        "metricName": "health",
+                        "resourceName": "vs-test1__voip-server__1__asterisk"
+                    }
+                },
+                {
+                    "stepDefinitionName": "Utilities::SleepForTime",
+                    "properties": {
+                        "sleepTime": "20",
+                        "timeUnit": "seconds"
+                    }
+                },
+                {
+                    "stepDefinitionName": "IntentEngine::UpgradeAssembly",
+                    "properties": {
+                        "descriptorName": "assembly::chaos-monkey::1.0",
+                        "properties": "[{\"Key\":\"action\",\"Value\":\"kill\"},{\"Key\":\"target_name\",\"Value\":\"vs-test1_%%__voip-server__1__asterisk\"}]",
+                        "assemblyName": "CM1"
+                    }
+                },
+                {
+                    "stepDefinitionName": "AssemblyEvents::SuccessfulProcess",
+                    "properties": {
+                        "processType": "Heal Assembly",
+                        "assemblyName": "vs-test1"
+                    }
+                },
+                {
+                    "stepDefinitionName": "Utilities::SleepForTime",
+                    "properties": {
+                        "sleepTime": "20",
+                        "timeUnit": "seconds"
+                    }
+                }
+            ]
+        }
+    ],
+    "assemblyActors": [
+        {
+            "instanceName": "von-test",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "von-test"
+        },
+        {
+            "instanceName": "vs-test1",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "vs-test"
+        },
+        {
+            "instanceName": "CM1",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "CM1"
+        }
+    ],
+    "createdAt": "2019-03-20T10:03:20.008Z",
+    "lastModifiedAt": "2019-04-03T15:11:20.931Z"
+}

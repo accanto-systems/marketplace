@@ -1,0 +1,10 @@
+name: sip-performance
+vnfcs:
+  definitions:
+    sipp-vnfc:
+      directory: sipp-vnfc
+  packages:
+    ansible-rm-vnfcs:
+      packaging-type: ansible-rm
+      executions:
+      - vnfc: sipp-vnfc

@@ -1,0 +1,9 @@
+location_server: "10.0.2.15"
+data_network_id: '5360baf91cc37f97237818b78503de3b5fbd5940065d50c809561a31665ebf4b'
+image: 'lifecyclemanager.com:5002/ip-pbx'
+instance_name: 'pb1__asterisk'
+instanceid: '41906ab0-152e-4da2-a806-b06016d2899b'
+integrity_smoothing: '3'
+mgmt_address: '10.10.10.32'
+mgmt_network: 'mgmtbr0'
+publication_period: '60'

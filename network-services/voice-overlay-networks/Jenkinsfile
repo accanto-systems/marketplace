@@ -1,0 +1,30 @@
+pipeline{
+    agent any
+    stages{
+        stage('onboard voice-overlay-networks'){
+		    when {
+                branch 'master'
+            }
+            steps{
+				sh "lmctl env list"
+				sh "lmctl project push testing"               
+            }
+        }
+        stage('test voice-overlay-networks'){
+		    when {
+                branch 'master'
+            }
+            steps{
+                sh "lmctl project test testing"
+            }
+        }
+        stage('package voice-overlay-networks'){
+		    when {
+                branch 'master'
+            }
+            steps{
+                sh "curl -v -u admin:admin123 --upload-file ./_lmctl/_build/voice-overlay-networks-1.0.tgz http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/voice-overlay-networks/"              
+            }
+        }
+    }
+}

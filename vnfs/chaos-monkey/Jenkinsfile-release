@@ -1,0 +1,170 @@
+
+def descriptor = 'UNKNOWN'
+def version = 'UNKNOWN'
+
+
+
+pipeline
+{
+    agent any
+    environment 
+    {
+        SERVICE_TYPE = 'NS'
+        LMCONFIG = '/tmp/lmctl-config.yaml'
+        NEXUS_URL = "http://${NEXUS_SVC_NODEPORT_SERVICE_HOST}:${NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP}"
+    }    
+    stages
+    {
+        stage('Check VNF and NS Project Dependencies')
+        {
+            steps
+            {
+              check_dependencies("release.dep")
+            }   
+        }
+
+
+        stage('Package Release')
+        {
+            steps
+            {
+                script
+                { 
+                    /* get the descriptor name from the top-level assembly, that will be the package name */
+                    descriptor = get_descriptor()
+                    sh("echo releasing named: ${descriptor}")
+
+                    /* get version from top-level assembly. this is the version number to use for packaging */   
+                    version =  get_version()
+                    sh("echo release version: ${version}")
+                
+                    if (package_exists("raw", "packages/${descriptor}/${descriptor}-${version}.tgz") == 0)
+                    {
+                        sh("echo  ${descriptor}-${version}.tgz has alread been released cannot continue with this version")
+                        currentBuild.result = 'ABORTED'
+                        error('Cannot release with a version that has previously been released')
+                    }      
+                    move_package_to_release("${descriptor}", "${version}")
+                }
+   
+            }
+        }
+        stage('Deploy Images')
+        {
+            steps
+            {
+                script{
+                    if ("${SERVICE_TYPE}" =='NS'){
+                       sh("echo get image list and targets")
+                       sh("echo check image in target vim and load if new")
+                    } else {
+                        sh("echo Skipping deployment images stage for non NS")
+                    }
+                }
+            }
+        }
+        stage('Deploy Packages')
+        {
+            steps
+            {
+                script
+                {
+                    if ("${SERVICE_TYPE}" =='NS')
+                    {
+                        deploy_packages("${descriptor}", "${version}")
+                    } else
+                    {
+                       sh("echo Skipping deployment of packages stage for non NS") 
+                    }
+                }
+                
+            }
+        }
+    }
+}
+
+def get_descriptor()
+{
+    return sh(returnStdout: true, script:  "grep -E ^name:[[:space:]].*::.*::.* ${WORKSPACE}/Descriptor/assembly.yml |cut -d ':' -f4").trim()
+}
+
+def get_version()
+{
+    return sh(returnStdout: true, script:  "grep -E ^name:[[:space:]].*::.*::.* ${WORKSPACE}/Descriptor/assembly.yml |cut -d ':' -f6").trim()
+}
+
+def move_package_to_release(descriptor, version)
+{
+    /* 
+      we remove the snapshot for this version and upload release (without -SNAPSHOT)
+    */
+    withCredentials([usernamePassword(credentialsId: 'nexus-id', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+      sh "wget ${NEXUS_URL}/repository/raw/packages/${descriptor}/${descriptor}-${version}-SNAPSHOT.tgz" 
+      sh "curl -v -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} --upload-file ./${descriptor}-${version}-SNAPSHOT.tgz ${NEXUS_URL}/repository/raw/packages/${descriptor}/${descriptor}-${version}.tgz" 
+      sh "curl -X DELETE -v -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${NEXUS_URL}/repository/raw/packages/${descriptor}/${descriptor}-${version}-SNAPSHOT.tgz"
+    }                
+}
+
+def deploy_packages(descriptor, version)
+{
+    script {
+        
+        def n /* name of package */
+        def v /* version of package */
+        if (fileExists("${WORKSPACE}/packages.dep")) {
+          def packages = readFile("${WORKSPACE}/packages.dep").split('\n')
+          for (int i = 0; i < packages.size(); ++i) {
+            n = packages[i].split('-')[0]
+            v = packages[i].split('-')[1]
+            
+            sh("wget ${NEXUS_URL}/repository/raw/packages/${n}/${n}-${v}.tgz")
+            sh("lmctl pkg push ${n}-${v}.tgz production")
+            sh("echo onboarded  ${n}-${v}.tgz")                      
+          }
+        }
+        sh("echo deploy new package into production")
+            
+        sh("wget ${NEXUS_URL}/repository/raw/packages/${descriptor}/${descriptor}-${version}.tgz")
+        sh("lmctl pkg push ${descriptor}-${version}.tgz production")
+        sh("echo onboarded  ${descriptor}-${version}.tgz")     
+    }        
+}
+
+def check_dependencies(dependency_filename){
+    script {
+        def n /* name of package */
+        def v /* version of package */
+        if (fileExists("${WORKSPACE}/${dependency_filename}")) {
+          def packages = readFile("${WORKSPACE}/${dependency_filename}").split('\n')
+          for (int i = 0; i < packages.size(); ++i) {
+            n = packages[i].split('-')[0]
+            v = packages[i].split('-')[1]
+            /*
+              try to get a released package (without -SNAPSHOT suffix)
+              if not we fail. Only released packages can be used.
+            */ 
+            if (package_exists("raw", "packages/${n}/${n}-${v}.tgz") == 0)
+            {     
+                sh("echo checked ${n}-${v}.tgz has been released") 
+            }
+            else
+            {
+                sh("echo  ${n}-${v}.tgz has NOT been released cannot continue")
+                currentBuild.result = 'ABORTED'
+                error('Cannot release with dependant packages that are not also released')
+            }                   
+          }
+        }
+    }    
+}
+
+def package_exists(repo, package_name)
+{
+    response = sh(  returnStdout: true, 
+                    script: "curl -X GET \"${NEXUS_URL}/service/rest/v1/search?repository=${repo}&name=${package_name}\""
+                )
+    return sh( returnStatus: true,
+                script: "echo \"${response}\" | grep ${package_name}"
+            )
+}
+

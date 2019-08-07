@@ -1,0 +1,10 @@
+name: voip-gateway
+vnfcs:
+  definitions:
+    kamailio-vnfc:
+      directory: kamailio-vnfc
+  packages:
+    ansible-rm-vnfcs:
+      packaging-type: ansible-rm
+      executions:
+      - vnfc: kamailio-vnfc

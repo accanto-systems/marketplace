@@ -1,0 +1,56 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Start Lifecycle Transition
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+
+  tasks:
+
+  - name: write kamailio  config file
+    become: yes
+    template:
+      src: ./config/kamailio.cfg.template
+      dest: /usr/local/etc/kamailio/kamailio.cfg
+      
+  - name: touch dispatcher list
+    become: yes  
+    file: 
+       path: /usr/local/etc/kamailio/dispatcher.list
+       state: touch
+       owner: root
+       group: root
+       mode: 0777
+
+  - name: create pythonmonitor
+    become: yes
+    file: 
+      path: /pythonmonitor
+      state: directory
+
+  - name: copy monitor.py
+    become: yes
+    template:
+      src: ./config/pythonmonitor/monitor.py
+      dest: /pythonmonitor
+
+  - name: create /etc/collectd
+    become: yes
+    file: 
+      path: /etc/collectd
+      state: directory
+
+  - name: copy collectd.conf
+    become: yes
+    copy:
+      src: ./config/collectd.conf
+      dest: /etc/collectd/
+
+  - name: add kafka.lm to hosts
+    become: yes
+    shell: "echo {{ almip }} kafka.lm >> /etc/hosts"

@@ -1,0 +1,81 @@
+name: assembly::voip-gateway::1.0
+description: Kamailio VNF
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    type: string
+    default: local
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+  mgmt_network:
+    type: string
+    required: true
+  data_network:
+    type: string
+    required: true
+  data_network_type:
+    type: string
+    descripion: type of network docker or ovs
+    default: docker
+  ovs_data_address:
+    description: manually assigned address for the ovs based data port
+    type: string
+  data_address:
+    description: The ip address for the incoming traffic
+    type: string
+    read-only: true
+    value: ${kamailio.data_address}
+  backend_network:
+    type: string
+    required: true
+  backend_network_type:
+    type: string
+    descripion: type of network docker or ovs
+    default: docker
+  ovs_backend_address:
+    description: manually assigned address for the ovs based backend port
+    type: string
+  backend_address:
+    description: The ip address for the incoming traffic
+    type: string
+    read-only: true
+    value: ${kamailio.backend_address}
+  image_name:
+    type: string
+    default: accanto/kamailio:1.0
+composition:
+  kamailio:
+    properties:
+      image:
+        value: ${image_name}
+      mgmt_network:
+        value: ${mgmt_network}
+      data_network:
+        value: ${data_network}
+      data_network_type:
+        value: ${data_network_type}
+      ovs_data_address:
+        value: ${ovs_data_address}
+      backend_network:
+        value: ${backend_network}
+      backend_network_type:
+        value: ${backend_network_type}
+      ovs_backend_address:
+        value: ${ovs_backend_address}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::kamailio-vnfc::1.0
+    quantity: 1
+operations:
+  addToDispatchList:
+    source-operation: kamailio.addToDispatchList
+  deleteFromDispatchList:
+    source-operation: kamailio.deleteFromDispatchList
+metrics:
+  h_load:
+    type: metric::load
+    source-metric: kamailio.h_load

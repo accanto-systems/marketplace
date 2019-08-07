@@ -1,0 +1,23 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Stop Lifecycle Transition
+  hosts: "{{ mgmt_address }}"
+  gather_facts: False
+  become: true
+  ignore_errors: yes
+  
+  tasks:
+  - name: Stop sipp
+    become: yes
+    shell: "pkill sipp"
+    ignore_errors: yes
+
+  - name: Stop collectd
+    become: yes
+    shell: "pkill collectd" 
+    ignore_errors: yes

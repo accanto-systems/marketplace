@@ -1,0 +1,129 @@
+
+     
+- name: create list of ip variables for later
+  set_fact:
+    ipvars:  ['management', 'data']
+    mgmt_interface_name: "eth2"
+    data_interface_name: "eth3"
+    index: "{{ instance_index if instance_index != 'not_set'  else internal_index if internal_index is defined else 1 }}"
+    
+- copy:
+    src: "{{ role_path }}/get_ip.py"
+    dest: /tmp
+    owner: "{{ location_user }}"
+    group: "{{ location_user }}"
+    mode: 0755
+
+- copy:
+    src: "{{ role_path }}/next_ip.py"
+    dest: /tmp
+    owner: "{{ location_user }}"
+    group: "{{ location_user }}"
+    mode: 0755
+    
+
+- name: Display all variables facts known for a host
+  debug:
+    var: hostvars[inventory_hostname]
+  tags: debug_info
+
+- name: create new asterisk docker instance using docker api with both networks
+  docker_container:
+    name: "{{ instance_name }}"
+    image: "{{ image }}"
+    timeout: 180
+    networks:
+      - name: "{{ mgmt_network }}"
+      - name: "{{ data_network }}"
+  register: docker_container
+  when: data_network_type == "docker"
+
+- name: create new asterisk docker instance using docker api with mgmt_network_type = docker
+  docker_container:
+    name: "{{ instance_name }}"
+    image: "{{ image }}"
+    timeout: 180
+    networks:
+      - name: "{{ mgmt_network }}"
+  register: docker_container
+  when: data_network_type == "ovs" 
+
+  
+- name: get details about data network
+  docker_network:
+    name: "{{ data_network }}"
+  register: data_network_details
+  when: data_network_type == "docker"
+
+- name: define data_subnet for docker networks
+  set_fact:
+    data_subnet: "{{ ansible_facts.docker_network.IPAM.Config.0.Subnet }}"
+  when: data_network_type == "docker"
+
+- name: docker inspect
+  command: docker inspect "{{ instance_name }}"
+  register: container_details
+   
+- name: get mgmt_ip
+  command: "python /tmp/get_ip.py '{{container_details.stdout }}' {{ mgmt_network }}"
+  register: mgmt_ip_address
+  when: mgmt_network is defined  
+  
+- name: set mgmt_ip 
+  set_fact:
+    mgmt_ip: "{{ mgmt_ip_address.stdout }}"
+  when: mgmt_ip_address is defined
+  
+
+  
+- name: get data_ip
+  command: "python /tmp/get_ip.py '{{container_details.stdout }}' {{ data_network }}"
+  register: data_ip_address
+  when: data_network_type == "docker" and data_network is defined
+
+- name: set data_ip  
+  set_fact:
+    data_ip: "{{ data_ip_address.stdout }}"
+  when: data_network_type == "docker" and data_ip_address is defined
+  
+- name: get next data_ip
+  command: "python /tmp/next_ip.py '{{ ovs_data_ip }}' {{ index }}"
+  register: new_data_ip_address
+  when: data_network_type == "ovs" and ovs_data_ip is defined
+  
+- name: set data_ip based on ovs_mgmt_ip 
+  set_fact:
+    data_ip: "{{ new_data_ip_address.stdout }}"
+  when: data_network_type == "ovs" and new_data_ip_address is defined
+  
+- name: set data_subnet for ovs network
+  set_fact:
+    data_subnet: "{{ ovs_data_ip }}/24"
+  when: data_network_type == "ovs"
+
+- name: add container interface to data bridge using a port
+  command: ovs-docker add-port {{ data_network }} {{ data_interface_name }} {{ instance_name }}  --ipaddress={{ data_ip }}/24
+  when: data_network_type == "ovs"
+
+- name: report INTERNAL_PROPERTIES
+  debug:
+    msg:
+    - "instance_id: {{ instanceid }}"
+    - "mgmt_ip: {{ mgmt_ip }}"
+    #      - "docker_container: {{ ansible_facts.docker_container }}"
+ #   - "docker_container_id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
+    - "data_subnet: {{ data_subnet }}"
+- name: report INTERNAL_RESOURCE
+  debug:
+    msg:
+    - "name: {{ instance_name }}"
+#    - "id: {{ instanceid }}"
+#    - "id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
+    - "type: docker_container"
+
+
+- name: report PROPERTIES
+  debug:
+    msg:
+    - "mgmt_address: {{ mgmt_ip }}"
+    - "data_address: {{ data_ip }}"

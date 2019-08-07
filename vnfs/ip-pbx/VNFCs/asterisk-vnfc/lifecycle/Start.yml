@@ -1,0 +1,24 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Start Lifecycle Transition
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+
+  tasks:
+   - name: Check if Asterisk is running
+     shell: "ps aux"
+     register: asterisk_status
+
+   - name: start asterisk
+     command: "nohup asterisk < /dev/null > /dev/null 2>&1 & sleep 1"
+     when: asterisk_status.stdout.find('asterisk') == -1
+
+   - name: Start Collectd for metric publication
+     become: yes
+     raw: "nohup collectd -C /etc/collectd/collectd.conf < /dev/null > /dev/null 2>&1"

@@ -1,0 +1,59 @@
+{
+    "name": "Activate Service",
+    "projectId": "assembly::voice-service::1.0",
+    "description": "Activate the test service",
+    "stages": [
+        {
+            "name": "Default Stage",
+            "steps": [
+                {
+                    "stepDefinitionName": "MetricRecording::StartRecordingInternalIntegrityMetrics",
+                    "properties": {
+                        "topicName": "alm__integrity",
+                        "metricType": "h_integrity",
+                        "metricName": "Health",
+                        "resourceName": "vs-test1__voip-server__1__asterisk"
+                    }
+                },
+                {
+                    "stepDefinitionName": "Utilities::SleepForTime",
+                    "properties": {
+                        "sleepTime": "1",
+                        "timeUnit": "minutes"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
+                    "properties": {
+                        "metricName": "Health"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue",
+                    "properties": {
+                        "value": "1",
+                        "metricName": "Heath"
+                    }
+                }
+            ]
+        }
+    ],
+    "assemblyActors": [
+        {
+            "instanceName": "von-test",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "von-test"
+        },
+        {
+            "instanceName": "vs-test1",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "vs-test"
+        }
+    ],
+    "createdAt": "2019-03-20T10:03:17.806Z",
+    "lastModifiedAt": "2019-04-03T15:11:20.774Z"
+}

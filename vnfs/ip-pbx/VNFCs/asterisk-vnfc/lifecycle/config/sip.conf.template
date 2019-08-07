@@ -1,0 +1,96 @@
+[general]
+port=5060
+bindaddr={{bindIP}}
+dtmf=rfc2833
+canreinvite=no
+qualify=yes
+disallow=all
+allow=ulaw
+allow=alaw
+language=en
+alwaysauthreject=yes
+insecure=port,invite
+allowguest=no
+allowguests=no
+videosupport=yes
+srvlookup=yes
+context=prevoipincoming
+callcounter = yes
+
+;sipdebug = yes                 ; Turn on SIP debugging by default, from
+;recordhistory=yes              ; Record SIP history by default
+;dumphistory=yes                ; Dump SIP history at end of SIP dialogue
+
+{% if gw_address is defined and gw_address != '' %}
+
+outboundproxy={{gw_address}},force;
+permit={{subnet}}/255.255.255.0
+
+[Kamailio-Private1]
+type=friend
+host={{gw_address}}
+port=5060
+disallow=all
+allow=ulaw
+context=sipp
+canreinvite=no
+insecure=port,invite
+nat=force_rport,comedia
+qualify=yes
+directrtpsetup=no
+
+{% endif %}
+
+{% if gw2_address is defined and gw2_address != '' %}
+
+outboundproxy={{gw2_address}},force;
+permit={{subnet}}/255.255.255.0
+
+[Kamailio-Private2]
+type=friend
+host={{gw2_address}}
+port=5060
+disallow=all
+allow=ulaw
+context=sipp
+canreinvite=no
+insecure=port,invite
+nat=force_rport,comedia
+qualify=yes
+directrtpsetup=no
+
+{% endif %}
+
+{% if gw3_address is defined and gw3_address != '' %}
+
+outboundproxy={{gw3_address}},force;
+permit={{subnet}}/255.255.255.0
+
+[Kamailio-Private3]
+type=friend
+host={{gw3_address}}
+port=5060
+disallow=all
+allow=ulaw
+context=sipp
+canreinvite=no
+insecure=port,invite
+nat=force_rport,comedia
+qualify=yes
+directrtpsetup=no
+
+{% endif %}
+
+
+[sipp]
+type=friend
+context=sipp
+nat=force_rport,comedia
+host=dynamic
+port=6000
+user=sipp
+canreinvite=no
+disallow=all
+allow=alaw
+allow=ulaw
+

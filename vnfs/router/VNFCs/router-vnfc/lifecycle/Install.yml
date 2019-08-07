@@ -1,0 +1,12 @@
+---
+
+- name: create instance
+  hosts: localhost
+  gather_facts: False
+  become: true
+    
+  roles:
+    - { role: create_instance }
+
+
+    

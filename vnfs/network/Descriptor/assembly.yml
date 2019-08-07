@@ -1,0 +1,72 @@
+name: assembly::network::1.0
+description: Openstack or Neutron network VNF
+properties:
+  deploymentLocation:
+    type: string
+    description: the name of the location for this assemblies resources to be deploy
+    default: local
+  resourceManager:
+    type: string
+    description: the name of the resource manager that manages the resources
+    default: defaultrm
+  networkname:
+    type: string
+    description: name of the network
+    default: net
+  subnet:
+    type: string
+    description: subnet for new network
+    default: 10.20.1.0/24
+  gateway:
+    type: string
+    description: subnet of user defined network
+    default: 10.20.1.1
+  provider_network:
+    type: string
+    description: set to true if provider network is used
+    default: false
+  provider_network_type:
+    type: string
+    description: the provider network type
+    default: vlan
+  provider_physical_network:
+    type: string
+    description: name of the provider network
+    default: provider
+  provider_segmentation_id:
+    type: string
+    description: VLAN/VXLAN id
+    default: 10
+  networkid:
+    type: string
+    description: docker id of network instance
+    value: ${network.networkid}
+    read-only: true
+  bridgeid:
+    type: string
+    description: id of linux bridge
+    value: ${network.bridgeid}
+    read-only: true
+composition:
+  network:
+    type: resource::network-vnfc::1.0
+    quantity: 1
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      networkname:
+        value: ${networkname}
+      subnet:
+        value: ${subnet}
+      gateway:
+        value: ${gateway}
+      provider_network:
+        value: ${provider_network}
+      provider_network_type:
+        value: ${provider_network_type}
+      provider_physical_network:
+        value: ${provider_physical_network}
+      provider_segmentation_id:
+        value: ${provider_segmentation_id}

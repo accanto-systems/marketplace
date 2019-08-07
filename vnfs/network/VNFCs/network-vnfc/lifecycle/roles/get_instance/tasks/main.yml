@@ -1,0 +1,11 @@
+- name: add hosts to inventory
+  when: vim == "docker"
+  add_host:
+     name: "{{ location_server }}"
+     groups: deploymentLocations
+     ansible_ssh_host: "{{ location_server }}"
+     ansible_user: "{{ location_user }}"
+     ansible_connection: ssh
+     ansible_ssh_pass: "{{ location_pwd }}"
+     ansible_sudo_pass: "{{ location_pwd }}"
+

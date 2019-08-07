@@ -1,0 +1,25 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Start Integrity Transition
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+  tasks:
+  - name: Check if sipp is running
+    shell: ps aux | grep sipp | grep -v grep
+    ignore_errors: yes
+    changed_when: false
+    register: sipp_status
+
+  - name: Report status of SIPP
+    fail:
+      msg: |
+        SIPP is not running.
+        Return code from `grep`:
+        {{ sipp_status.rc }}
+    when: sipp_status.rc != 0

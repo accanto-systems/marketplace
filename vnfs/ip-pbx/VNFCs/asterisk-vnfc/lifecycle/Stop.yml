@@ -1,0 +1,48 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Stop Lifecycle Transition
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+
+  tasks:
+   - name: Check if Asterisk is running
+     shell: "ps aux"
+     register: asterisk_status
+     
+   - name: get pid of asterisk
+     shell: pgrep asterisk
+     become: true
+     when: asterisk_status.stdout.find('asterisk') != -1
+     register: a_pid
+     
+
+   - name: stop asterisk
+     command: "asterisk -rx \"core stop when convenient\""
+     when: asterisk_status.stdout.find('asterisk') != -1
+     ignore_errors: yes
+     
+   - name: Wait until the process is finished and pid was destroyed
+     wait_for:
+       path: "/proc/{{ a_pid }}/status"
+       state: absent
+     when: asterisk_status.stdout.find('asterisk') != -1
+     ignore_errors: yes
+   
+
+   - name: Stop collectd
+     become: yes
+     shell: "pkill collectd" 
+     when: asterisk_status.stdout.find('collectd') != -1
+     ignore_errors: yes

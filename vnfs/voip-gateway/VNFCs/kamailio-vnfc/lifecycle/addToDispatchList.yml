@@ -1,0 +1,59 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Add to Dispatch List
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+
+  vars:
+    host_ip: "{{ ipaddr }}"
+    host_port: "{{ port }}"
+    dispatch_list_template: "{{ lookup('file', 'config/dispatcher.list.template') }}"
+    lock_file_path: "/tmp/kamailio.lock"
+    
+  pre_tasks:      
+   - wait_for:
+       path: "{{ lock_file_path }}"
+       state: absent  
+      
+   - name: create lock file 
+     file:
+       path: "{{ lock_file_path }}" 
+       state: touch
+       
+  
+  
+  post_tasks:
+   - name: delete lock file 
+     file: 
+       path: "{{ lock_file_path }}" 
+       state: absent
+       
+  
+  tasks:
+    - name: get current dispatcher.list
+      shell: cat /usr/local/etc/kamailio/dispatcher.list
+      register: dispatcher_list_current
+      
+    - name: Run Python script to create new dispatch list
+      local_action: shell python config/addToDispatchList.py "{{ dispatch_list_template }}" "{{dispatcher_list_current.stdout}}" "{{ host_ip }}" "{{ host_port }}"
+      register: raw_dispatch_list_new 
+    
+    - set_fact:
+        dispatch_list_new : "{{ raw_dispatch_list_new.stdout_lines }}"
+     
+    - name: write new kamailio dispatcher.list
+      template:
+        src: config/dispatcher.list.template
+        dest: /usr/local/etc/kamailio/dispatcher.list     
+    
+    - name: new dispatch list
+      debug: msg={{ dispatch_list_new }} 
+
+    - name: start Kamailio
+      shell: /usr/local/sbin/kamcmd dispatcher.reload      

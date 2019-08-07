@@ -1,0 +1,30 @@
+pipeline{
+    agent any
+    stages{
+        stage('onboard sip-traffic-manager'){
+		    when {
+                branch 'master'
+            }
+            steps{
+				sh "lmctl env list"
+				sh "lmctl project push testing"               
+            }
+        }
+        stage('test sip-traffic-manager'){
+		    when {
+                branch 'master'
+            }
+            steps{
+                sh "lmctl project test testing"
+            }
+        }
+        stage('package sip-traffic-manager'){
+		    when {
+                branch 'master'
+            }
+            steps{
+                sh "curl -v -u admin:admin123 --upload-file ./_lmctl/_build/sip-traffic-manager-1.0.tgz http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/sip-traffic-manager/"              
+            }
+        }
+    }
+}

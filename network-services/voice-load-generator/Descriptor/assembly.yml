@@ -1,0 +1,50 @@
+name: assembly::voice-load-generator::1.0
+description: Network service to generate a load for the voice network services
+properties:
+  voice_service:
+    description: The name of the voice service
+    type: string
+    required: true
+  overlay_networks_name:
+    description: The name of the voice overlay network assembly
+    type: string
+    required: true
+  deploymentLocation:
+    type: string
+    default: local
+  resourceManager:
+    type: string
+    default: defaultrm
+  sipp_address:
+    description: ip_address of sipp server
+    type: string
+    value: ${sipp-server.data_address}
+  mgmt_network:
+    description: The management network of the sipp server
+    type: string
+    value: ${overlay_networks.mgmt_network}
+composition:
+  sipp-server:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      target_sip_address:
+        value: ${voice_service.voice_service_ipaddress}
+      mgmt_network:
+        value: ${overlay_networks.mgmt_network}
+      data_network:
+        value: ${overlay_networks.data_network}
+    type: assembly::sip-performance::1.0
+references:
+  overlay_networks:
+    properties:
+      name:
+        value: ${overlay_networks_name}
+    type: assembly::voice-overlay-networks::1.0
+  voice_service:
+    properties:
+      name:
+        value: ${voice_service}
+    type: assembly::voice-service::1.0

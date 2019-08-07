@@ -1,0 +1,64 @@
+name: resource::sipp-vnfc::1.0
+description: SIP performance test resource
+properties:
+
+  image:
+    type: string
+    description: "the docker image name"
+    default: accanto/sipp:1.0
+
+  instance_index:
+    type: string
+    default: ${instance.index}   
+
+  mgmt_network:
+    type: string
+    descripion: id of docker management network
+    required: true
+
+  target_sip_address:
+    type: string
+    description: address of SIP server to send traffic to
+    required: true 
+
+  data_network:
+    type: string
+    descripion: id of docker data network 
+    required: true
+    
+  data_network_type:
+    type: string
+    descripion: type of network - either docker or ovs
+    default: "docker"
+    
+  ovs_data_ip:
+    type: string
+    descripion: ip_address to be assigned if using ovs networks
+
+  mgmt_address:
+    type: string
+    description: management ip address of this vnfc
+    read-only: true
+  
+  data_address:
+    type: string
+    description: assigned ip address on voip network. This is the voip endpoint
+    read-only: true
+
+  instanceid:
+    type: string
+    description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
+    value: ${instance.id} 
+
+  hostname:
+    type: string
+    description: hostname address of this container
+    value: ${instance.name}
+
+lifecycle:
+- Install
+- Configure
+- Start
+- Integrity
+- Stop
+- Uninstall

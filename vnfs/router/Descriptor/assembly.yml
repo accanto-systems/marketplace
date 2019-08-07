@@ -1,0 +1,39 @@
+name: assembly::router::0.1
+description: Neutron Router VNF
+properties:
+  deploymentLocation:
+    type: string
+    description: the name of the location for this assemblies resources to be deploy 
+    default: local
+  resourceManager:
+    type: string
+    description: the name of the resource manager that manages the resources
+    default: "defaultrm"
+  router_name:
+    type: string
+    description: name of the network
+    default: router1
+  network:
+    type: string
+    description: name or id of the network
+    default: public
+  interfaces:
+    type: string
+    description: list of subnets to attach to the network
+  router_id:
+    type: string
+    description: name of the network
+    value: ${router.network_id}
+    read_only: true
+composition:
+  router:
+    deploymentLocation:
+      value: ${deploymentLocation}
+    resourceManager:
+      value: ${resourceManager}
+    router_name:
+      value: ${router_name}   
+    network:
+      value: ${network}   
+    interfaces:
+      value: ${interfaces}   

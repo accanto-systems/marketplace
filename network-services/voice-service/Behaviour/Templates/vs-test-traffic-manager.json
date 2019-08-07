@@ -1,0 +1,12 @@
+{
+    "name": "vs-test-traffic-manager",
+    "projectId": "assembly::voice-service::1.0",
+    "description": "the traffic manager to change the sipp traffic levels",
+    "descriptorName": "assembly::sip-traffic-manager::1.0",
+    "properties": {
+        "load-generator-name": "vlg-test1",
+        "target_name": "vs-test1"
+    },
+    "createdAt": "2019-03-20T10:03:15.842Z",
+    "lastModifiedAt": "2019-04-03T15:11:20.277Z"
+}

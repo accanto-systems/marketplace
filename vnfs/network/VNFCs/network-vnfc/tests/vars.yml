@@ -1,0 +1,12 @@
+vim: openstack
+auth_url: "http://172.16.14.11/identity/v3"
+projectname: admin
+username: admin
+password: secret
+networkname: test_network
+subnet: "10.5.5.0/24"
+gateway: "10.5.5.1"
+provider_network_type: vlan
+provider_physical_network: provider
+provider_segmentation_id: 10
+provider_network: False

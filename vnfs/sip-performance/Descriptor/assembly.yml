@@ -1,0 +1,62 @@
+name: assembly::sip-performance::1.0
+description: SIP Performance Test VNF
+properties:
+  deploymentLocation:
+    description: the name of the location for this assembly
+    type: string
+    default: local
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+  target_sip_address:
+    description: name of sip-server component to send traffic to
+    type: string
+    required: true
+  mgmt_network:
+    type: string
+    required: true
+  data_network:
+    type: string
+    required: true
+  data_network_type:
+    type: string
+    descripion: type of network - either docker or ovs
+    default: docker
+  ovs_data_ip:
+    type: string
+    descripion: ip_address to be assigned if using ovs networks
+  data_address:
+    description: assigned ip address on voip network. This is the voip endpoint
+    type: string
+    value: ${sipp.data_address}
+  instance_index:
+    type: string
+    default: 1
+    value: ${instance.index}
+  image_name:
+    type: string
+    default: accanto/sipp:1.0
+composition:
+  sipp:
+    properties:
+      image:
+        value: ${image_name}
+      instance_index:
+        value: ${instance_index}
+      mgmt_network:
+        value: ${mgmt_network}
+      target_sip_address:
+        value: ${target_sip_address}
+      data_network:
+        value: ${data_network}
+      data_network_type:
+        value: ${data_network_type}
+      ovs_data_ip:
+        value: ${ovs_data_ip}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::sipp-vnfc::1.0
+    quantity: 1

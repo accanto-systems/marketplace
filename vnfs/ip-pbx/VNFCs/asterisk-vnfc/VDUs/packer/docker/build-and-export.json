@@ -1,0 +1,41 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "ubuntu",
+      "export_path": "../../../targets/docker/ip-pbx.tar",
+      "changes": [
+        "EXPOSE 5060 22",
+        "CMD /usr/sbin/runsvdir-start"
+        ]
+    }],
+  "provisioners": [
+    {
+     "type": "file",
+     "source": "../../software/",
+     "destination": "/opt"
+    },
+    {
+     "type": "shell",
+     "inline": ["mkdir -p /etc/supervisor/conf.d"]
+    },
+    {
+     "type": "file",
+     "source": "./config/supervisord.conf",
+     "destination": "/etc/supervisor/conf.d/supervisord.conf"
+    },
+    {
+     "type": "shell",
+     "inline": ["mkdir -p /var/run/sshd"]
+    },    
+    {
+     "type": "shell",
+     "scripts": [
+      "../../common/scripts/docker-init.sh",
+      "../../common/scripts/asterisk-install.sh"
+     ]
+    }
+  ],
+  "variables": {
+  }
+}

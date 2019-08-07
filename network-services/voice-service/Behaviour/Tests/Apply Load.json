@@ -1,0 +1,79 @@
+{
+    "name": "Apply Load",
+    "projectId": "assembly::voice-service::1.0",
+    "description": "Generate Traffic",
+    "stages": [
+        {
+            "name": "Default Stage",
+            "steps": [
+                {
+                    "stepDefinitionName": "MetricDefinitions::SpecifyMetricDefinitionAsTable",
+                    "properties": {
+                        "metricDefinition": "[{\"Parameter\":\"resourceIdField\",\"Description\":\"the metric field which holds the resourceId\",\"Value\":\"host\"},{\"Parameter\":\"timestampField\",\"Description\":\"the metric field which holds the timestamp\",\"Value\":\"time\"},{\"Parameter\":\"metricTypeField\",\"Description\":\"the metric field which holds the type\",\"Value\":\"type_instance\"},{\"Parameter\":\"valueField\",\"Description\":\"the metric field which holds the value\",\"Value\":\"values\"}]",
+                        "metricDefinitionName": "collectd"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Stage",
+            "steps": [
+                {
+                    "stepDefinitionName": "MetricRecording::StartRecordingMetrics",
+                    "properties": {
+                        "topicName": "resource_metrics",
+                        "metricType": "Load",
+                        "resourceId": "vs-test1__gateway__kamailio",
+                        "metricDefinitionName": "collectd",
+                        "metricName": "Load"
+                    }
+                },
+                {
+                    "stepDefinitionName": "Utilities::SleepForTime",
+                    "properties": {
+                        "sleepTime": "3",
+                        "timeUnit": "minutes"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
+                    "properties": {
+                        "metricName": "Load"
+                    }
+                },
+                {
+                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysOverThreshold",
+                    "properties": {
+                        "metricName": "Load",
+                        "thresholdValue": "20"
+                    }
+                }
+            ]
+        }
+    ],
+    "assemblyActors": [
+        {
+            "instanceName": "von-test",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "von-test"
+        },
+        {
+            "instanceName": "vs-test1",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "vs-test"
+        },
+        {
+            "instanceName": "vlg-test1",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "vlg-test"
+        }
+    ],
+    "createdAt": "2019-03-20T10:03:18.255Z",
+    "lastModifiedAt": "2019-04-03T15:16:19.332Z"
+}

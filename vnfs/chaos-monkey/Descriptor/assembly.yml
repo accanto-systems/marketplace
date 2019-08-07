@@ -1,0 +1,49 @@
+name: assembly::chaos-monkey::1.0
+description: Chaos Monkey to maim or kill a docker container
+properties:
+  deploymentLocation:
+    type: string
+    description: the name of the location for this assembly 
+    default: local
+  resourceManager:
+    type: string
+    description: the name of the resource manager that manages the resources
+    default: "defaultrm"
+
+  mgmt_network:
+    type: string
+    descripion: id of docker management network
+    required: true
+
+  action:
+    type: string
+    description: either kill or maim
+    
+  maim_command:
+    type: string
+    description: required is action is maim and should cause the target to enact a heal through the integrity failing.
+    
+  target_name:
+    type: string
+    description: the name of the container to perform the action against
+    
+composition:
+  choas:
+    type: resource::chaos-monkey-docker-vnfc::1.0
+    quantity: 1
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      mgmt_network:
+        value: ${mgmt_network}
+      action:
+        value: ${action}  
+      maim_command:
+        value: ${maim_command}
+      target_name:
+        value: ${target_name}
+
+
+

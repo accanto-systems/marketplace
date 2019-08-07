@@ -1,0 +1,27 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Start Lifecycle Transition
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+  
+  tasks:
+  - name: Stop Kamailio
+    become: yes
+    shell: pkill kamailio 
+    ignore_errors: yes
+
+  - name: Stop rtp engine
+    become: yes
+    shell: pkill rtpengine   
+    ignore_errors: yes    
+
+  - name: Stop collectd
+    become: yes
+    shell: "pkill collectd" 
+    ignore_errors: yes

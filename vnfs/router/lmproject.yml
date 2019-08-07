@@ -1,0 +1,10 @@
+name: .
+vnfcs:
+  definitions:
+    router-vnfc:
+      directory: router-vnfc
+  packages:
+    ansible-rm-vnfcs:
+      packaging-type: ansible-rm
+      executions:
+      - vnfc: router-vnfc

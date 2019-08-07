@@ -1,0 +1,23 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Start Lifecycle Transition
+  hosts: "{{ mgmt_ip }}"
+  gather_facts: False
+  become: true
+
+  tasks:
+  - name: Start SIPP against target SIP server
+    become: yes
+    shell: |
+      nohup /opt/sipp-3.5.1/sipp -bg -sf /opt/myuac.xml -trace_stat -fd 3 -d 5000 -i {{ data_address }} -s 1001 {{ target_sip_address }} -max_retrans 1 -recv_timeout 5000 -send_timeout 2000 -l 8 -mp 5606 </dev/null >/dev/null 2>&1 & 
+      sleep 1
+
+  - name: Start Collectd for metric publication
+    become: yes
+    raw: "nohup collectd -C /etc/collectd/collectd.conf < /dev/null > /dev/null 2>&1"
+ 

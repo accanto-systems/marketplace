@@ -1,0 +1,18 @@
+---
+
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: get_instance }
+
+- name: Install Lifecycle Transition
+  hosts: "{{ location_server }}"
+  gather_facts: False
+  become: true
+    
+  roles:
+    - { role: create_instance }
+  
+      
+  
