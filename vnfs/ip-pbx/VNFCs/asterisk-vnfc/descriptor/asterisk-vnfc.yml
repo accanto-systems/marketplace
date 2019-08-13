@@ -6,7 +6,6 @@ properties:
     type: string
     description: the name of this resource instance
     value: ${instance.name}
-
     
   instance_index:
     type: string
@@ -19,27 +18,17 @@ properties:
   image:
     type: string
     description: "the docker image name"
-    default: accanto/ip-pbx:1.0
+    default: ip-pbx-1.0
 
   data_network:
     type: string
-    descripion: name of data network 
+    descripion: id of data network 
     required: true
-    
-  data_network_type:
-    type: string
-    descripion: type of network - either docker or ovs
-    default: "docker"
-    
-  ovs_data_ip:
-    type: string
-    descripion: ip_address to be assigned if using ovs networks
-    
+   
   mgmt_network:
     type: string
-    descripion: name of management network
+    descripion: id of management network
     required: true
-    
 
   gw_address:
     type: string

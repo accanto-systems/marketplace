@@ -1,4 +1,4 @@
-vim: openstack
+vimtype: openstack
 auth_url: "http://172.16.14.11/identity/v3"
 projectname: admin
 username: admin

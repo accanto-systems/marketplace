@@ -1,43 +1,6 @@
 name: assembly::ip-pbx::1.0
 description: Asterisk VNF
 properties:
-  mgmt_network:
-    type: string
-    descripion: name of docker management network
-    required: true
-    default: mgmt
-  mgmt_network_type:
-    type: string
-    descripion: type of network - either docker or ovs
-    default: docker
-  ovs_mgmt_ip:
-    type: string
-    descripion: ip_address to be assigned if using ovs networks
-  data_network:
-    type: string
-    descripion: docker id of data network
-    required: true
-    default: data
-  data_network_type:
-    type: string
-    descripion: type of network - either docker or ovs
-    default: docker
-  ovs_data_ip:
-    type: string
-    descripion: ip_address to be assigned if using ovs networks
-  gw_address:
-    description: if a gw is in front then pass in its private or internal ip address
-    type: string
-  mgmt_address:
-    description: managemet ip address of this vnfc
-    type: string
-    read-only: true
-    value: ${asterisk.mgmt_address}
-  data_address:
-    description: assigned ip address on voip network. This is the voip endpoint
-    type: string
-    read-only: true
-    value: ${asterisk.data_address}
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
     type: string
@@ -46,14 +9,43 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+
   instance_index:
     type: string
     value: ${instance.index}
-  image_name:
+
+  gw_address:
+    description: if a gw is in front then pass in its private or internal ip address
     type: string
-    default: accanto/ip-pbx:1.0
+
+  mgmt_network:
+    type: string
+    descripion: name of docker management network
+    required: true
+    default: mgmt
+
+  mgmt_address:
+    description: managemet ip address of this vnfc
+    type: string
+    read-only: true
+    value: ${asterisk.mgmt_address}
+
+  data_network:
+    type: string
+    descripion: id of data network
+    required: true
+    default: data
+
+  data_address:
+    description: assigned ip address on voip network. This is the voip endpoint
+    type: string
+    read-only: true
+    value: ${asterisk.data_address}
+
 composition:
   asterisk:
+    type: resource::asterisk-vnfc::1.0
+    quantity: 1
     properties:
       instance_index:
         value: ${instance_index}
@@ -61,10 +53,6 @@ composition:
         value: ${image_name}
       data_network:
         value: ${data_network}
-      data_network_type:
-        value: ${data_network_type}
-      ovs_data_ip:
-        value: ${ovs_data_ip}
       mgmt_network:
         value: ${mgmt_network}
       gw_address:
@@ -77,9 +65,3 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-      mgmt_network_type:
-        value: ${mgmt_network_type}
-      ovs_mgmt_ip:
-        value: ${ovs_mgmt_ip}
-    type: resource::asterisk-vnfc::1.0
-    quantity: 1

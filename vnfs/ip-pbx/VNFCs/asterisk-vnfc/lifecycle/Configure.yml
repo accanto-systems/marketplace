@@ -6,7 +6,7 @@
     - { role: get_instance }
 
 - name: Configure Lifecycle Transition
-  hosts: "{{ mgmt_address }}"
+  hosts: "{{ instance_name }}"
   gather_facts: False
   become: true
 
@@ -49,7 +49,6 @@
       src: ./config/collectd.conf
       dest: /etc/collectd/collectd.conf
       
-
   - name: add kafka.lm to hosts
     become: yes
     shell: "echo {{ almip }} kafka.lm >> /etc/hosts"

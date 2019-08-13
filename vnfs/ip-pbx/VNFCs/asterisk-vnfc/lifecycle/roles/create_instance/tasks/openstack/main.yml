@@ -1,0 +1,136 @@
+- name: Find image
+  os_image_facts:
+    image: "{{ imagename }}"
+  register: ippbx_image
+  failed_when: ippbx_image['ansible_facts']['openstack_image']['id'] is not defined
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: Show image id
+  debug:
+    var: ippbx_image['ansible_facts']['openstack_image']['id']
+
+- name: create voip security group
+  os_security_group:
+    state: present
+    name: "ippbx-{{ instance_name }}"
+    description: "security group for ip pbx {{ instance_name }}"
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: open all tcp and udp ports for now
+  os_security_group_rule:
+    security_group: "{{ jumphostname }}"
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: open all udp and udp ports for now
+  os_security_group_rule:
+    security_group: "{{ jumphostname }}"
+    protocol: udp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: Start ip pbx
+  os_server:
+    state: present
+    name: "{{ instance_name }}"
+    image: "{{ ippbx_image['ansible_facts']['openstack_image']['id'] }}"
+    timeout: 200
+    security_groups: "ippbx-{{ instance_name }}"
+    flavor: m1.small
+    key_name: "{{ keyname }}"
+    userdata: "{{ lookup('file','../config/ippbx-user-data.yml') | string}}"
+    nics: "net-id={{ mgmt_network }}, net-id={{ data_network }}"
+  register: server_result
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- debug: 
+    var: server_result
+
+
+- name: report INTERNAL_PROPERTIES
+  debug:
+    msg:
+    - "instance_id: {{ instanceid }}"
+    - "mgmt_ip: {{ mgmt_ip }}"
+    #      - "docker_container: {{ ansible_facts.docker_container }}"
+ #   - "docker_container_id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
+    - "data_subnet: {{ data_subnet }}"
+- name: report INTERNAL_RESOURCE
+  debug:
+    msg:
+    - "name: {{ instance_name }}"
+#    - "id: {{ instanceid }}"
+#    - "id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
+    - "type: docker_container"
+
+
+- name: report PROPERTIES
+  debug:
+    msg:
+    - "mgmt_address: {{ mgmt_ip }}"
+    - "data_address: {{ data_ip }}"

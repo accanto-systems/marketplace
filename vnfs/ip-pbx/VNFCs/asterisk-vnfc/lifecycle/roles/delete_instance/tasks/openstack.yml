@@ -1,0 +1,37 @@
+---
+- name: remove voip security group
+  os_security_group:
+    state: absent
+    name: ippbx-{{ instance_name }}
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ projectname }}"
+    OS_USERNAME: "{{ username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: Start jumphost
+  os_server:
+    state: absent
+    name: {{ instance_name }}
+  register: server_result
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ projectname }}"
+    OS_USERNAME: "{{ username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   

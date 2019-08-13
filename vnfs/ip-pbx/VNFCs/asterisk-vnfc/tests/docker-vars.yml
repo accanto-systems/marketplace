@@ -1,4 +1,6 @@
+vimtype: docker
 location_server: "10.0.2.15"
+
 data_network_id: '5360baf91cc37f97237818b78503de3b5fbd5940065d50c809561a31665ebf4b'
 image: 'lifecyclemanager.com:5002/ip-pbx'
 instance_name: 'pb1__asterisk'

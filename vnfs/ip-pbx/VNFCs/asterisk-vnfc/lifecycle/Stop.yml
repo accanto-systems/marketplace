@@ -1,18 +1,12 @@
 ---
-- name: get deployment location_server
+- name: create inventory
   hosts: localhost
   gather_facts: False
   roles:
-    - { role: get_instance }
-
-- name: get deployment location_server
-  hosts: localhost
-  gather_facts: False
-  roles:
-    - { role: get_instance }
+    - { role: create_inventory }
 
 - name: Stop Lifecycle Transition
-  hosts: "{{ mgmt_ip }}"
+  hosts: "{{ instance_name }}"
   gather_facts: False
   become: true
 
@@ -26,7 +20,6 @@
      become: true
      when: asterisk_status.stdout.find('asterisk') != -1
      register: a_pid
-     
 
    - name: stop asterisk
      command: "asterisk -rx \"core stop when convenient\""

@@ -1,5 +1,5 @@
 - import_tasks: ./openstack.yaml
-  when: vim == 'openstack'
+  when: vimtype == 'openstack'
 
 - import_tasks: ./docker.yaml
-  when: vim == 'docker'
+  when: vimtype == 'docker'

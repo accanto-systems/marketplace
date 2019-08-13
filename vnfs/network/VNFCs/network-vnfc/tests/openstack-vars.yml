@@ -1,0 +1,16 @@
+# deployment location variables
+vimtype: openstack
+os_auth_url: "http://172.16.14.11/identity/v3"
+os_projectname: admin
+os_username: admin
+os_password: secret
+
+# VNF property variables
+networkname: mgmt_network
+subnet: "10.5.5.0/24"
+# gateway: "10.5.5.1"
+# provider_network_type: vlan
+# provider_physical_network: provider
+# provider_segmentation_id: 10
+# provider_network: False
+

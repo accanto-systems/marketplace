@@ -1,29 +1,18 @@
 - name: add deployment location host to hosts inventory
   add_host:
-     name: "{{ location_server }}"
+     name: "dockerlocation"
      groups: deploymentLocations
      ansible_ssh_host: "{{ location_server }}"
      ansible_user: "{{ location_user }}"
      ansible_connection: ssh
      ansible_ssh_pass: "{{ location_pwd }}"
      ansible_sudo_pass: "{{ location_pwd }}"
-
+    
 - name: add container to hosts inventory
-  when: (mgmt_ip is defined and use_proxy is not defined)or (mgmt_ip is defined and use_proxy is defined and use_proxy != "yes")
+  when: mgmt_address is defined 
   add_host:
-     name: "{{ mgmt_ip }}"
-     groups: containers
-     ansible_user: ubuntu
-     ansible_connection: ssh
-     ansible_ssh_pass: ubuntu
-     ansible_sudo_pass: "{{ location_pwd }}"
-
-     
-- name: add container to hosts inventory
-  when: mgmt_ip is defined and use_proxy is defined and use_proxy == "yes"
-  add_host:
-     name: "{{ mgmt_ip }}"
-     groups: containers
+     name: "{{ instance_name }}"
+     groups: voip
      ansible_user: ubuntu
      ansible_connection: ssh
      ansible_ssh_pass: ubuntu

@@ -1,0 +1,20 @@
+# deployment location variables
+vimtype: openstack
+os_auth_url: "http://172.16.14.11/identity/v3"
+os_projectname: admin
+os_username: admin
+os_password: secret
+
+# jumphost variables
+jumphost_address: 172.16.14.14
+jumphost_username: ubuntu
+jumphost_password: ubuntu
+#jumphost_key: "<< KEY LOCATION >>"
+
+# VNF specific variables
+mgmt_network: '0c77bc19-49ff-4b99-b65d-3c041a5e8699'
+data_network_id: '0c77bc19-49ff-4b99-b65d-3c041a5e8699'
+instance_name: 'pb1__asterisk'
+integrity_smoothing: '3'
+publication_period: '60'
+imagename: "ip-pbx-1.0"

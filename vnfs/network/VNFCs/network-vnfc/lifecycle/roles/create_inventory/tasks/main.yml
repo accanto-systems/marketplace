@@ -1,0 +1,2 @@
+- import_tasks: ./docker.yml
+  when: vimtype == 'docker'

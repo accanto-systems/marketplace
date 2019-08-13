@@ -1,0 +1,21 @@
+- name: add instance to hosts inventory
+  when: mgmt_address is defined and jumphost_address is not defined
+  add_host:
+     name: "{{ instance_name }}"
+     groups: voip
+     ansible_user: vagrant
+     ansible_connection: ssh
+     ansible_ssh_pass: vagrant
+     ansible_sudo_pass: vagrant
+
+     
+- name: add instance with jumphost to hosts inventory
+  when: mgmt_address is defined and jumphost_address is defined
+  add_host:
+     name: "{{ instance_name }}"
+     groups: voip
+     ansible_user: vagrant
+     ansible_connection: ssh
+     ansible_ssh_pass: vagrant
+     ansible_sudo_pass: vagrant
+     ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ProxyCommand='sshpass -p {{ jumphost_password }} ssh -o StrictHostKeyChecking=no -W %h:%p {{ jumphost_username }}@{{ jumphost_address }}'"

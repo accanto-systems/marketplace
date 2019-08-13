@@ -1,4 +1,4 @@
-name: assembly::router::0.1
+name: assembly::neutron-router::0.1
 description: Neutron Router VNF
 properties:
   deploymentLocation:
@@ -22,7 +22,7 @@ properties:
     description: list of subnets to attach to the network
   router_id:
     type: string
-    description: name of the network
+    description: id of the router instance on target VIM
     value: ${router.network_id}
     read_only: true
 composition:

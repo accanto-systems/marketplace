@@ -1,6 +1,7 @@
 name: resource::network-vnfc::1.0
-description: resource package for user defined network
+description: resource package for network vnfc
 properties:
+  # Common properties
   networkname:
     type: string
     description: name of the network
@@ -9,10 +10,26 @@ properties:
     type: string
     description: subnet for new network
     default: "10.20.1.0/24"
+  networkid:
+    type: string
+    description: id of network instance
+    read-only: true
+
+  # Docker specific properties
   gateway:
     type: string
     description: subnet of user defined network
     default: "10.20.1.1"
+  iprange: 
+    type: string
+    description: ip range to be allocated on network
+    default: "10.20.1.1/24"
+  bridgeid:
+    type: string
+    description: id of linux bridge if this is a docker network, otherwise null
+    read-only: true
+
+  # Openstack specific properties
   provider_network: 
     type: string
     description: set to true if provider network is used
@@ -28,27 +45,7 @@ properties:
     type: string
     description: VLAN/VXLAN id
     default: 10
-  networkid:
-    type: string
-    description: id of network instance
-    read-only: true
-  bridgeid:
-    type: string
-    description: id of linux bridge if this is a docker network, otherwise null
-    read-only: true
+
 lifecycle:
 - Install
 - Uninstall
-operations:
-  AddRouter:
-    properties:
-      id:
-        type: string
-        description: id of the router to add 
-        required: true
-  RemoveRouter:
-    properties:
-      id:
-        type: string
-        description: id of the neutron router to detach from
-        required: true

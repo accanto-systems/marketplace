@@ -1,0 +1,18 @@
+# deployment location variables
+vimtype: docker
+location_server: 192.168.56.100
+location_user: admin
+location_pwd: secret
+
+# VNF property variables
+networkname: test_network
+fail_if_exists: True
+subnet: "10.5.5.0/24"
+gateway: "10.5.5.1"
+iprange: "10.5.5.1/24"
+
+# jumphost credentials
+jumphost_address: 172.16.14.150
+jumphost_username: ubuntu
+jumphost_password: ubuntu
+# jumphost_key: << KEY LOCATION >>

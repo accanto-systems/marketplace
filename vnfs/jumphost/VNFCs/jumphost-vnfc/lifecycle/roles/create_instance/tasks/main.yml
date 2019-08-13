@@ -1,0 +1,118 @@
+- name: Find image
+  os_image_facts:
+    image: "{{ imagename }}"
+  register: jumphost_image
+#  failed_when: jumphost_image['ansible_facts']['openstack_image']['id'] is not defined
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: Show image id
+  debug:
+    var: jumphost_image['ansible_facts']['openstack_image']['id']
+
+- os_security_group:
+    state: present
+    name: "{{ jumphostname }}"
+    description: "security group for jumphost {{ jumphostname }}"
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: add ssh to security group
+  os_security_group_rule:
+    security_group: "{{ jumphostname }}"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: Start jumphost
+  os_server:
+    state: present
+    name: "{{ jumphostname }}"
+    image: "{{ jumphost_image['ansible_facts']['openstack_image']['id'] }}"
+    timeout: 200
+    security_groups: "{{ jumphostname }}"
+    flavor: "{{ flavorname }}"
+    key_name: "{{ keyname }}"
+    userdata: "{{ lookup('file','../config/jumphost-user-data.yml') | string}}"
+    nics: "net-id={{ networkid }}"
+  register: server_result
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- debug: 
+    var: server_result
+
+- os_floating_ip:
+     state: present
+     server: "{{ jumphostname }}"
+     nat_destination: "{{ networkid }}"
+  register: fip_result
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- debug:
+    var: fip_result
+
+# - name: Wait 300 seconds for port 22 to become open
+#   wait_for:
+#     port: 22
+#     host: "{{ floating_result }}"
+#     delay: 10

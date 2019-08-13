@@ -1,0 +1,48 @@
+name: assembly::jumphost::0.1
+properties:
+
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    type: string
+    default: local
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+
+  jumphostname:   
+    type: string
+    description: "the name of the jumphost instance"
+    default: "jumphost"
+  networkid:
+    type: string
+    descripion: network id to attach jumphost to
+    required: true
+  security_group:
+    type: string
+    descripion: name of the security_group
+    default: default
+  keyname:
+    type: string
+    descripion: keyname for jumphost virtual machine
+    required: true
+  jumphost_id:
+    type: string
+    description: id of the created jumphos
+    value: ${jumphos.jumphost_id}
+  floating_ip:
+    type: string
+    description: floating ip assigned to this jumphost
+    value: ${jumphost.floating_ip}
+
+composition:
+  jumphost:
+    properties:
+      jumphostname:   
+        value: ${jumphostname}
+      networkid:
+        value: ${networkid}
+      security_group:
+        value: ${security_group}
+      keyname:
+        value: ${keyname}
