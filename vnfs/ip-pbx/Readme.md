@@ -101,9 +101,9 @@ The following software must be installed to your local machine to create an IP P
 
 #### Build the image
 
-To deploy to an OpenStack VIM [run the Openstack packer installer](/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md).
+To deploy to an OpenStack VIM [run the Openstack packer installer](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md).
 
-To deploy to a container based VIM [run the docker packer installer](/VNFCs/asterisk-vnfc/VDUs/packer/docker/Readme.md).
+To deploy to a container based VIM [run the docker packer installer](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/docker/Readme.md).
 
 ### Load the VIM image to CICD Hub
 
