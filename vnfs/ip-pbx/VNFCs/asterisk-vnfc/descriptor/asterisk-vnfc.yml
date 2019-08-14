@@ -15,7 +15,7 @@ properties:
     type: string
     value: ${instance.index} 
    
-  image:
+  imagename:
     type: string
     description: "the docker image name"
     default: ip-pbx-1.0
@@ -42,6 +42,11 @@ properties:
     type: string
     description: managemet ip address of this vnfc
     read-only: true
+
+  keyname:
+     type: string
+     description: Openstack key
+     default: default
 
   data_address:
     type: string

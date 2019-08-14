@@ -9,54 +9,53 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
-
   instance_index:
     type: string
     value: ${instance.index}
-
   gw_address:
     description: if a gw is in front then pass in its private or internal ip address
     type: string
-
   mgmt_network:
     type: string
     descripion: name of docker management network
     required: true
     default: mgmt
-
   mgmt_address:
     description: managemet ip address of this vnfc
     type: string
     read-only: true
     value: ${asterisk.mgmt_address}
-
   data_network:
     type: string
     descripion: id of data network
     required: true
     default: data
-
   data_address:
     description: assigned ip address on voip network. This is the voip endpoint
     type: string
     read-only: true
     value: ${asterisk.data_address}
-
+  imagename:
+    type: string
+    default: ip-pbx
+  keyname:
+    type: string
+    default: default
 composition:
   asterisk:
-    type: resource::asterisk-vnfc::1.0
-    quantity: 1
     properties:
       instance_index:
         value: ${instance_index}
-      image:
-        value: ${image_name}
+      imagename:
+        value: ${imagename}
       data_network:
         value: ${data_network}
       mgmt_network:
         value: ${mgmt_network}
       gw_address:
         value: ${gw_address}
+      keyname:
+        value: ${keyname}
       integrity_smoothing:
         value: 3
       publication_period:
@@ -65,3 +64,5 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+    type: resource::asterisk-vnfc::1.0
+    quantity: 1

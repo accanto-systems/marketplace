@@ -19,9 +19,9 @@
      ansible_sudo_pass: ubuntu
      ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o ProxyCommand='sshpass -p {{ jumphost_password }} ssh -o StrictHostKeyChecking=no -W %h:%p {{ jumphost_username }}@{{ jumphost_address }}'"
 
-# - name: check ssh is working
-#   when: mgmt_address is defined
-#   wait_for:
-#     port: 22
-#     host: '{{ instance_name }}'
-#     delay: 10
+- name: check ssh is working
+  when: mgmt_address is defined
+  wait_for:
+    port: 22
+    host: '{{ instance_name }}'
+    delay: 10

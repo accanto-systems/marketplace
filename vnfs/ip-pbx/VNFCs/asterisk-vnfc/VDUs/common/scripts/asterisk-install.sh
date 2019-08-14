@@ -1,6 +1,7 @@
 #!/bin/sh -eux
 
 sudo apt-get update 
+sudo apt-get upgrade -y
 sudo apt-get -y install python wget ntp build-essential subversion libncurses5-dev libssl-dev libxml2-dev vim-nox autoconf ncurses-dev doxygen texinfo libcurl4-openssl-dev libsnmp-dev uuid-dev sqlite libsqlite3-dev git libspeex-dev libgsm1-dev libspeex-dev libxml2-dev libjansson-dev libsrtp-dev libsnmp-dev snmp snmpd snmp-mibs-downloader collectd
 
 cd /opt

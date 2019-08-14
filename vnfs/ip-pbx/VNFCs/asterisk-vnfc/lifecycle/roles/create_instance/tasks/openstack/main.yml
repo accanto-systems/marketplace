@@ -88,11 +88,14 @@
     name: "{{ instance_name }}"
     image: "{{ ippbx_image['ansible_facts']['openstack_image']['id'] }}"
     timeout: 200
+    auto_ip: "{{ 'false' if jumphost_address is defined else 'true' }}"
     security_groups: "ippbx-{{ instance_name }}"
     flavor: m1.small
     key_name: "{{ keyname }}"
     userdata: "{{ lookup('file','../../config/ippbx-user-data.yml') | string}}"
-    nics: "net-id={{ mgmt_network }}, net-id={{ data_network }}"
+    nics: 
+    - net-id: "{{ mgmt_network }}"
+    - net-id: "{{ data_network }}"
   register: server_result
   environment: 
     OS_AUTH_TYPE: "password"
@@ -115,6 +118,7 @@
   debug:
     msg:
     - "instance_id: {{ instanceid }}"
+    
 - name: report INTERNAL_RESOURCE
   debug:
     msg:
@@ -123,4 +127,4 @@
 - name: report PROPERTIES
   debug:
     msg:
-    - "mgmt_address: {{ server_result.openstack.accessIPv4 }}"
+    - "mgmt_address: {{ server_result.openstack.private_v4 }}"
