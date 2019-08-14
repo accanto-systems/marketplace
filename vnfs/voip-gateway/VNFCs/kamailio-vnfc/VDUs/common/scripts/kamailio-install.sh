@@ -1,7 +1,7 @@
 #!/bin/sh -eux
 
 sudo apt-get update 
-sudo apt-get install -y python-yaml gcc flex bison libmysqlclient-dev git-core build-essential collectd
+sudo apt-get install -y python python-yaml gcc flex bison libmysqlclient-dev git-core build-essential collectd
 
 cd /opt
 sudo tar zxf kamailio-5.0.2_src.tar.gz	
