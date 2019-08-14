@@ -18,9 +18,9 @@ The following software must be installed to your local machine to create an IP P
 
 ### Build the image
 
-To deploy to an OpenStack VIM [run the Openstack packer installer](./VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md).
+To deploy to an OpenStack VIM [run the Openstack packer installer](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md).
 
-To deploy to a container based VIM [run the docker packer installer](./VNFCs/kamailio-vnfc/VDUs/packer/docker/Readme.md).
+To deploy to a container based VIM [run the docker packer installer](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/docker/Readme.md).
 
 ## Load the VIM image to CICD Hub
 
