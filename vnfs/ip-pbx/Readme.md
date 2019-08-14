@@ -107,7 +107,7 @@ To deploy to a container based VIM [run the docker packer installer](/vnfs/ip-pb
 
 ### Load the VIM image to CICD Hub
 
-Load the VIM image you created above to the CICD Hub image repository and to your target VIM. You can follow the instructions [here](http://servicelifecyclemanager.com/cicd/upload_images/).
+Load the VIM image you created above to the CICD Hub image repository and to your target VIM. You can follow the instructions [here](http://servicelifecyclemanager.com/user-guides/cicd/upload-images/).
 
 
-The [CICD user guide](http://servicelifecyclemanager.com/cicd/introduction/) has more information on managing VNF packages across LM environments. 
+The [CICD user guide](http://servicelifecyclemanager.com/user-guides/cicd/getting-started/) has more information on managing VNF packages across LM environments. 
