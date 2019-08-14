@@ -3,19 +3,25 @@
   add_host:
      name: "{{ instance_name }}"
      groups: voip
-     ansible_user: vagrant
+     ansible_user: ubuntu
      ansible_connection: ssh
-     ansible_ssh_pass: vagrant
-     ansible_sudo_pass: vagrant
-
+     ansible_ssh_pass: ubuntu
+     ansible_sudo_pass: ubuntu
      
 - name: add instance with jumphost to hosts inventory
   when: mgmt_address is defined and jumphost_address is defined
   add_host:
      name: "{{ instance_name }}"
      groups: voip
-     ansible_user: vagrant
+     ansible_user: ubuntu
      ansible_connection: ssh
-     ansible_ssh_pass: vagrant
-     ansible_sudo_pass: vagrant
-     ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ProxyCommand='sshpass -p {{ jumphost_password }} ssh -o StrictHostKeyChecking=no -W %h:%p {{ jumphost_username }}@{{ jumphost_address }}'"
+     ansible_ssh_pass: ubuntu
+     ansible_sudo_pass: ubuntu
+     ansible_ssh_extra_args: "-o StrictHostKeyChecking=no -o ProxyCommand='sshpass -p {{ jumphost_password }} ssh -o StrictHostKeyChecking=no -W %h:%p {{ jumphost_username }}@{{ jumphost_address }}'"
+
+# - name: check ssh is working
+#   when: mgmt_address is defined
+#   wait_for:
+#     port: 22
+#     host: '{{ instance_name }}'
+#     delay: 10

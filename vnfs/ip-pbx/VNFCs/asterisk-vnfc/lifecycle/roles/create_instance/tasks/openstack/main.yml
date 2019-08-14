@@ -40,9 +40,9 @@
     OS_USER_DOMAIN_ID: "default"
     OS_VOLUME_API_VERSION: "3"   
 
-- name: open all tcp and udp ports for now
+- name: open all tcp ports for now
   os_security_group_rule:
-    security_group: "{{ jumphostname }}"
+    security_group: "ippbx-{{ instance_name }}"
     protocol: tcp
     port_range_min: 1
     port_range_max: 65535
@@ -61,9 +61,9 @@
     OS_USER_DOMAIN_ID: "default"
     OS_VOLUME_API_VERSION: "3"   
 
-- name: open all udp and udp ports for now
+- name: open all udp ports for now
   os_security_group_rule:
-    security_group: "{{ jumphostname }}"
+    security_group: "ippbx-{{ instance_name }}"
     protocol: udp
     port_range_min: 1
     port_range_max: 65535
@@ -91,7 +91,7 @@
     security_groups: "ippbx-{{ instance_name }}"
     flavor: m1.small
     key_name: "{{ keyname }}"
-    userdata: "{{ lookup('file','../config/ippbx-user-data.yml') | string}}"
+    userdata: "{{ lookup('file','../../config/ippbx-user-data.yml') | string}}"
     nics: "net-id={{ mgmt_network }}, net-id={{ data_network }}"
   register: server_result
   environment: 
@@ -111,26 +111,16 @@
 - debug: 
     var: server_result
 
-
 - name: report INTERNAL_PROPERTIES
   debug:
     msg:
     - "instance_id: {{ instanceid }}"
-    - "mgmt_ip: {{ mgmt_ip }}"
-    #      - "docker_container: {{ ansible_facts.docker_container }}"
- #   - "docker_container_id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
-    - "data_subnet: {{ data_subnet }}"
 - name: report INTERNAL_RESOURCE
   debug:
     msg:
     - "name: {{ instance_name }}"
-#    - "id: {{ instanceid }}"
-#    - "id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
-    - "type: docker_container"
-
 
 - name: report PROPERTIES
   debug:
     msg:
-    - "mgmt_address: {{ mgmt_ip }}"
-    - "data_address: {{ data_ip }}"
+    - "mgmt_address: {{ server_result.openstack.accessIPv4 }}"
