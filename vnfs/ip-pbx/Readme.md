@@ -77,7 +77,7 @@ jumphost_key: << KEY LOCATION >>
 
 ## Deploying this VNF
 
-Use (lmctl)[http://servicelifecyclemanager.com/reference/lmctl/] to deploy this project. (Configure your lmctl environment)[http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments] and run the following command:
+Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
 
 ```
 lmctl project push

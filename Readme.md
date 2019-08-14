@@ -20,9 +20,9 @@ This project provides a set of working lifecycle manager examples.
 
 | Project                                | Description                           | RM Types  | VIM types         | 
 |----------------------------------------|---------------------------------------|-----------|-------------------|
-| (network)[/vnfs/network/Readme.md]     | Manage a single network instance      | ARM       | Openstack, Docker |
-| (router)[/vnfs/router/Readme.md]       | Neutron router                        | ARM       | Openstack         |
-| (jumphost)[/vnfs/jumphost/Readme.md]   | Basic openstack jumphost              | ARM       | Openstack         |
+| [network](/vnfs/network/Readme.md)     | Manage a single network instance      | ARM       | Openstack, Docker |
+| [router](/vnfs/router/Readme.md)       | Neutron router                        | ARM       | Openstack         |
+| [jumphost](/vnfs/jumphost/Readme.md)   | Basic openstack jumphost              | ARM       | Openstack         |
 | **ip-pbx**                             | Asterisk VoIP PBX                     | ARM       | Openstack, Docker |
 | **voip-gateway**                       | Kamailio VoIP Gateway                 | ARM       | Openstack, Docker |
 | **sip-performance**                    | SIP Performance tester                | ARM       | Openstack, Docker |
