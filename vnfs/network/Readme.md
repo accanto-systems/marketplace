@@ -13,6 +13,7 @@ The network VNF has the following properties:
 | **networkname**               | Name of the new network to create   | Input     |
 | **subnet**                    | IP subnet configuration             | Input     |
 | **networkid**                 | id of the network in target VIM     | Read_only |
+| **subnetid**                  | id of the subnet in target VIM      | Read_only |
 | **gateway**                   | Gateway IP address                  | Input     |
 | **iprange**                   | IP Range for docker VIM             | Input     |
 | **bridgeid**                  | bridge id of docker network         | Read_only |

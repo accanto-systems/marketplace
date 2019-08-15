@@ -2,7 +2,7 @@
   os_image_facts:
     image: "{{ imagename }}"
   register: jumphost_image
-#  failed_when: jumphost_image['ansible_facts']['openstack_image']['id'] is not defined
+  failed_when: jumphost_image['ansible_facts']['openstack_image']['id'] is not defined
   environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"
@@ -64,6 +64,7 @@
   os_server:
     state: present
     name: "{{ jumphostname }}"
+    auto_ip: true
     image: "{{ jumphost_image['ansible_facts']['openstack_image']['id'] }}"
     timeout: 200
     security_groups: "{{ jumphostname }}"
@@ -89,30 +90,15 @@
 - debug: 
     var: server_result
 
-- os_floating_ip:
-     state: present
-     server: "{{ jumphostname }}"
-     nat_destination: "{{ networkid }}"
-  register: fip_result
-  environment: 
-    OS_AUTH_TYPE: "password"
-    OS_AUTH_URL: "{{ os_auth_url }}"
-    OS_CACERT: ""
-    OS_IDENTITY_API_VERSION: "3"
-    OS_PASSWORD: "{{ os_password }}"
-    OS_PROJECT_DOMAIN_ID: "default"
-    OS_PROJECT_NAME: "{{ os_projectname }}"
-    OS_REGION_NAME: "RegionOne"
-    OS_TENANT_NAME: "{{ os_projectname }}"
-    OS_USERNAME: "{{ os_username }}"
-    OS_USER_DOMAIN_ID: "default"
-    OS_VOLUME_API_VERSION: "3"   
+- name: Wait for port 22 to become open
+  wait_for:
+    port: 22
+    host: "{{ server_result['server']['public_v4'] }}"
+    delay: 10
+    timeout: 60
 
-- debug:
-    var: fip_result
-
-# - name: Wait 300 seconds for port 22 to become open
-#   wait_for:
-#     port: 22
-#     host: "{{ floating_result }}"
-#     delay: 10
+- name: report PROPERTIES
+  debug:
+    msg:
+      - "jumphost_id: {{ server_result['server']['id']}}"
+      - "jumphost_ip: {{ server_result['server']['public_v4'] }}"

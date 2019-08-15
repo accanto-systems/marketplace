@@ -3,7 +3,7 @@
 - name: remove jumphost virtual machine
   os_server:
     state: absent
-    name: {{ jumphostname }}
+    name: "{{ jumphostname }}"
   environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"
@@ -21,7 +21,7 @@
 - name: remove security group
   os_security_group:
     state: absent
-    name: {{ jumphostname }}
+    name: "{{ jumphostname }}"
   environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"

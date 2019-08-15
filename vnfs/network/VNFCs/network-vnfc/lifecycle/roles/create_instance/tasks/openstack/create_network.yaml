@@ -113,13 +113,17 @@
     OS_USER_DOMAIN_ID: "default"
     OS_VOLUME_API_VERSION: "3"   
 
-- name: report INTERNAL_RESOURCE
-  debug:
-    msg:
-     - "id: {{ netid}}"
-     - "type: opemnstack-network"
+- debug:
+    var: subnet_result
+
+- set_fact:
+    subid: "{{ subnet_result['subnet']['id'] }}"
+
+- debug:
+    var: subid
 
 - name: report PROPERTIES
   debug:
     msg:
       - "networkid: {{ netid}}"
+      - "subnetid: {{ subid }}"

@@ -13,7 +13,10 @@ The network VNF has the following properties:
 | **jumphostname**     | Name of the virtual machine         | Input     |
 | **imagename**        | Name of the image in the target VIM to use | Input     |
 | **networkid**        | The internal openstack network to attach to | Input     |
-| **jumphostid**       | Openstack ID of the router created  | Read_only |
+| **jumphost_id**      | Openstack ID of the router created  | Read_only |
+| **jumphost_ip**      | Public IP address of the jumphost   | Read_only |
+| **jumphost_username**  | Username                            | Input     |
+| **jumphost_password**  | Password                            | Input     |
 
 ### Operations
 

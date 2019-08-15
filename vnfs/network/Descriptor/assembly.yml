@@ -2,71 +2,57 @@ name: assembly::network::1.0
 description: Openstack or Neutron network VNF
 properties:
   deploymentLocation:
-    type: string
     description: the name of the location for this assemblies resources to be deploy
+    type: string
     default: local
   resourceManager:
-    type: string
     description: the name of the resource manager that manages the resources
+    type: string
     default: defaultrm
-  networkname:
-    type: string
-    description: name of the network
-    default: net
   subnet:
-    type: string
     description: subnet for new network
+    type: string
     default: 10.20.1.0/24
   networkid:
+    description: id of network instance
     type: string
-    description: docker id of network instance
+    read-only: true
     value: ${network.networkid}
+  subnetid:
+    description: id of network subnet instance
+    type: string
     read-only: true
-
-  # docker specific properties
+    value: ${network.subnetid}
   gateway:
-    type: string
     description: subnet of user defined network
-    default: 10.20.1.1
-  iprange: 
     type: string
+  iprange:
     description: ip range to be allocated on network
-    default: "10.20.1.1/24"
+    type: string
   bridgeid:
-    type: string
     description: id of linux bridge
-    value: ${network.bridgeid}
-    read-only: true
-
-  # openstack specific properties
-  provider_network:
     type: string
+    read-only: true
+    value: ${network.bridgeid}
+  provider_network:
     description: set to true if provider network is used
+    type: string
     default: false
   provider_network_type:
-    type: string
     description: the provider network type
+    type: string
     default: vlan
   provider_physical_network:
-    type: string
     description: name of the provider network
+    type: string
     default: provider
   provider_segmentation_id:
-    type: string
     description: VLAN/VXLAN id
+    type: string
     default: 10
-
 composition:
   network:
-    type: resource::network-vnfc::1.0
-    quantity: 1
     properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      networkname:
-        value: ${networkname}
       subnet:
         value: ${subnet}
       gateway:
@@ -81,3 +67,9 @@ composition:
         value: ${provider_physical_network}
       provider_segmentation_id:
         value: ${provider_segmentation_id}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::network-vnfc::1.0
+    quantity: 1
