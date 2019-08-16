@@ -15,6 +15,9 @@ The network VNF has the following properties:
 | **gw_address**       | ip address of a SIP gateway that proxies traffic to this VoIP Server if it exists | Input    |
 | **mgmt_address**     | management ip address assigned to VoIP Server instance | Read Only |
 | **data_address**     | data ip address assigned to VoIP Server instance  | Read Only |
+| **jumphost_ip**      | ip assigned to jumphost             | Input     |
+| **jumphost_username** | jumphost username                  | Input     |
+| **jumphost_password** | jumphost password                  | Input     |
 
 ### Operations
 
@@ -47,6 +50,7 @@ os_auth_url: "http://192.168.56.130/identity/v3"
 os_projectname: admin
 os_username: admin
 os_password: secret
+almip: 192.168.56.100
 ```
 
 Replace the above with your Openstack credentials.
@@ -56,24 +60,14 @@ Replace the above with your Openstack credentials.
 Docker variables are as follows:
 
 ```
-vim: docker
+vimtype: docker
 location_server: 192.168.56.100
 location_user: admin
 location_pwd: secret
+almip: 192.168.56.100
 ```
 
 Replace the above with your docker location credentials.
-
-### Jumphost
-
-If a jumphost is required to communicate with the docker VIM location or the openstack virtual machine, the following variables can be added to your lifecycle manager location to tunnel all ansible playbooks through the jumphost.
-
-```
-jumphost_address: << JUMPHOST ADDRESS >>
-jumphost_username: << JUMPHOST USERNAME >>
-jumphost_password: << JUMPHOST PASSWORD >>
-jumphost_key: << KEY LOCATION >>
-```
 
 ## Deploying this VNF
 

@@ -1,9 +1,4 @@
 ---
-- name: create inventory
-  hosts: localhost
-  gather_facts: False
-  roles:
-    - { role: create_inventory }
 
 - name: remove ip pbx instance
   hosts: "{{ 'localhost' if vimtype=='openstack' else 'dockerlocation' }}"

@@ -2,7 +2,7 @@ name: assembly::base::0.1
 description: base network service to setup networks and jumphost
 properties:
   deploymentLocation:
-    description: the name of the location for this assemblies resources to be deploy
+    description: the name of the location for this assemblies resources to be deployed
     type: string
     default: devstack
   resourceManager:
@@ -73,6 +73,25 @@ composition:
         value: jumphost
     type: assembly::jumphost::0.1
     quantity: 1
+  pbx:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      mgmt_network:
+        value: ${mgmt_network.networkid}
+      data_network:
+        value: ${voice_network.networkid}
+      data_cidr:
+        value: ${voice_network.subnet}
+      jumphost_ip:
+        value: ${jumphost.jumphost_ip}
+      jumphost_username:
+        value: ${jumphost.jumphost_username}
+      jumphost_password:
+        value: ${jumphost.jumphost_password}
+    type: assembly::ip-pbx::1.0
 relationships:
   wait:
     properties:

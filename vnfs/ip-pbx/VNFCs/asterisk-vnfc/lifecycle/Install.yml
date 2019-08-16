@@ -10,7 +10,7 @@
 - name: Install Lifecycle Transition
   hosts: "{{ 'localhost' if vimtype=='openstack' else 'dockerlocation' }}"
   gather_facts: False
-  become: true
+#  become: true
     
   roles:
     - { role: create_instance }

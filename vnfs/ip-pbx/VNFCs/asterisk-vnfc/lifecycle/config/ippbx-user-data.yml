@@ -11,4 +11,4 @@ chpasswd:
   list: |
     ubuntu:ubuntu
   expire: False
-package_update: true
+#package_update: true

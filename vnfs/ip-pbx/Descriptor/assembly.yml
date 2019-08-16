@@ -15,6 +15,11 @@ properties:
   gw_address:
     description: if a gw is in front then pass in its private or internal ip address
     type: string
+  keyname:
+    type: string
+    default: packer
+
+  # networking
   mgmt_network:
     type: string
     descripion: name of docker management network
@@ -30,24 +35,32 @@ properties:
     descripion: id of data network
     required: true
     default: data
+  data_cidr:
+    type: string
+    description: cidr of data network
+    required: true
   data_address:
     description: assigned ip address on voip network. This is the voip endpoint
     type: string
     read-only: true
     value: ${asterisk.data_address}
-  imagename:
+
+  # jumphost properties
+  jumphost_ip:
     type: string
-    default: ip-pbx
-  keyname:
+    description: ip assigned to jumphost
+  jumphost_username:
     type: string
-    default: default
+    description: jumphost username
+  jumphost_password:
+    type: string
+    description: jumphost password
+
 composition:
   asterisk:
     properties:
       instance_index:
         value: ${instance_index}
-      imagename:
-        value: ${imagename}
       data_network:
         value: ${data_network}
       mgmt_network:
@@ -60,6 +73,13 @@ composition:
         value: 3
       publication_period:
         value: 60
+      # jumphost properties
+      jumphost_ip:
+        value: ${jumphost_ip}
+      jumphost_username:
+        value: ${jumphost_username}
+      jumphost_password:
+        value: ${jumphost_password}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:

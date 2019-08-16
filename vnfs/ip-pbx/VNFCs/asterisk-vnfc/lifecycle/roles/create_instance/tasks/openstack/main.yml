@@ -82,20 +82,64 @@
     OS_USER_DOMAIN_ID: "default"
     OS_VOLUME_API_VERSION: "3"   
 
-- name: Start ip pbx
+- name: create mgmt port
+  os_port:
+    state: present
+    name: "mgmt_port-{{ instance_name }}"
+    network: "{{ mgmt_network }}"
+  register: mgmt_port_result
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- debug:
+    var: mgmt_port_result
+
+- name: create data port
+  os_port:
+    state: present
+    name: "data_port-{{ instance_name }}"
+    network: "{{ data_network }}"
+  register: data_port_result
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- debug:
+    var: data_port_result
+
+- name: Start ip pbx virtual machine
   os_server:
     state: present
     name: "{{ instance_name }}"
     image: "{{ ippbx_image['ansible_facts']['openstack_image']['id'] }}"
     timeout: 200
-    auto_ip: "{{ 'false' if jumphost_address is defined else 'true' }}"
+    auto_ip: false
     security_groups: "ippbx-{{ instance_name }}"
     flavor: m1.small
     key_name: "{{ keyname }}"
     userdata: "{{ lookup('file','../../config/ippbx-user-data.yml') | string}}"
-    nics: 
-    - net-id: "{{ mgmt_network }}"
-    - net-id: "{{ data_network }}"
+    nics: "port-id={{ mgmt_port_result['id'] }},port-id={{ data_port_result['id'] }}"
   register: server_result
   environment: 
     OS_AUTH_TYPE: "password"
@@ -114,17 +158,15 @@
 - debug: 
     var: server_result
 
-- name: report INTERNAL_PROPERTIES
-  debug:
-    msg:
-    - "instance_id: {{ instanceid }}"
-    
-- name: report INTERNAL_RESOURCE
-  debug:
-    msg:
-    - "name: {{ instance_name }}"
+- name: check ssh is working on ip pbx vm before proceeding
+  delegate_to: jumphost
+  wait_for:
+    port: 22
+    host: "{{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+    timeout: 60
 
 - name: report PROPERTIES
   debug:
     msg:
-    - "mgmt_address: {{ server_result.openstack.private_v4 }}"
+    - "mgmt_address: {{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+    - "data_address: {{ data_port_result['port']['fixed_ips'][0]['ip_address'] }}"
