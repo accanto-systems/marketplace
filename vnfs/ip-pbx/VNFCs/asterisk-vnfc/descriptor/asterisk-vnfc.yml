@@ -6,19 +6,22 @@ properties:
     type: string
     description: the name of this resource instance
     value: ${instance.name}
-    
-  instance_index:
-    type: string
-    default: not_set
- 
-  internal_index:
-    type: string
-    value: ${instance.index} 
-   
+
+  keyname:
+     type: string
+     description: Openstack key
+     required: true
   imagename:
     type: string
     description: "the docker image name"
     value: ip-pbx
+    
+  instance_index:
+    type: string
+    default: not_set 
+  internal_index:
+    type: string
+    value: ${instance.index} 
 
   data_network:
     type: string
@@ -49,11 +52,6 @@ properties:
   instanceid:
     description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
     value: ${instance.id}
-
-  keyname:
-     type: string
-     description: Openstack key
-     default: default
     
   integrity_smoothing:
      type: string

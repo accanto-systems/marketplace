@@ -1,14 +1,13 @@
 ---
 
-- name: get deployment location_server
+- name: create inventory
   hosts: localhost
   gather_facts: False
-
   roles:
-    - { role: get_instance }
+    - { role: create_inventory }
 
 - name: Install Lifecycle Transition
-  hosts: "{{ location_server }}"
+  hosts: "{{ 'localhost' if vimtype=='openstack' else 'dockerlocation' }}"
   gather_facts: False
   become: true
     

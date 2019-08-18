@@ -1,12 +1,12 @@
 ---
-- name: get deployment location_server
+- name: create inventory
   hosts: localhost
   gather_facts: False
   roles:
-    - { role: get_instance }
+    - { role: create_inventory }
 
 - name: Stop Lifecycle Transition
-  hosts: "{{ mgmt_address }}"
+  hosts: "{{ instance_name }}"
   gather_facts: False
   become: true
   ignore_errors: yes

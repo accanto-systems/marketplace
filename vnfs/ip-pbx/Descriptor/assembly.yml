@@ -17,7 +17,7 @@ properties:
     type: string
   keyname:
     type: string
-    default: packer
+    required: true
 
   # networking
   mgmt_network:

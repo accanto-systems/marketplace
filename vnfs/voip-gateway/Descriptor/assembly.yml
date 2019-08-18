@@ -12,58 +12,36 @@ properties:
   mgmt_network:
     type: string
     required: true
-  data_network:
+  mgmt_address:
+    description: The ip address assigned to mgmt network
+    type: string
+    read-only: true
+    value: ${kamailio.mgmt_address}
+  external_network:
     type: string
     required: true
-  data_network_type:
-    type: string
-    descripion: type of network docker or ovs
-    default: docker
-  ovs_data_address:
-    description: manually assigned address for the ovs based data port
-    type: string
-  data_address:
+  external_address:
     description: The ip address for the incoming traffic
     type: string
     read-only: true
-    value: ${kamailio.data_address}
-  backend_network:
+    value: ${kamailio.external_address}
+  internal_network:
     type: string
     required: true
-  backend_network_type:
-    type: string
-    descripion: type of network docker or ovs
-    default: docker
-  ovs_backend_address:
-    description: manually assigned address for the ovs based backend port
-    type: string
-  backend_address:
-    description: The ip address for the incoming traffic
+  internal_address:
+    description: The ip address for the internal traffic to voip servers
     type: string
     read-only: true
-    value: ${kamailio.backend_address}
-  image_name:
-    type: string
-    default: accanto/kamailio:1.0
+    value: ${kamailio.internal_address}
 composition:
   kamailio:
     properties:
-      image:
-        value: ${image_name}
       mgmt_network:
         value: ${mgmt_network}
-      data_network:
-        value: ${data_network}
-      data_network_type:
-        value: ${data_network_type}
-      ovs_data_address:
-        value: ${ovs_data_address}
-      backend_network:
-        value: ${backend_network}
-      backend_network_type:
-        value: ${backend_network_type}
-      ovs_backend_address:
-        value: ${ovs_backend_address}
+      external_network:
+        value: ${external_network}
+      internal_network:
+        value: ${internal_network}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:

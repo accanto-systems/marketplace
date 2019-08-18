@@ -11,7 +11,7 @@ The network VNF has the following properties:
 | Property             |  Description                        | Type      |
 |----------------------|-------------------------------------|-----------|
 | **jumphostname**     | Name of the virtual machine         | Input     |
-| **imagename**        | Name of the image in the target VIM to use | Input     |
+| **keyname**          | Name of the openstack keypair       | Input     |
 | **networkid**        | The internal openstack network to attach to | Input     |
 | **jumphost_id**      | Openstack ID of the router created  | Read_only |
 | **jumphost_ip**      | Public IP address of the jumphost   | Read_only |
@@ -35,6 +35,10 @@ os_password: secret
 ```
 
 Replace the above with your Openstack credentials.
+
+## Jumphost Image
+
+
 
 ## Deploying this VNF
 

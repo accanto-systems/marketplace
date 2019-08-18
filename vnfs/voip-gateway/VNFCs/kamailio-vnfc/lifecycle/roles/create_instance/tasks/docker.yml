@@ -1,0 +1,170 @@
+- name: create list of ip variables for later
+  set_fact:
+    ipvars:  ['management', 'data', 'backend']
+    mgmt_interface_name: "eth2"
+    data_interface_name: "eth3"
+    backend_interface_name: "eth4"
+    
+- copy:
+    src: "{{ role_path }}/get_ip.py"
+    dest: /tmp
+    owner: "{{ location_user }}"
+    group: "{{ location_user }}"
+    mode: 0755
+
+- name: create new kamailio docker instance using docker api docker-docker
+  docker_container:
+    name: "{{ hostname }}"
+    image: "{{ image }}"
+    timeout: 180
+    networks:
+      - name: "{{ mgmt_network }}"
+      - name: "{{ data_network }}"
+      - name: "{{ backend_network }}"
+  register: docker_container  
+  when: data_network_type == "docker" and backend_network_type == "docker"
+  
+- name: create new kamailio docker instance using docker api ovs-docker
+  docker_container:
+    name: "{{ hostname }}"
+    image: "{{ image }}"
+    timeout: 180    
+    networks:
+      - name: "{{ mgmt_network }}"
+      - name: "{{ backend_network }}"
+  register: docker_container  
+  when: data_network_type == "ovs" and backend_network_type == "docker"
+  
+- name: create new kamailio docker instance using docker api docker-ovs
+  docker_container:
+    name: "{{ hostname }}"
+    image: "{{ image }}" 
+    timeout: 180
+    networks:
+      - name: "{{ mgmt_network }}"
+      - name: "{{ data_network }}"      
+  register: docker_container  
+  when: data_network_type == "docker" and backend_network_type == "ovs"
+
+- name: create new kamailio docker instance using docker api ovs-ovs
+  docker_container:
+    name: "{{ hostname }}"
+    image: "{{ image }}"
+    timeout: 180    
+    networks:
+      - name: "{{ mgmt_network }}"
+  register: docker_container  
+  when: data_network_type == "ovs" and backend_network_type == "ovs"
+  
+
+- name: get details about data network
+  docker_network:
+    name: "{{ data_network }}"
+  register: data_network_details
+  when: data_network_type == "docker"
+
+  
+- set_fact:
+    data_subnet: "{{ ansible_facts.docker_network.IPAM.Config.0.Subnet }}"
+  when: data_network_type == "docker"
+
+
+- name: get details about backend network
+  docker_network:
+    name: "{{ backend_network }}"
+  register: backend_network_details
+  when: backend_network_type == "docker"
+
+- set_fact:
+    backend_subnet: "{{ ansible_facts.docker_network.IPAM.Config.0.Subnet }}"
+  when: backend_network_type == "docker"
+
+- name: docker inspect
+  command: docker inspect "{{ hostname }}"
+  register: container_details
+   
+- name: get mgmt_ip
+  command: "python /tmp/get_ip.py '{{container_details.stdout }}' {{ mgmt_network }}"
+  register: mgmt_ip_address
+  when: mgmt_network is defined  
+  
+- name: set mgmt_ip based 
+  set_fact:
+    mgmt_ip: "{{ mgmt_ip_address.stdout }}"
+  when: mgmt_ip_address is defined
+  
+- name: get backend_ip
+  command: "python /tmp/get_ip.py '{{container_details.stdout }}' {{ backend_network }}"
+  register: backend_ip_address
+  when: backend_network_type == "docker" and backend_network is defined  
+  
+- name: set backend_ip based
+  set_fact:
+    backend_ip: "{{ backend_ip_address.stdout }}"
+  when: backend_network_type == "docker" and backend_ip_address is defined
+  
+- name: get data_ip
+  command: "python /tmp/get_ip.py '{{container_details.stdout }}' {{ data_network }}"
+  register: data_ip_address
+  when: data_network_type == "docker"
+
+- name: set data_ip based  
+  set_fact:
+    data_ip: "{{ data_ip_address.stdout }}"
+  when: data_network_type == "docker" and data_ip_address is defined
+  
+- name: add container interface to data bridge using a port
+  command: ovs-docker add-port {{ data_network }} {{ data_interface_name }} {{ hostname }} --ipaddress={{ ovs_data_address }}/24
+  when: data_network_type == "ovs"
+
+- name: set data_ip based 
+  set_fact:
+    data_ip: "{{ ovs_data_address }}"
+  when: data_network_type == "ovs"
+  
+- name: set data_subnet
+  set_fact:
+    data_subnet: "10.0.190.0/24"
+  when: data_network_type == "ovs"
+  
+- name: add container interface to backend bridge using a port
+  command: ovs-docker add-port {{ backend_network }} {{ backend_interface_name }} {{ hostname }} --ipaddress={{ ovs_backend_address }}/24
+  when: backend_network_type == "ovs"
+
+- name: set backend_ip based 
+  set_fact:
+    backend_ip: "{{ ovs_backend_address }}"
+  when: backend_network_type == "ovs"
+  
+- name: set backend_subnet
+  set_fact:
+    backend_subnet: "10.0.190.0/24"
+  when: backend_network_type == "ovs"
+
+
+- name: report INTERNAL_PROPERTIES
+  debug:
+    msg:
+    - "instance_id: {{ instanceid }}"
+    - "mgmt_ip: {{ mgmt_ip }}"
+    #      - "docker_container: {{ ansible_facts.docker_container }}"
+    #- "docker_container_id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
+    - "data_subnet: {{ data_subnet }}"
+    
+- name: report INTERNAL_RESOURCE
+  debug:
+    msg:
+    - "name: {{ hostname }}"
+#    - "id: {{ instanceid }}"
+    #- "id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
+    - "type: docker_container"
+
+     
+
+
+- name: report PROPERTIES
+  debug:
+    msg:
+      - "mgmt_address: {{ mgmt_ip }}"
+      - "data_address: {{ data_ip }}"
+      - "backend_address: {{ backend_ip  }}"

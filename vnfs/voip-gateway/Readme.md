@@ -2,6 +2,87 @@
 
 This VNF packages a [Kamailio SIP Gateway](https://www.kamailio.org/w/) with the LM standard lifecycle API.
 
+This VNF manages the lifecycle of an Openstack or Docker network (depending on the VIM type). Install will fail if a network with the same name exists on the target VIM. 
+
+## Properties & Operations
+
+### Properties
+
+The network VNF has the following properties:
+
+| Property                      |  Description                        | Type      |
+|-------------------------------|-------------------------------------|-----------|
+| **mgmt_network**              | id of the management network        | Input     |
+| **mgmt_address**              | mgmt ip address                     | Read Only |
+| **external_network**          | id of the external network          | Input     |
+| **external_address**          | external facing ip address          | Read Only |
+| **internal_network**          | id of the internal network          | Input     |
+| **internal_address**          | internal ip address                 | Read Only |
+
+### Operations
+
+There are no operations. 
+
+| Operation                     |  Description                               |
+|-------------------------------|--------------------------------------------|
+| **addToDispatchList**         | Add a voip server to the gateway pool      |
+| **deleteFromDispatchList**    | Remove a voip server from the gateway pool |
+  
+### Metrics
+
+This VNF produces the following metrics:
+
+| Metric                   |  Description                        |
+|--------------------------|-------------------------------------|
+| **h_load**               | current number of sessions          |
+
+### Policies
+
+There are no policies 
+
+## Ansible RM Configuration
+
+If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment location)[http://servicelifecyclemanager.com/reference/resource-manager/add-vim/] is configured with the following variables:
+
+### Openstack configuration
+
+Openstack lifecycle manager location variables are as follows: 
+
+```
+vimtype: openstack
+os_auth_url: "http://192.168.56.130/identity/v3"
+os_projectname: admin
+os_username: admin
+os_password: secret
+```
+
+Replace the above with your Openstack credentials.
+
+### Docker configuration
+
+Docker variables are as follows:
+
+```
+vim: docker
+location_server: 192.168.56.100
+location_user: admin
+location_pwd: secret
+```
+Replace the above with your docker location credentials.
+
+
+## Deploying this VNF
+
+Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. (Configure your lmctl environment)[http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments] and run the following command:
+
+```
+lmctl project push
+```
+
+The [CICD user guide](http://servicelifecyclemanager.com/cicd/introduction/) has more information on managing VNF packages across LM environments. 
+
+## VIM Images
+
 Follow the steps below to build VIM images and load the VNF package
 * [Build a VIM run time image](#create-the-vim-image)
 * [Load VIM image to CICD Hub](#load-the-vim-image-to-cicd-hub)
@@ -25,14 +106,3 @@ To deploy to a container based VIM [run the docker packer installer](/vnfs/voip-
 ## Load the VIM image to CICD Hub
 
 Load the VIM image you created above to the CICD Hub image repository and to your target VIM. You can follow the instructions [here](http://servicelifecyclemanager.com/user-guides/cicd/upload-images/).
-
-## Push VNF Package
-
-To push the VNF to your target ALM and RM, you must first [download and install LM command line tools](http://servicelifecyclemanager.com/reference/lmctl/). and configure your LM environment. 
-
-Finally you can push your VNF package to your target LM environment, by running the following in the root directory of this project.
-```
-lmctl project push <YOUR_ENV>
-```
-
-The [CICD user guide](http://servicelifecyclemanager.com/user-guides/cicd/getting-started/) has more information on managing VNF packages across LM environments. 

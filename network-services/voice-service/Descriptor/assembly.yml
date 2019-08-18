@@ -1,29 +1,21 @@
 name: assembly::voice-service::1.0
 description: Voice Service
 properties:
-  overlay_networks_name:
-    description: The name of the voice overlay network assembly
+  deploymentLocation:
     type: string
-    required: true
+    default: devstack
+  resourceManager:
+    type: string
+    default: defaultrm
+  keyname:
+    type: string
+    description: name of the openstack keyname
+    require: true
   voice_service_ipaddress:
     description: the ip address of the endpoint for the voice service
     type: string
     read-only: true
-    value: ${gateway.data_address}
-  deploymentLocation:
-    type: string
-    default: local
-  resourceManager:
-    type: string
-    default: defaultrm
-  internal_networkname:
-    default: internal
-  internal_subnet:
-    default: 10.20.252.0/24
-  internal_iprange:
-    default: 10.20.252.0/24
-  internal_gateway:
-    default: 10.20.252.1
+    value: ${gateway.external_address}
 composition:
   gateway:
     properties:
@@ -31,25 +23,41 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+      keyname:
+        value: ${keyname}
       mgmt_network:
-        value: ${overlay_networks.mgmt_network}
-      data_network:
-        value: ${overlay_networks.data_network}
-      backend_network:
-        value: ${internal.networkname}
+        value: ${base.mgmt_networkid}
+      external_network:
+        value: ${base.voice_networkid}
+      internal_network:
+        value: ${internal.networkid}
+      jumphost_ip:
+        value: ${base.jumphost_ip}
+      jumphost_username:
+        value: ${base.jumphost_username}
+      jumphost_password:
+        value: ${base.jumphost_password}
     type: assembly::voip-gateway::1.0
     quantity: 1
   voip-server:
     properties:
-      mgmt_network:
-        value: ${overlay_networks.mgmt_network}
-      data_network:
-        value: ${internal.networkname}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-    type: assembly::ip-pbx-vnf::1.0
+      keyname:
+        value: ${keyname}
+      mgmt_network:
+        value: ${base.mgmt_networkid}
+      data_network:
+        value: ${internal.networkid}
+      jumphost_ip:
+        value: ${base.jumphost_ip}
+      jumphost_username:
+        value: ${base.jumphost_username}
+      jumphost_password:
+        value: ${base.jumphost_password}
+    type: assembly::ip-pbx::1.0
     cluster:
       initial-quantity: 1
       minimum-nodes: 1
@@ -61,21 +69,15 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-      networkname:
-        value: ${internal_networkname}
       subnet:
-        value: ${internal_subnet}
-      iprange:
-        value: ${internal_iprange}
-      gateway:
-        value: ${internal_gateway}
-    type: assembly::docker-network::1.0
+        value: "10.0.0.0/24"
+    type: assembly::network::1.0
 references:
-  overlay_networks:
+  base:
     properties:
       name:
-        value: ${overlay_networks_name}
-    type: assembly::voice-overlay-networks::1.0
+        value: base
+    type: assembly::base::0.1
 relationships:
   manageDispatchList:
     properties:

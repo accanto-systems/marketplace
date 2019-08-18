@@ -1,22 +1,5 @@
----
+- import_tasks: ./openstack.yml
+  when: vimtype == 'openstack'
 
-- name: create list of ip variables for later
-  set_fact:
-    data_interface_name: "eth3"
-    backend_interface_name: "eth4"
-    
-- name: delete container interface to data bridge using a port
-  command: ovs-docker del-port {{ data_network }} {{ data_interface_name }} {{ hostname }} 
-  when: data_network_type == "ovs"
-  
-- name: delete container interface to data bridge using a port
-  command: ovs-docker del-port {{ data_network }} {{ backend_interface_name }} {{ hostname }} 
-  when: data_network_type == "ovs"
-  
-
-
-- name: remove container
-  docker_container:
-    name: "{{ hostname }}"
-    state: absent
-
+- import_tasks: ./docker.yml
+  when: vimtype == 'docker'

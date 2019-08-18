@@ -1,5 +1,5 @@
 name: assembly::base::0.1
-description: base network service to setup networks and jumphost
+description: Setup management network jumphost and external voice network
 properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deployed
@@ -9,6 +9,10 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  keyname:
+    type: string
+    description: name of the openstack keyname
+    required: true
   mgmt_networkid:
     description: network id for mgmt network
     type: read_only
@@ -37,17 +41,7 @@ composition:
         value: 10.20.1.0/24
     type: assembly::network::1.0
     quantity: 1
-  voice_network:
-    properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      subnet:
-        value: 10.10.0.0/24
-    type: assembly::network::1.0
-    quantity: 1
-  router:
+  mgmt_router:
     properties:
       deploymentLocation:
         value: ${deploymentLocation}
@@ -61,6 +55,30 @@ composition:
         value: ${mgmt_network.subnetid}
     type: assembly::neutron-router::0.1
     quantity: 1
+  voice_network:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      subnet:
+        value: 192.20.20.0/24
+    type: assembly::network::1.0
+    quantity: 1
+  voice_router:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      router_name:
+        value: voicerouter
+      network:
+        value: public
+      interface:
+        value: ${voice_network.subnetid}
+    type: assembly::neutron-router::0.1
+    quantity: 1
   jumphost:
     properties:
       deploymentLocation:
@@ -70,28 +88,9 @@ composition:
       networkid:
         value: ${mgmt_network.networkid}
       keyname:
-        value: jumphost
+        value: ${keyname}
     type: assembly::jumphost::0.1
     quantity: 1
-  pbx:
-    properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      mgmt_network:
-        value: ${mgmt_network.networkid}
-      data_network:
-        value: ${voice_network.networkid}
-      data_cidr:
-        value: ${voice_network.subnet}
-      jumphost_ip:
-        value: ${jumphost.jumphost_ip}
-      jumphost_username:
-        value: ${jumphost.jumphost_username}
-      jumphost_password:
-        value: ${jumphost.jumphost_password}
-    type: assembly::ip-pbx::1.0
 relationships:
   wait:
     properties:
@@ -107,4 +106,4 @@ relationships:
     source-capabilities:
     - jumphost.capability
     target-requirements:
-    - router.requirement
+    - mgmt_router.requirement

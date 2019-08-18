@@ -12,6 +12,7 @@ The network VNF has the following properties:
 |----------------------|-------------------------------------|-----------|
 | **mgmt_network**     | id of the management network        | Input     |
 | **data_network**     | id of the network voice traffic will be carried on | Input    |
+| **data_cidr**        | subnet cidr for data network        | Input    |
 | **gw_address**       | ip address of a SIP gateway that proxies traffic to this VoIP Server if it exists | Input    |
 | **mgmt_address**     | management ip address assigned to VoIP Server instance | Read Only |
 | **data_address**     | data ip address assigned to VoIP Server instance  | Read Only |

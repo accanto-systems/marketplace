@@ -9,51 +9,69 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  keyname:
+    type: string
+    description: name of the openstack keyname
+    require: true
+
   target_sip_address:
     description: name of sip-server component to send traffic to
     type: string
     required: true
+
   mgmt_network:
     type: string
     required: true
+  mgmt_address:
+    description: mgmt address assigned
+    type: string
+    value: ${sipp.mgmt_address}
   data_network:
     type: string
     required: true
-  data_network_type:
-    type: string
-    descripion: type of network - either docker or ovs
-    default: docker
-  ovs_data_ip:
-    type: string
-    descripion: ip_address to be assigned if using ovs networks
   data_address:
     description: assigned ip address on voip network. This is the voip endpoint
     type: string
     value: ${sipp.data_address}
+
   instance_index:
     type: string
     default: 1
     value: ${instance.index}
-  image_name:
+
+  # jumphost properties
+  jumphost_ip:
     type: string
-    default: accanto/sipp:1.0
+    description: ip assigned to jumphost
+  jumphost_username:
+    type: string
+    description: jumphost username
+  jumphost_password:
+    type: string
+    description: jumphost password
+
 composition:
   sipp:
     properties:
-      image:
-        value: ${image_name}
+      keyname:
+        value: ${keyname}
+
+      target_sip_address:
+        value: ${target_sip_address}
       instance_index:
         value: ${instance_index}
       mgmt_network:
         value: ${mgmt_network}
-      target_sip_address:
-        value: ${target_sip_address}
       data_network:
         value: ${data_network}
-      data_network_type:
-        value: ${data_network_type}
-      ovs_data_ip:
-        value: ${ovs_data_ip}
+
+      # jumphost properties
+      jumphost_ip:
+        value: ${jumphost_ip}
+      jumphost_username:
+        value: ${jumphost_username}
+      jumphost_password:
+        value: ${jumphost_password}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:

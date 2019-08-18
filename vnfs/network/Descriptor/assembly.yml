@@ -1,5 +1,5 @@
 name: assembly::network::1.0
-description: Openstack or Neutron network VNF
+description: Openstack Neutron network VNF
 properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
@@ -13,27 +13,6 @@ properties:
     description: subnet for new network
     type: string
     default: 10.20.1.0/24
-  networkid:
-    description: id of network instance
-    type: string
-    read-only: true
-    value: ${network.networkid}
-  subnetid:
-    description: id of network subnet instance
-    type: string
-    read-only: true
-    value: ${network.subnetid}
-  gateway:
-    description: subnet of user defined network
-    type: string
-  iprange:
-    description: ip range to be allocated on network
-    type: string
-  bridgeid:
-    description: id of linux bridge
-    type: string
-    read-only: true
-    value: ${network.bridgeid}
   provider_network:
     description: set to true if provider network is used
     type: string
@@ -50,6 +29,16 @@ properties:
     description: VLAN/VXLAN id
     type: string
     default: 10
+  networkid:
+    description: id of network instance
+    type: string
+    read-only: true
+    value: ${network.networkid}
+  subnetid:
+    description: id of network subnet instance
+    type: string
+    read-only: true
+    value: ${network.subnetid}
 composition:
   network:
     properties:

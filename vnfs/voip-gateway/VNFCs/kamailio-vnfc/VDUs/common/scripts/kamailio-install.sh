@@ -16,8 +16,8 @@ sudo apt-get -y install debhelper iptables-dev libavcodec-dev libavfilter-dev li
 sudo apt-get -y install dkms keyutils kmod libb-hooks-op-check-perl libbencode-perl libcrypt-rijndael-perl libdigest-hmac-perl libexporter-tidy-perl libio-socket-inet6-perl liblocale-gettext-perl libnfsidmap2 libsocket6-perl libtext-charwidth-perl libtext-wrapi18n-perl libtirpc1 menu module-assistant nfs-common rpcbind libmysqlclient-dev unzip
 
 cd /opt
-unzip rtpengine-master.zip
-cd rtpengine-master 
+unzip rtpengine-mr5.5.10.1.zip
+cd rtpengine-mr5.5.10.1
 sudo ./debian/flavors/no_ngcp
 cd daemon
 sudo make
