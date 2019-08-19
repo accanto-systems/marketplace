@@ -52,7 +52,7 @@ composition:
       keyname:
         value: ${keyname}
       gw_address:
-        value: ${gateway.external_address}
+        value: ${gateway.internal_address}
       mgmt_securitygroup_id:
         value: ${base.mgmt_securitygroup_id}
       voice_securitygroup_id:
@@ -61,6 +61,8 @@ composition:
         value: ${base.mgmt_networkid}
       data_network:
         value: ${internal.networkid}
+      data_cidr:
+        value: ${internal.subnet}
       jumphost_ip:
         value: ${base.jumphost_ip}
       jumphost_username:

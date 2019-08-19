@@ -43,28 +43,6 @@ os_password: secret
 
 Replace the above with your Openstack credentials.
 
-### Docker configuration
-
-Docker variables are as follows:
-
-```
-vim: docker
-location_server: 192.168.56.100
-location_user: admin
-location_pwd: secret
-```
-
-Replace the above with your docker location credentials.
-
-If a jumphost is required to communicate with the docker VIM location, the following variables can be added to your lifecycle manager location to tunnel all ansible playbooks through the jumphost.
-
-```
-jumphost_address: << JUMPHOST ADDRESS >>
-jumphost_username: << JUMPHOST USERNAME >>
-jumphost_password: << JUMPHOST PASSWORD >>
-jumphost_key: << KEY LOCATION >>
-```
-
 ## Deploying this VNF
 
 Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. (Configure your lmctl environment)[http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments] and run the following command:

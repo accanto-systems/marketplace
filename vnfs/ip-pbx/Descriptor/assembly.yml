@@ -77,6 +77,8 @@ composition:
         value: ${voice_securitygroup_id}
       data_network:
         value: ${data_network}
+      data_cidr:
+        value: ${data_cidr}
       mgmt_network:
         value: ${mgmt_network}
       gw_address:

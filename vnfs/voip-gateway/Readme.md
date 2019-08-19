@@ -60,19 +60,6 @@ __Note:__ do not use the admin account, because it can see all other projects, i
 
 Replace the above with your Openstack credentials.
 
-### Docker configuration
-
-Docker variables are as follows:
-
-```
-vim: docker
-location_server: 192.168.56.100
-location_user: admin
-location_pwd: secret
-```
-Replace the above with your docker location credentials.
-
-
 ## Deploying this VNF
 
 Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. (Configure your lmctl environment)[http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments] and run the following command:
