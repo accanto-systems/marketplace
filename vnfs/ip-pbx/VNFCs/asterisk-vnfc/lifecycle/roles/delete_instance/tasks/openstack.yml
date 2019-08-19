@@ -18,10 +18,10 @@
     OS_USER_DOMAIN_ID: "default"
     OS_VOLUME_API_VERSION: "3"   
 
-- name: "remove voip security group ippbx-{{ instance_name }}"
+- name: "remove voip security group {{ instance_name }}"
   os_security_group:
     state: absent
-    name: "ippbx-{{ instance_name }}"
+    name: "{{ instance_name }}-voip-sec"
   environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"
@@ -36,10 +36,46 @@
     OS_USER_DOMAIN_ID: "default"
     OS_VOLUME_API_VERSION: "3"   
 
-- name: remove data port
+- name: "remove mgmt security group {{ instance_name }}"
+  os_security_group:
+    state: absent
+    name: "{{ instance_name }}-mgmt-sec"
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"  
+
+- name: remove external port
   os_port:
     state: absent
-    name: "data_port-{{ instance_name }}"
+    name: "ext_port-{{ instance_name }}"
+  environment: 
+    OS_AUTH_TYPE: "password"
+    OS_AUTH_URL: "{{ os_auth_url }}"
+    OS_CACERT: ""
+    OS_IDENTITY_API_VERSION: "3"
+    OS_PASSWORD: "{{ os_password }}"
+    OS_PROJECT_DOMAIN_ID: "default"
+    OS_PROJECT_NAME: "{{ os_projectname }}"
+    OS_REGION_NAME: "RegionOne"
+    OS_TENANT_NAME: "{{ os_projectname }}"
+    OS_USERNAME: "{{ os_username }}"
+    OS_USER_DOMAIN_ID: "default"
+    OS_VOLUME_API_VERSION: "3"   
+
+- name: remove internal port
+  os_port:
+    state: absent
+    name: "int_port-{{ instance_name }}"
   environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"

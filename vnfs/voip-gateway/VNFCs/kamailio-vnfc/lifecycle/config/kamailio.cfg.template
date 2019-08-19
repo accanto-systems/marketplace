@@ -1,8 +1,8 @@
 #!KAMAILIO
 
 #!define DS_LIST "/usr/local/etc/kamailio/dispatcher.list"
-#!define LISTEN_UDP_PUBLIC udp:{{data_address}}:5060
-#!define LISTEN_UDP_PRIVATE udp:{{backend_address}}:5060
+#!define LISTEN_UDP_PUBLIC udp:{{external_address}}:5060
+#!define LISTEN_UDP_PRIVATE udp:{{internal_address}}:5060
 
 #set module path
 mpath = "/usr/local/lib64/kamailio/modules"

@@ -1,28 +1,16 @@
 name: assembly::voice-load-generator::1.0
 description: Network service to generate a load for the voice network services
 properties:
-  voice_service:
-    description: The name of the voice service
-    type: string
-    required: true
-  overlay_networks_name:
-    description: The name of the voice overlay network assembly
-    type: string
-    required: true
   deploymentLocation:
     type: string
-    default: local
+    default: devstack
   resourceManager:
     type: string
     default: defaultrm
-  sipp_address:
-    description: ip_address of sipp server
+  keyname:
     type: string
-    value: ${sipp-server.data_address}
-  mgmt_network:
-    description: The management network of the sipp server
-    type: string
-    value: ${overlay_networks.mgmt_network}
+    description: openstack keypair name
+    required: true
 composition:
   sipp-server:
     properties:
@@ -30,21 +18,29 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+      keyname:
+        value: ${keyname}
       target_sip_address:
         value: ${voice_service.voice_service_ipaddress}
       mgmt_network:
-        value: ${overlay_networks.mgmt_network}
+        value: ${base.mgmt_networkid}
       data_network:
-        value: ${overlay_networks.data_network}
+        value: ${base.voice_networkid}
+      jumphost_ip:
+        value: ${base.jumphost_ip}
+      jumphost_username:
+        value: ${base.jumphost_username}
+      jumphost_password:
+        value: ${base.jumphost_password}
     type: assembly::sip-performance::1.0
 references:
-  overlay_networks:
+  base:
     properties:
       name:
-        value: ${overlay_networks_name}
-    type: assembly::voice-overlay-networks::1.0
+        value: base
+    type: assembly::base::0.1
   voice_service:
     properties:
       name:
-        value: ${voice_service}
+        value: voice
     type: assembly::voice-service::1.0

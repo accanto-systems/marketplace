@@ -5,10 +5,6 @@ properties:
     type: string
     description: the name of this resource instance
     value: ${instance.name}
-
-  instance_index:
-    type: string
-    default: ${instance.index}   
   keyname:
     type: string
     descriptiomn: openstack key name

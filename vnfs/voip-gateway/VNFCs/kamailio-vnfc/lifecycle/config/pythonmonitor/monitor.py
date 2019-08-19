@@ -12,7 +12,7 @@ last2xx=0
 
 max=15.0
 
-hostname= "{{hostname}}"
+hostname= "{{ instance_name }}"
 
 def configer(ObjConfiguration):
   collectd.info('Configuring Stuff')
@@ -29,7 +29,7 @@ def readDispatchList():
     print ('no dispatch list found')
 
 def get_resource_guid():
-  resource_guid = "{{instanceid}}"
+  resource_guid = "{{ instanceid }}"
   collectd.info(resource_guid)
   return resource_guid
 
@@ -43,7 +43,7 @@ def send_load_metric(load):
   query_args = { 'metricName':'h_load', 'load':load }
   encoded_args = urllib.urlencode(query_args)
 
-  url = 'http://{{relay_endpoint}}/api/send/load/'+resource_guid+'/?'+encoded_args
+  url = 'http://{{ almip }}:31285/api/send/load/'+resource_guid+'/?'+encoded_args
   collectd.info(url)
 
   collectd.info( urllib2.urlopen(url).read())

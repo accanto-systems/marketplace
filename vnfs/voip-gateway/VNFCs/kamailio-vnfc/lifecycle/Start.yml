@@ -13,7 +13,7 @@
   tasks:
   
   - name: Start rtp engine
-    raw: "nohup /opt/rtpengine-master/daemon/rtpengine --interface={{ data_address }} --listen-tcp=25060 --listen-udp=12222 --listen-ng=22222 --listen-cli=9900 --timeout=60 --silent-timeout=3600 --port-min=30000 --port-max=50000 < /dev/null > /dev/null 2>&1 & sleep 1" 
+    raw: "nohup /opt/rtpengine-mr5.5.10.1/daemon/rtpengine --interface={{ external_address }} --listen-tcp=25060 --listen-udp=12222 --listen-ng=22222 --listen-cli=9900 --timeout=60 --silent-timeout=3600 --port-min=30000 --port-max=50000 < /dev/null > /dev/null 2>&1 & sleep 1" 
   
   - pause: seconds=10
   

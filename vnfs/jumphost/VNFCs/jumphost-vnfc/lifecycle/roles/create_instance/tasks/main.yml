@@ -70,6 +70,7 @@
     security_groups: "{{ jumphostname }}"
     flavor: "{{ flavorname }}"
     key_name: "{{ keyname }}"
+    config_drive: true
     userdata: "{{ lookup('file','../config/jumphost-user-data.yml') | string}}"
     nics: "net-id={{ networkid }}"
   register: server_result

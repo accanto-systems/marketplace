@@ -27,6 +27,7 @@
 - name: create network
   os_network:
     state: present
+#    shared: True
     name: "{{ networkname }}"
   when: provider_network is not defined or not( provider_network | default(false) | bool)
   environment: 
@@ -46,6 +47,7 @@
 - name: create openstack provider network
   os_network:
     state: present
+#    shared: True
     name: "{{ networkname }}"
     provider_network_type: "{{ provider_network_type }}"
     provider_physical_network: "{{ provider_physical_network }}"

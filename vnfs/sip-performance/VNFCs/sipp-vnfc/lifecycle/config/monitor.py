@@ -2,7 +2,7 @@ import collectd
 import os
 
 statsFile=None
-hostname="{{ hostname }}"
+hostname="{{ instance_name }}"
 
 def configer(ObjConfiguration):
   collectd.info('Configuring Stuff') 
