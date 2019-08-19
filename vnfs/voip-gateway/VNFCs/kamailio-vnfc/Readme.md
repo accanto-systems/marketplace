@@ -1,1 +1,0 @@
-# Kamailio Virtual Deployment Unit

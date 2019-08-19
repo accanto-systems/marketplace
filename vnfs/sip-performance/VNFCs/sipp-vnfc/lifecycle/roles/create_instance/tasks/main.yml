@@ -1,5 +1,98 @@
-- import_tasks: ./openstack.yml
-  when: vimtype == 'openstack'
+- name: Find image
+  os_image_facts:
+    image: "{{ imagename }}"
+  register: sipp_image
+  failed_when: sipp_image['ansible_facts']['openstack_image']['id'] is not defined
 
-- import_tasks: ./docker.yml
-  when: vimtype == 'docker'
+- name: Show image id
+  debug:
+    var: sipp_image['ansible_facts']['openstack_image']['id']
+
+- name: create mgmt security group
+  os_security_group:
+    state: present
+    name: "{{ instance_name }}-mgmt-sec"
+    description: "security group for sipp {{ instance_name }}"
+  register: mgmt_security_result
+
+- name: open ssh ports 
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-mgmt-sec"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: create voip security group
+  os_security_group:
+    state: present
+    name: "{{ instance_name }}-voip-sec"
+    description: "security group for ip pbx {{ instance_name }}"
+  register: voip_security_result
+
+- name: open all tcp ports for now
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-voip-sec"
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: open all udp ports for now
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-voip-sec"
+    protocol: udp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: create mgmt port
+  os_port:
+    state: present
+    name: "mgmt_port-{{ instance_name }}"
+    network: "{{ mgmt_network }}"
+    security_groups: "{{ mgmt_security_result.id }}"
+  register: mgmt_port_result
+
+- debug:
+    var: mgmt_port_result
+
+- name: create data port
+  os_port:
+    state: present
+    name: "data_port-{{ instance_name }}"
+    network: "{{ data_network }}"
+    security_groups: "{{ voip_security_result.id }}"
+  register: data_port_result
+
+- debug:
+    var: data_port_result
+
+- name: Start SIPP virtual machine
+  os_server:
+    state: present
+    name: "{{ instance_name }}"
+    image: "{{ sipp_image['ansible_facts']['openstack_image']['id'] }}"
+    timeout: 200
+    auto_ip: false
+    flavor: m1.small
+    key_name: "{{ keyname }}"
+    userdata: "{{ lookup('file','../../config/sipp-user-data.yml') | string}}"
+    nics: "port-id={{ mgmt_port_result['id'] }},port-id={{ data_port_result['id'] }}"
+  register: server_result
+
+- debug: 
+    var: server_result
+
+- name: check ssh is working on ip pbx vm before proceeding
+  delegate_to: jumphost
+  wait_for:
+    port: 22
+    host: "{{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+    timeout: 60
+
+- name: report PROPERTIES
+  debug:
+    msg:
+    - "mgmt_address: {{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+    - "data_address: {{ data_port_result['port']['fixed_ips'][0]['ip_address'] }}"

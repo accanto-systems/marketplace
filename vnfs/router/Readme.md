@@ -24,7 +24,6 @@ There are no operations.
 If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment location)[http://servicelifecyclemanager.com/reference/resource-manager/add-vim/] is configured with the following variables:
 
 ```
-vimtype: openstack
 os_auth_url: "http://192.168.56.130/identity/v3"
 os_projectname: admin
 os_username: admin

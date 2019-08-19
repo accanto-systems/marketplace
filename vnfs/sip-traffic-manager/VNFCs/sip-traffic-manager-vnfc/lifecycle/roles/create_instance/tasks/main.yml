@@ -1,9 +1,0 @@
-
-  
-- name: Start SIPP against target SIP server
-  become: yes
-  command: "docker exec {{ target_name }} /tmp/restart.sh {{ target_address }} {{ destination_address }} {{ calls }}"
-
-#- name: Start SIPP against target SIP server
-#  become: yes
-#  command: "/tmp/restart.sh {{ target_address }} {{ destination_address }} {{ calls }}"

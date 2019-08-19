@@ -2,7 +2,6 @@
 - name: create inventory
   hosts: localhost
   gather_facts: False
-#  become: true
   roles:
     - { role: create_inventory }
 

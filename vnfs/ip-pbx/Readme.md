@@ -46,7 +46,6 @@ If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment
 Openstack lifecycle manager location variables are as follows: 
 
 ```
-vimtype: openstack
 os_auth_url: "http://192.168.56.130/identity/v3"
 os_projectname: demo
 os_username: demo

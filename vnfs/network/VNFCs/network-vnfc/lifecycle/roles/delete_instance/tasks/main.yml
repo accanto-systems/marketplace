@@ -1,5 +1,9 @@
-- import_tasks: ./openstack.yaml
-  when: vimtype == 'openstack'
+- name: Remove subnet
+  os_network:
+    state: absent
+    name: "{{ networkname }}_subnet"
 
-- import_tasks: ./docker.yaml
-  when: vimtype == 'docker'
+- name: Remove network
+  os_network:
+    state: absent
+    name: "{{ networkname }}"

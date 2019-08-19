@@ -1,5 +1,26 @@
-- import_tasks: ./openstack.yml
-  when: vimtype == 'openstack'
+---
+- name: "Remove sipp instance {{ instance_name }}"
+  os_server:
+    state: absent
+    name: "{{ instance_name }}"
+  register: server_result
 
-- import_tasks: ./docker.yml
-  when: vimtype == 'docker'
+- name: remove data port
+  os_port:
+    state: absent
+    name: "data_port-{{ instance_name }}"
+
+- name: remove mgmt port
+  os_port:
+    state: absent
+    name: "mgmt_port-{{ instance_name }}"
+
+- name: "remove mgmt security group for {{ instance_name }}"
+  os_security_group:
+    state: absent
+    name: "{{ instance_name }}-mgmt-sec"
+
+- name: "remove voip security group for {{ instance_name }}"
+  os_security_group:
+    state: absent
+    name: "{{ instance_name }}-voip-sec"

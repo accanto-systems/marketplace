@@ -1,5 +1,0 @@
-- name: Delete a network, disconnecting all containers
-  docker_network:
-    name: "{{ networkname }}"
-    state: absent
-    force: yes
