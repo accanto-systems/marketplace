@@ -1,0 +1,44 @@
+---
+- name: create mgmt security group
+  os_security_group:
+    state: present
+    name: "{{ instance_name }}-mgmt-sec"
+    description: "security group for ip pbx {{ instance_name }}"
+  register: mgmt_security_result
+
+- name: open ssh port
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-mgmt-sec"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: create voip security group
+  os_security_group:
+    state: present
+    name: "{{ instance_name }}-voip-sec"
+    description: "security group for ip pbx {{ instance_name }}"
+  register: voip_security_result
+
+- name: open all tcp ports for now
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-voip-sec"
+    protocol: tcp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: open all udp ports for now
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-voip-sec"
+    protocol: udp
+    port_range_min: 1
+    port_range_max: 65535
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: report PROPERTIES
+  debug:
+    msg:
+      - "mgmt_securitygroup_id: {{ mgmt_security_result.id}}"
+      - "voice_securitygroup_id: {{ voip_security_result.id}}"

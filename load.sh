@@ -1,5 +1,7 @@
 cd vnfs/network
 lmctl project push dev
+cd ../baseinfrastructure
+lmctl project push dev
 cd ../router
 lmctl project push dev
 cd ../jumphost

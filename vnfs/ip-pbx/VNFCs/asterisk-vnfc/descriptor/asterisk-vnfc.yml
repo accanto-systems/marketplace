@@ -23,6 +23,16 @@ properties:
     type: string
     value: ${instance.index} 
 
+  # security groups
+  mgmt_securitygroup_id:
+    type: string
+    description: id of the mgmt security group
+    required: true
+  voice_securitygroup_id:
+    type: string
+    description: id of the voice security group
+    required: true
+
   data_network:
     type: string
     descripion: id of data network 

@@ -1,0 +1,3 @@
+name: baseinfrastructure-vnfc
+version: 0.1
+resource-manager: defaultrm

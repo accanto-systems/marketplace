@@ -8,50 +8,12 @@
   debug:
     var: gateway_image['ansible_facts']['openstack_image']['id']
 
-- name: create mgmt security group
-  os_security_group:
-    state: present
-    name: "{{ instance_name }}-mgmt-sec"
-    description: "security group for kamailio {{ instance_name }}"
-  register: mgmt_security_result
-
-- name: open ssh port
-  os_security_group_rule:
-    security_group: "{{ instance_name }}-mgmt-sec"
-    protocol: tcp
-    port_range_min: 22
-    port_range_max: 22
-    remote_ip_prefix: 0.0.0.0/0
-
-- name: create voip security group
-  os_security_group:
-    state: present
-    name: "{{ instance_name }}-voip-sec"
-    description: "security group for kamailio {{ instance_name }}"
-  register: voip_security_result
-
-- name: open all tcp ports for now
-  os_security_group_rule:
-    security_group: "{{ instance_name }}-voip-sec"
-    protocol: tcp
-    port_range_min: 1
-    port_range_max: 65535
-    remote_ip_prefix: 0.0.0.0/0
-
-- name: open all udp ports for now
-  os_security_group_rule:
-    security_group: "{{ instance_name }}-voip-sec"
-    protocol: udp
-    port_range_min: 1
-    port_range_max: 65535
-    remote_ip_prefix: 0.0.0.0/0
-
 - name: create mgmt port
   os_port:
     state: present
     name: "mgmt_port-{{ instance_name }}"
     network: "{{ mgmt_network }}"
-    security_groups: "{{ mgmt_security_result.id }}"
+    security_groups: "{{ mgmt_securitygroup_id }}"
   register: mgmt_port_result
 
 - debug:
@@ -62,7 +24,7 @@
     state: present
     name: "ext_port-{{ instance_name }}"
     network: "{{ external_network }}"
-    security_groups: "{{ voip_security_result.id }}"
+    security_groups: "{{ voice_securitygroup_id }}"
   register: ext_port_result
 
 - debug:
@@ -73,7 +35,7 @@
     state: present
     name: "int_port-{{ instance_name }}"
     network: "{{ internal_network }}"
-    security_groups: "{{ voip_security_result.id }}"
+    security_groups: "{{ voice_securitygroup_id }}"
   register: int_port_result
 
 - debug:

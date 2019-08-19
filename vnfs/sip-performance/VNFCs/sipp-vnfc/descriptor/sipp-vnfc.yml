@@ -14,6 +14,16 @@ properties:
     description: "the sipp image name"
     default: sipp
 
+  # security groups
+  mgmt_securitygroup_id:
+    type: string
+    description: id of the mgmt security group
+    required: true
+  voice_securitygroup_id:
+    type: string
+    description: id of the voice security group
+    required: true
+
   mgmt_network:
     type: string
     descripion: id of docker management network

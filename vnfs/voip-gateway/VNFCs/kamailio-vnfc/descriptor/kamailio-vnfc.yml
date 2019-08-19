@@ -17,6 +17,13 @@ properties:
     type: string
     description: "the key name"
     required: true
+  # security groups
+  mgmt_securitygroup_id:
+    type: string
+    description: id of the mgmt security group
+  voice_securitygroup_id:
+    type: string
+    description: id of the voice security group
   mgmt_network:
     type: string
     descripion: id of management network

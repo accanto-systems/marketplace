@@ -13,6 +13,17 @@ properties:
     type: string
     description: openstack key name
     required: true
+
+  # security groups
+  mgmt_securitygroup_id:
+    type: string
+    description: id of the mgmt security group
+    required: true
+  voice_securitygroup_id:
+    type: string
+    description: id of the voice security group
+    required: true
+
   mgmt_network:
     type: string
     required: true
@@ -52,6 +63,10 @@ composition:
     properties:
       keyname:
         value: ${keyname}
+      mgmt_securitygroup_id:
+        value: ${mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${voice_securitygroup_id}
       mgmt_network:
         value: ${mgmt_network}
       external_network:

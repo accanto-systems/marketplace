@@ -1,0 +1,31 @@
+name: assembly::baseinfrastructure::0.1
+description: common openstack infrastructure shared among VNFs
+
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    type: string
+    default: devstack
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+  mgmt_securitygroup_id:
+    description: id of the mgmt security group instance
+    type: string
+    read_only: true
+    value: ${baseinfrastructure.mgmt_securitygroup_id}
+  voice_securitygroup_id:
+    description: id of the mgmt security group instance
+    type: string
+    read_only: true
+    value: ${baseinfrastructure.voice_securitygroup_id}
+composition:
+  baseinfrastructure:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::baseinfrastructure-vnfc::0.1
+    quantity: 1

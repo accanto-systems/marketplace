@@ -25,6 +25,10 @@ composition:
         value: ${resourceManager}
       keyname:
         value: ${keyname}
+      mgmt_securitygroup_id:
+        value: ${base.mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${base.voice_securitygroup_id}
       mgmt_network:
         value: ${base.mgmt_networkid}
       external_network:
@@ -47,6 +51,12 @@ composition:
         value: ${resourceManager}
       keyname:
         value: ${keyname}
+      gw_address:
+        value: ${gateway.external_address}
+      mgmt_securitygroup_id:
+        value: ${base.mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${base.voice_securitygroup_id}
       mgmt_network:
         value: ${base.mgmt_networkid}
       data_network:

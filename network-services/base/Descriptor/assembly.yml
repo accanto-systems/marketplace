@@ -21,6 +21,14 @@ properties:
     description: network id for mgmt network
     type: read_only
     value: ${voice_network.networkid}
+  mgmt_securitygroup_id:
+    description: security group id for mgmt network
+    type: read_only
+    value: ${common.mgmt_securitygroup_id}
+  voice_securitygroup_id:
+    description: security group id for voice network
+    type: read_only
+    value: ${common.voice_securitygroup_id}
   jumphost_ip:
     type: string
     value: ${jumphost.jumphost_ip}
@@ -31,6 +39,14 @@ properties:
     type: string
     value: ${jumphost.jumphost_password}
 composition:
+  common:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: assembly::baseinfrastructure::0.1
+    quantity: 1    
   mgmt_network:
     properties:
       deploymentLocation:

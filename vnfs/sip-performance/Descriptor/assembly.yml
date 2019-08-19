@@ -19,6 +19,17 @@ properties:
     type: string
     required: true
 
+  # security groups
+  mgmt_securitygroup_id:
+    type: string
+    description: id of the mgmt security group
+    required: true
+  voice_securitygroup_id:
+    type: string
+    description: id of the voice security group
+    required: true
+
+  # networks
   mgmt_network:
     type: string
     required: true
@@ -54,6 +65,13 @@ composition:
       target_sip_address:
         value: ${target_sip_address}
 
+      # security groups
+      mgmt_securitygroup_id:
+        value: ${mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${voice_securitygroup_id}
+
+      # networks
       mgmt_network:
         value: ${mgmt_network}
       data_network:
