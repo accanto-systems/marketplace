@@ -87,6 +87,7 @@
     state: present
     name: "mgmt_port-{{ instance_name }}"
     network: "{{ mgmt_network }}"
+    no_security_groups: True
   register: mgmt_port_result
   environment: 
     OS_AUTH_TYPE: "password"
@@ -110,6 +111,7 @@
     state: present
     name: "data_port-{{ instance_name }}"
     network: "{{ data_network }}"
+    no_security_groups: True
   register: data_port_result
   environment: 
     OS_AUTH_TYPE: "password"
@@ -138,6 +140,7 @@
     security_groups: "ippbx-{{ instance_name }}"
     flavor: m1.small
     key_name: "{{ keyname }}"
+    config_drive: true
     userdata: "{{ lookup('file','../../config/ippbx-user-data.yml') | string}}"
     nics: "port-id={{ mgmt_port_result['id'] }},port-id={{ data_port_result['id'] }}"
   register: server_result

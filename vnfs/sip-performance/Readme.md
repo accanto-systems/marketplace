@@ -53,13 +53,15 @@ Openstack lifecycle manager location variables are as follows:
 ```
 vimtype: openstack
 os_auth_url: "http://192.168.56.130/identity/v3"
-os_projectname: admin
-os_username: admin
+os_projectname: demo
+os_username: demo
 os_password: secret
 almip: 192.168.56.100
 ```
 
 Replace the above with your Openstack credentials.
+
+__Note:__ do not use the admin account, because it can see all other projects, it will cause issues choosing between multiple default security groups.
 
 ### Docker configuration
 

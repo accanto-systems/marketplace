@@ -87,6 +87,7 @@
     state: present
     name: "mgmt_port-{{ instance_name }}"
     network: "{{ mgmt_network }}"
+    no_security_groups: True
   register: mgmt_port_result
   environment: 
     OS_AUTH_TYPE: "password"
@@ -108,9 +109,10 @@
 - name: create external port
   os_port:
     state: present
-    name: "external_port-{{ instance_name }}"
+    name: "ext_port-{{ instance_name }}"
     network: "{{ external_network }}"
-  register: external_port_result
+    no_security_groups: True
+  register: ext_port_result
   environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"
@@ -126,14 +128,15 @@
     OS_VOLUME_API_VERSION: "3"   
 
 - debug:
-    var: external_port_result
+    var: ext_port_result
 
 - name: create internal port
   os_port:
     state: present
-    name: "internal_port-{{ instance_name }}"
+    name: "int_port-{{ instance_name }}"
     network: "{{ internal_network }}"
-  register: internal_port_result
+    no_security_groups: True
+  register: int_port_result
   environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"
@@ -149,7 +152,7 @@
     OS_VOLUME_API_VERSION: "3"   
 
 - debug:
-    var: internal_port_result
+    var: int_port_result
 
 - name: Start kamailio virtual machine
   os_server:
@@ -161,8 +164,12 @@
     security_groups: "gateway-{{ instance_name }}"
     flavor: m1.small
     key_name: "{{ keyname }}"
+    config_drive: true
     userdata: "{{ lookup('file','../../config/kamailio-user-data.yml') | string}}"
-    nics: "port-id={{ mgmt_port_result['id'] }},port-id={{ external_port_result['id'] }},port-id={{ internal_port_result['id'] }}"
+    nics: 
+    - port-id: "{{ mgmt_port_result['id'] }}"
+    - port-id: "{{ int_port_result['id'] }}"
+    - port-id: "{{ ext_port_result['id'] }}"
   register: server_result
   environment: 
     OS_AUTH_TYPE: "password"

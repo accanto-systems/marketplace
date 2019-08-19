@@ -10,7 +10,7 @@ properties:
   keyname:
     type: string
     description: name of the openstack keyname
-    require: true
+    required: true
   voice_service_ipaddress:
     description: the ip address of the endpoint for the voice service
     type: string

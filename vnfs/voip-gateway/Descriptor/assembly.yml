@@ -9,6 +9,10 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  keyname:
+    type: string
+    description: openstack key name
+    required: true
   mgmt_network:
     type: string
     required: true
@@ -33,15 +37,34 @@ properties:
     type: string
     read-only: true
     value: ${kamailio.internal_address}
+  # jumphost properties
+  jumphost_ip:
+    type: string
+    description: ip assigned to jumphost
+  jumphost_username:
+    type: string
+    description: jumphost username
+  jumphost_password:
+    type: string
+    description: jumphost password
 composition:
   kamailio:
     properties:
+      keyname:
+        value: ${keyname}
       mgmt_network:
         value: ${mgmt_network}
       external_network:
         value: ${external_network}
       internal_network:
         value: ${internal_network}
+      # jumphost properties
+      jumphost_ip:
+        value: ${jumphost_ip}
+      jumphost_username:
+        value: ${jumphost_username}
+      jumphost_password:
+        value: ${jumphost_password}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:

@@ -14,7 +14,7 @@ properties:
   imagename:
     type: string
     description: "the docker image name"
-    value: ip-pbx
+    value: ippbx
     
   instance_index:
     type: string
