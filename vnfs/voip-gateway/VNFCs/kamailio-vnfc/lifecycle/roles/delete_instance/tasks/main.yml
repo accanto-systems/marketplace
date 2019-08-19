@@ -8,12 +8,12 @@
 - name: remove internal port
   os_port:
     state: absent
-    name: "internal_port-{{ instance_name }}"
+    name: "int_port-{{ instance_name }}"
 
 - name: remove external port
   os_port:
     state: absent
-    name: "external_port-{{ instance_name }}"
+    name: "ext_port-{{ instance_name }}"
 
 - name: remove mgmt port
   os_port:
