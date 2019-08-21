@@ -115,11 +115,11 @@ relationships:
     lifecycle:
       Create: []
       Cease: []
-    source-state: Inactive
-    source-state-modifier: pre
-    target-state: Active
-    target-state-modifier: post
+    source-state: Installed
+    source-state-modifier: post
+    target-state: Installed
+    target-state-modifier: pre
     source-capabilities:
-    - jumphost.capability
+    - mgmt_router.capability
     target-requirements:
-    - mgmt_router.requirement
+    - jumphost.requirement
