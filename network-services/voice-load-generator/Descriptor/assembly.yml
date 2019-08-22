@@ -8,9 +8,17 @@ properties:
     type: string
     default: defaultrm
   keyname:
-    type: string
     description: openstack keypair name
+    type: string
     required: true
+    default: default
+  base_infrastructure:
+    type: string
+    default: base
+  voice_service:
+    description: target voice service for voip traffic load
+    type: string
+    default: voice
 composition:
   sipp-server:
     properties:
@@ -41,10 +49,27 @@ references:
   base:
     properties:
       name:
-        value: base
+        value: ${base_infrastructure}
     type: assembly::base::0.1
   voice_service:
     properties:
       name:
-        value: voice
+        value: ${voice_service}
     type: assembly::voice-service::1.0
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    sipp-server:
+      x: 388.6666259765625
+      y: 44
+    base:
+      x: 586
+      y: 590.6667022705078
+    voice_service:
+      x: 936.6665649414062
+      y: 264
+    assembly::voice-load-generator::1.0:
+      x: -20
+      y: 68

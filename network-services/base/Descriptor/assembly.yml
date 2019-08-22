@@ -10,9 +10,10 @@ properties:
     type: string
     default: defaultrm
   keyname:
-    type: string
     description: name of the openstack keyname
+    type: string
     required: true
+    default: default
   mgmt_networkid:
     description: network id for mgmt network
     type: read_only
@@ -46,7 +47,7 @@ composition:
       resourceManager:
         value: ${resourceManager}
     type: assembly::baseinfrastructure::0.1
-    quantity: 1    
+    quantity: 1
   mgmt_network:
     properties:
       deploymentLocation:
@@ -123,3 +124,29 @@ relationships:
     - mgmt_router.capability
     target-requirements:
     - jumphost.requirement
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    common:
+      x: 735.3333740234375
+      y: 13.333332061767578
+    mgmt_network:
+      x: 852.6666870117188
+      y: 366.6667175292969
+    mgmt_router:
+      x: 475.3333740234375
+      y: 369.33331298828125
+    voice_network:
+      x: 875.3333129882812
+      y: 740.0000610351562
+    voice_router:
+      x: 491.3333740234375
+      y: 745.3333129882812
+    jumphost:
+      x: 1151.333251953125
+      y: 354.66668701171875
+    assembly::base::0.1:
+      x: 0
+      y: 180

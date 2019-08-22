@@ -1,4 +1,4 @@
-name: .
+name: jumphost
 vnfcs:
   definitions:
     jumphost-vnfc:

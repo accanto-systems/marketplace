@@ -1,4 +1,4 @@
-name: .
+name: router
 vnfcs:
   definitions:
     router-vnfc:

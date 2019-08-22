@@ -1,62 +1,61 @@
 {
-    "name": "Scale test",
+    "lastModifiedAt": "2019-08-21T17:43:38.728Z",
     "projectId": "assembly::voice-service::1.0",
-    "description": "Test that the Voip Server cluster scales",
+    "name": "Scale test",
     "stages": [
         {
-            "name": "Scaling",
             "steps": [
                 {
                     "stepDefinitionName": "MetricDefinitions::SpecifyMetricDefinition",
                     "properties": {
-                        "metricTypeField": "type_instance",
-                        "valueField": "values",
-                        "resourceIdField": "host",
                         "metricDefinitionName": "collectd",
-                        "timestampField": "time"
+                        "resourceIdField": "host",
+                        "timestampField": "time",
+                        "metricTypeField": "type_instance",
+                        "valueField": "values"
                     }
                 },
                 {
                     "stepDefinitionName": "MetricRecording::StartRecordingMultipleMetrics",
                     "properties": {
-                        "topicName": "resource_metrics",
                         "metricDefinitionName": "collectd",
-                        "resourceId": "vs-test1__gateway__kamailio",
+                        "resourceId": "voice__gateway__kamailio",
+                        "topicName": "resource_metrics",
                         "metrics": "[{\"Metric Id\":\"current transactions\",\"Metric Name\":\"Current Transactions\"},{\"Metric Id\":\"Load\",\"Metric Name\":\"Load For Scale\"},{\"Metric Id\":\"managed_servers\",\"Metric Name\":\"Servers\"}]"
                     }
                 },
                 {
                     "stepDefinitionName": "MetricRecording::StartRecordingMultipleMetrics",
                     "properties": {
-                        "topicName": "resource_metrics",
                         "metricDefinitionName": "collectd",
-                        "resourceId": "vlg-test1__sipp-server__sipp",
+                        "resourceId": "sipp__sipp-server__sipp",
+                        "topicName": "resource_metrics",
                         "metrics": "[{\"Metric Id\":\"failed calls\",\"Metric Name\":\"Sipp Failed Calls\"},{\"Metric Id\":\"current calls\",\"Metric Name\":\"Sipp Current Calls\"},{\"Metric Id\":\"call rate\",\"Metric Name\":\"Sipp Call Rate\"},{\"Metric Id\":\"outgoing calls\",\"Metric Name\":\"Sipp Outgoing Calls\"}]"
                     }
                 },
                 {
                     "stepDefinitionName": "MetricRecording::StartRecordingMetrics",
                     "properties": {
-                        "topicName": "resource_metrics",
                         "metricDefinitionName": "collectd",
-                        "resourceId": "vs-test1__gateway__kamailio",
                         "metricName": "Load",
-                        "metricType": "current_transactions"
+                        "topicName": "resource_metrics",
+                        "metricType": "current_transactions",
+                        "resourceId": "voice__gateway__kamailio"
                     }
                 },
                 {
-                    "stepDefinitionName": "IntentEngine::UpgradeAssembly",
+                    "stepDefinitionName": "IntentEngine::CreateAssembly",
                     "properties": {
-                        "descriptorName": "assembly::sip-traffic-manager::1.0",
-                        "properties": "[{\"Key\":\"calls\",\"Value\":\"12\"}]",
-                        "assemblyName": "vs-test-traffic-manager"
+                        "assemblyName": "sipp2",
+                        "initialState": "Active",
+                        "descriptorName": "assembly::voice-load-generator::1.0"
                     }
                 },
                 {
                     "stepDefinitionName": "AssemblyEvents::SuccessfulProcess",
                     "properties": {
                         "processType": "Scale Out Assembly",
-                        "assemblyName": "vs-test1"
+                        "assemblyName": "voice"
                     }
                 },
                 {
@@ -67,18 +66,16 @@
                     }
                 },
                 {
-                    "stepDefinitionName": "IntentEngine::UpgradeAssembly",
+                    "stepDefinitionName": "IntentEngine::UninstallAssembly",
                     "properties": {
-                        "descriptorName": "assembly::sip-traffic-manager::1.0",
-                        "properties": "[{\"Key\":\"calls\",\"Value\":\"8\"}]",
-                        "assemblyName": "vs-test-traffic-manager"
+                        "assemblyName": "sipp2"
                     }
                 },
                 {
                     "stepDefinitionName": "AssemblyEvents::SuccessfulProcess",
                     "properties": {
                         "processType": "Scale In Assembly",
-                        "assemblyName": "vs-test1"
+                        "assemblyName": "voice"
                     }
                 },
                 {
@@ -108,43 +105,30 @@
                 {
                     "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue",
                     "properties": {
-                        "value": "0",
-                        "metricName": "Sipp Failed Calls"
+                        "metricName": "Sipp Failed Calls",
+                        "value": "0"
                     }
                 }
-            ]
+            ],
+            "name": "Scaling"
         }
     ],
     "assemblyActors": [
         {
-            "instanceName": "von-test",
-            "initialState": "Active",
-            "uninstallOnExit": true,
             "provided": false,
-            "assemblyConfigurationRef": "von-test"
+            "initialState": "Active",
+            "uninstallOnExit": false,
+            "instanceName": "voice",
+            "assemblyConfigurationRef": "voice"
         },
         {
-            "instanceName": "vs-test1",
-            "initialState": "Active",
-            "uninstallOnExit": true,
             "provided": false,
-            "assemblyConfigurationRef": "vs-test"
-        },
-        {
-            "instanceName": "vlg-test1",
             "initialState": "Active",
-            "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "vlg-test"
-        },
-        {
-            "instanceName": "vs-test-traffic-manager",
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "vs-test-traffic-manager"
+            "uninstallOnExit": false,
+            "instanceName": "sipp",
+            "assemblyConfigurationRef": "sipp"
         }
     ],
-    "createdAt": "2019-03-20T10:03:18.854Z",
-    "lastModifiedAt": "2019-04-03T15:11:20.848Z"
+    "description": "Test that the Voip Server cluster scales",
+    "createdAt": "2019-03-20T10:03:18.854Z"
 }

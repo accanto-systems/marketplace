@@ -8,8 +8,8 @@ properties:
     type: string
     default: defaultrm
   keyname:
-    type: string
     description: name of the openstack keyname
+    type: string
     required: true
   voice_service_ipaddress:
     description: the ip address of the endpoint for the voice service
@@ -49,10 +49,10 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-      keyname:
-        value: ${keyname}
       gw_address:
         value: ${gateway.internal_address}
+      keyname:
+        value: ${keyname}
       mgmt_securitygroup_id:
         value: ${base.mgmt_securitygroup_id}
       voice_securitygroup_id:
@@ -82,7 +82,7 @@ composition:
       resourceManager:
         value: ${resourceManager}
       subnet:
-        value: "10.0.0.0/24"
+        value: 10.0.0.0/24
     type: assembly::network::1.0
 references:
   base:
@@ -122,3 +122,23 @@ policies:
     type: policy::scale
     metric: gateway.h_load
     target: voip-server
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    gateway:
+      x: 650
+      y: 40
+    voip-server:
+      x: 944.6666870117188
+      y: 177.33334350585938
+    internal:
+      x: 490
+      y: 400
+    base:
+      x: 290
+      y: 580
+    assembly::voice-service::1.0:
+      x: 0
+      y: 180

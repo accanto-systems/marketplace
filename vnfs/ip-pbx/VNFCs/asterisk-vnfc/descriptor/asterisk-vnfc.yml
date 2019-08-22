@@ -13,7 +13,7 @@ properties:
      required: true
   imagename:
     type: string
-    description: "the docker image name"
+    description: "the image name"
     value: ippbx
     
   instance_index:

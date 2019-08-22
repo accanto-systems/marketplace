@@ -1,18 +1,17 @@
 {
-    "name": "Activate Service",
+    "lastModifiedAt": "2019-08-21T17:12:36.252Z",
     "projectId": "assembly::voice-service::1.0",
-    "description": "Activate the test service",
+    "name": "Activate Service",
     "stages": [
         {
-            "name": "Default Stage",
             "steps": [
                 {
                     "stepDefinitionName": "MetricRecording::StartRecordingInternalIntegrityMetrics",
                     "properties": {
                         "topicName": "alm__integrity",
-                        "metricType": "h_integrity",
                         "metricName": "Health",
-                        "resourceName": "vs-test1__voip-server__1__asterisk"
+                        "resourceName": "voice__voip-server__1__asterisk",
+                        "metricType": "h_integrity"
                     }
                 },
                 {
@@ -31,29 +30,30 @@
                 {
                     "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue",
                     "properties": {
-                        "value": "1",
-                        "metricName": "Heath"
+                        "metricName": "Heath",
+                        "value": "1"
                     }
                 }
-            ]
+            ],
+            "name": "Default Stage"
         }
     ],
     "assemblyActors": [
         {
-            "instanceName": "von-test",
+            "provided": false,
             "initialState": "Active",
             "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "von-test"
+            "instanceName": "von-test",
+            "assemblyConfigurationRef": "fa65a647-08d0-4e8c-92aa-73cf12edcb45"
         },
         {
-            "instanceName": "vs-test1",
-            "initialState": "Active",
-            "uninstallOnExit": true,
             "provided": false,
-            "assemblyConfigurationRef": "vs-test"
+            "initialState": "Active",
+            "uninstallOnExit": false,
+            "instanceName": "voice",
+            "assemblyConfigurationRef": "voice"
         }
     ],
-    "createdAt": "2019-03-20T10:03:17.806Z",
-    "lastModifiedAt": "2019-04-03T15:11:20.774Z"
+    "description": "Activate the test service",
+    "createdAt": "2019-03-20T10:03:17.806Z"
 }

@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "keyname": "default"
+    },
+    "lastModifiedAt": "2019-08-21T17:15:37.653Z",
+    "projectId": "assembly::voice-service::1.0",
+    "name": "sipp",
+    "descriptorName": "assembly::voice-load-generator::1.0",
+    "description": null,
+    "createdAt": "2019-08-21T17:15:37.653Z"
+}

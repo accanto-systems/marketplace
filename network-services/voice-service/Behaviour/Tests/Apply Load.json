@@ -1,31 +1,30 @@
 {
-    "name": "Apply Load",
+    "lastModifiedAt": "2019-08-21T17:22:03.567Z",
     "projectId": "assembly::voice-service::1.0",
-    "description": "Generate Traffic",
+    "name": "Apply Load",
     "stages": [
         {
-            "name": "Default Stage",
             "steps": [
                 {
                     "stepDefinitionName": "MetricDefinitions::SpecifyMetricDefinitionAsTable",
                     "properties": {
-                        "metricDefinition": "[{\"Parameter\":\"resourceIdField\",\"Description\":\"the metric field which holds the resourceId\",\"Value\":\"host\"},{\"Parameter\":\"timestampField\",\"Description\":\"the metric field which holds the timestamp\",\"Value\":\"time\"},{\"Parameter\":\"metricTypeField\",\"Description\":\"the metric field which holds the type\",\"Value\":\"type_instance\"},{\"Parameter\":\"valueField\",\"Description\":\"the metric field which holds the value\",\"Value\":\"values\"}]",
-                        "metricDefinitionName": "collectd"
+                        "metricDefinitionName": "collectd",
+                        "metricDefinition": "[{\"Parameter\":\"resourceIdField\",\"Description\":\"the metric field which holds the resourceId\",\"Value\":\"host\"},{\"Parameter\":\"timestampField\",\"Description\":\"the metric field which holds the timestamp\",\"Value\":\"time\"},{\"Parameter\":\"metricTypeField\",\"Description\":\"the metric field which holds the type\",\"Value\":\"type_instance\"},{\"Parameter\":\"valueField\",\"Description\":\"the metric field which holds the value\",\"Value\":\"values\"}]"
                     }
                 }
-            ]
+            ],
+            "name": "Define Metrics"
         },
         {
-            "name": "Stage",
             "steps": [
                 {
                     "stepDefinitionName": "MetricRecording::StartRecordingMetrics",
                     "properties": {
+                        "metricDefinitionName": "collectd",
+                        "metricName": "Load",
                         "topicName": "resource_metrics",
                         "metricType": "Load",
-                        "resourceId": "vs-test1__gateway__kamailio",
-                        "metricDefinitionName": "collectd",
-                        "metricName": "Load"
+                        "resourceId": "voice__gateway__kamailio"
                     }
                 },
                 {
@@ -48,32 +47,33 @@
                         "thresholdValue": "20"
                     }
                 }
-            ]
+            ],
+            "name": "Record Metrics"
         }
     ],
     "assemblyActors": [
         {
-            "instanceName": "von-test",
+            "provided": false,
             "initialState": "Active",
             "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "von-test"
+            "instanceName": "voice",
+            "assemblyConfigurationRef": "voice"
         },
         {
-            "instanceName": "vs-test1",
+            "provided": false,
             "initialState": "Active",
             "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "vs-test"
+            "instanceName": "sipp",
+            "assemblyConfigurationRef": "sipp"
         },
         {
+            "provided": false,
+            "initialState": "Active",
+            "uninstallOnExit": true,
             "instanceName": "vlg-test1",
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "vlg-test"
+            "assemblyConfigurationRef": "5d5dd07b-f359-4d5e-bbf1-656d6e8f3960"
         }
     ],
-    "createdAt": "2019-03-20T10:03:18.255Z",
-    "lastModifiedAt": "2019-04-03T15:16:19.332Z"
+    "description": "Generate Traffic",
+    "createdAt": "2019-03-20T10:03:18.255Z"
 }
