@@ -1,20 +1,20 @@
 cd vnfs/network
-lmctl project push dev
+lmctl project $1 $2
 cd ../baseinfrastructure
-lmctl project push dev
+lmctl project $1 $2
 cd ../router
-lmctl project push dev
+lmctl project $1 $2
 cd ../jumphost
-lmctl project push dev
+lmctl project $1 $2
 cd ../ip-pbx
-lmctl project push dev
+lmctl project $1 $2
 cd ../voip-gateway
-lmctl project push dev
+lmctl project $1 $2
 cd ../sip-performance
-lmctl project push dev
+lmctl project $1 $2
 cd ../../network-services/base
-lmctl project push dev
+lmctl project $1 $2
 cd ../voice-service
-lmctl project push dev
+lmctl project $1 $2
 cd ../voice-load-generator
-lmctl project push dev
+lmctl project $1 $2

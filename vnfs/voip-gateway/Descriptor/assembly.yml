@@ -13,8 +13,6 @@ properties:
     type: string
     description: openstack key name
     required: true
-
-  # security groups
   mgmt_securitygroup_id:
     type: string
     description: id of the mgmt security group
@@ -23,7 +21,6 @@ properties:
     type: string
     description: id of the voice security group
     required: true
-
   mgmt_network:
     type: string
     required: true
@@ -48,7 +45,6 @@ properties:
     type: string
     read-only: true
     value: ${kamailio.internal_address}
-  # jumphost properties
   jumphost_ip:
     type: string
     description: ip assigned to jumphost
@@ -73,7 +69,6 @@ composition:
         value: ${external_network}
       internal_network:
         value: ${internal_network}
-      # jumphost properties
       jumphost_ip:
         value: ${jumphost_ip}
       jumphost_username:

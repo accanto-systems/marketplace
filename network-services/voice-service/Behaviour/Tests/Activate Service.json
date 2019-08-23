@@ -1,59 +1,59 @@
 {
-    "lastModifiedAt": "2019-08-21T17:12:36.252Z",
-    "projectId": "assembly::voice-service::1.0",
+    "createdAt": "2019-08-22T16:04:19.947Z",
+    "description": "Activate the test service",
+    "assemblyActors": [
+        {
+            "initialState": "Active",
+            "assemblyConfigurationRef": "fa65a647-08d0-4e8c-92aa-73cf12edcb45",
+            "provided": false,
+            "uninstallOnExit": true,
+            "instanceName": "von-test"
+        },
+        {
+            "initialState": "Active",
+            "assemblyConfigurationRef": "voice",
+            "provided": false,
+            "uninstallOnExit": false,
+            "instanceName": "voice"
+        }
+    ],
     "name": "Activate Service",
+    "projectId": "assembly::voice-service::1.0",
     "stages": [
         {
+            "name": "Default Stage",
             "steps": [
                 {
-                    "stepDefinitionName": "MetricRecording::StartRecordingInternalIntegrityMetrics",
                     "properties": {
-                        "topicName": "alm__integrity",
                         "metricName": "Health",
                         "resourceName": "voice__voip-server__1__asterisk",
-                        "metricType": "h_integrity"
-                    }
+                        "metricType": "h_integrity",
+                        "topicName": "alm__integrity"
+                    },
+                    "stepDefinitionName": "MetricRecording::StartRecordingInternalIntegrityMetrics"
                 },
                 {
-                    "stepDefinitionName": "Utilities::SleepForTime",
                     "properties": {
                         "sleepTime": "1",
                         "timeUnit": "minutes"
-                    }
+                    },
+                    "stepDefinitionName": "Utilities::SleepForTime"
                 },
                 {
-                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
                     "properties": {
                         "metricName": "Health"
-                    }
+                    },
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics"
                 },
                 {
-                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue",
                     "properties": {
                         "metricName": "Heath",
                         "value": "1"
-                    }
+                    },
+                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue"
                 }
-            ],
-            "name": "Default Stage"
+            ]
         }
     ],
-    "assemblyActors": [
-        {
-            "provided": false,
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "instanceName": "von-test",
-            "assemblyConfigurationRef": "fa65a647-08d0-4e8c-92aa-73cf12edcb45"
-        },
-        {
-            "provided": false,
-            "initialState": "Active",
-            "uninstallOnExit": false,
-            "instanceName": "voice",
-            "assemblyConfigurationRef": "voice"
-        }
-    ],
-    "description": "Activate the test service",
-    "createdAt": "2019-03-20T10:03:17.806Z"
+    "lastModifiedAt": "2019-08-22T16:04:19.947Z"
 }

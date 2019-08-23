@@ -4,18 +4,25 @@ properties:
   deploymentLocation:
     type: string
     default: devstack
+    required: true
   resourceManager:
     type: string
     default: defaultrm
+    required: true
   keyname:
     description: name of the openstack keyname
     type: string
     required: true
+    default: default
   voice_service_ipaddress:
     description: the ip address of the endpoint for the voice service
     type: string
     read-only: true
     value: ${gateway.external_address}
+  base_infrastructure:
+    type: string
+    default: base
+    required: true
 composition:
   gateway:
     properties:
@@ -88,7 +95,7 @@ references:
   base:
     properties:
       name:
-        value: base
+        value: ${base_infrastructure}
     type: assembly::base::0.1
 relationships:
   manageDispatchList:
@@ -137,8 +144,8 @@ designerLayout:
       x: 490
       y: 400
     base:
-      x: 290
-      y: 580
+      x: 531.3333740234375
+      y: 672
     assembly::voice-service::1.0:
-      x: 0
-      y: 180
+      x: -10.66668701171875
+      y: -38.66667938232422

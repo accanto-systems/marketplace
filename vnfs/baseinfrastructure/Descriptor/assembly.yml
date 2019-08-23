@@ -1,6 +1,5 @@
 name: assembly::baseinfrastructure::0.1
 description: common openstack infrastructure shared among VNFs
-
 properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy

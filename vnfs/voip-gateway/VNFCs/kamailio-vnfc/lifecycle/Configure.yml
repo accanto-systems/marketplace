@@ -8,8 +8,7 @@
 - name: Start Lifecycle Transition
   hosts: "{{ instance_name }}"
   gather_facts: False
-  become: true
-
+  become: true 
   tasks:
 
   - name: write kamailio  config file

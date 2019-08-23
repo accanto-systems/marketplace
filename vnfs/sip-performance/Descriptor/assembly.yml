@@ -13,13 +13,10 @@ properties:
     type: string
     description: name of the openstack keyname
     require: true
-
   target_sip_address:
     description: name of sip-server component to send traffic to
     type: string
     required: true
-
-  # security groups
   mgmt_securitygroup_id:
     type: string
     description: id of the mgmt security group
@@ -28,8 +25,6 @@ properties:
     type: string
     description: id of the voice security group
     required: true
-
-  # networks
   mgmt_network:
     type: string
     required: true
@@ -44,8 +39,6 @@ properties:
     description: assigned ip address on voip network. This is the voip endpoint
     type: string
     value: ${sipp.data_address}
-
-  # jumphost properties
   jumphost_ip:
     type: string
     description: ip assigned to jumphost
@@ -55,29 +48,21 @@ properties:
   jumphost_password:
     type: string
     description: jumphost password
-
 composition:
   sipp:
     properties:
       keyname:
         value: ${keyname}
-
       target_sip_address:
         value: ${target_sip_address}
-
-      # security groups
       mgmt_securitygroup_id:
         value: ${mgmt_securitygroup_id}
       voice_securitygroup_id:
         value: ${voice_securitygroup_id}
-
-      # networks
       mgmt_network:
         value: ${mgmt_network}
       data_network:
         value: ${data_network}
-
-      # jumphost properties
       jumphost_ip:
         value: ${jumphost_ip}
       jumphost_username:

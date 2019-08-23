@@ -4,11 +4,9 @@ properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
     type: string
-    default: local
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string
-    default: defaultrm
   router_name:
     description: name of the network
     type: string
@@ -40,3 +38,14 @@ composition:
         value: ${resourceManager}
     type: resource::router-vnfc::0.1
     quantity: 1
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    router:
+      x: 650
+      y: 40
+    assembly::neutron-router::0.1:
+      x: 0
+      y: 180

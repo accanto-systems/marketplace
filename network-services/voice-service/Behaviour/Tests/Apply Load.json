@@ -1,79 +1,79 @@
 {
-    "lastModifiedAt": "2019-08-21T17:22:03.567Z",
-    "projectId": "assembly::voice-service::1.0",
+    "createdAt": "2019-08-22T16:04:20.026Z",
+    "description": "Generate Traffic",
+    "assemblyActors": [
+        {
+            "initialState": "Active",
+            "assemblyConfigurationRef": "voice",
+            "provided": false,
+            "uninstallOnExit": true,
+            "instanceName": "voice"
+        },
+        {
+            "initialState": "Active",
+            "assemblyConfigurationRef": "sipp",
+            "provided": false,
+            "uninstallOnExit": true,
+            "instanceName": "sipp"
+        },
+        {
+            "initialState": "Active",
+            "assemblyConfigurationRef": "5d5dd07b-f359-4d5e-bbf1-656d6e8f3960",
+            "provided": false,
+            "uninstallOnExit": true,
+            "instanceName": "vlg-test1"
+        }
+    ],
     "name": "Apply Load",
+    "projectId": "assembly::voice-service::1.0",
     "stages": [
         {
+            "name": "Define Metrics",
             "steps": [
                 {
-                    "stepDefinitionName": "MetricDefinitions::SpecifyMetricDefinitionAsTable",
                     "properties": {
                         "metricDefinitionName": "collectd",
                         "metricDefinition": "[{\"Parameter\":\"resourceIdField\",\"Description\":\"the metric field which holds the resourceId\",\"Value\":\"host\"},{\"Parameter\":\"timestampField\",\"Description\":\"the metric field which holds the timestamp\",\"Value\":\"time\"},{\"Parameter\":\"metricTypeField\",\"Description\":\"the metric field which holds the type\",\"Value\":\"type_instance\"},{\"Parameter\":\"valueField\",\"Description\":\"the metric field which holds the value\",\"Value\":\"values\"}]"
-                    }
+                    },
+                    "stepDefinitionName": "MetricDefinitions::SpecifyMetricDefinitionAsTable"
                 }
-            ],
-            "name": "Define Metrics"
+            ]
         },
         {
+            "name": "Record Metrics",
             "steps": [
                 {
-                    "stepDefinitionName": "MetricRecording::StartRecordingMetrics",
                     "properties": {
-                        "metricDefinitionName": "collectd",
                         "metricName": "Load",
+                        "metricDefinitionName": "collectd",
                         "topicName": "resource_metrics",
-                        "metricType": "Load",
-                        "resourceId": "voice__gateway__kamailio"
-                    }
+                        "resourceId": "voice__gateway__kamailio",
+                        "metricType": "Load"
+                    },
+                    "stepDefinitionName": "MetricRecording::StartRecordingMetrics"
                 },
                 {
-                    "stepDefinitionName": "Utilities::SleepForTime",
                     "properties": {
                         "sleepTime": "3",
                         "timeUnit": "minutes"
-                    }
+                    },
+                    "stepDefinitionName": "Utilities::SleepForTime"
                 },
                 {
-                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
                     "properties": {
                         "metricName": "Load"
-                    }
+                    },
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics"
                 },
                 {
-                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysOverThreshold",
                     "properties": {
                         "metricName": "Load",
                         "thresholdValue": "20"
-                    }
+                    },
+                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysOverThreshold"
                 }
-            ],
-            "name": "Record Metrics"
+            ]
         }
     ],
-    "assemblyActors": [
-        {
-            "provided": false,
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "instanceName": "voice",
-            "assemblyConfigurationRef": "voice"
-        },
-        {
-            "provided": false,
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "instanceName": "sipp",
-            "assemblyConfigurationRef": "sipp"
-        },
-        {
-            "provided": false,
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "instanceName": "vlg-test1",
-            "assemblyConfigurationRef": "5d5dd07b-f359-4d5e-bbf1-656d6e8f3960"
-        }
-    ],
-    "description": "Generate Traffic",
-    "createdAt": "2019-03-20T10:03:18.255Z"
+    "lastModifiedAt": "2019-08-22T16:04:20.026Z"
 }

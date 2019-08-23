@@ -1,15 +1,12 @@
 name: assembly::jumphost::0.1
-description: basic ssh jumphost 
-
+description: basic ssh jumphost
 properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
     type: string
-    default: local
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string
-    default: defaultrm
   networkid:
     type: string
     descripion: network id to attach jumphost to
@@ -19,32 +16,25 @@ properties:
     descripion: keyname for jumphost virtual machine
     required: true
   jumphost_id:
-    type: string
     description: id of the created jumphos
+    type: string
     value: ${jumphost.jumphost_id}
   jumphost_ip:
-    type: string
     description: floating ip assigned to this jumphost
+    type: string
     value: ${jumphost.jumphost_ip}
   jumphost_username:
-    type: string
     description: jumphost username
+    type: string
     value: ubuntu
   jumphost_password:
-    type: string
     description: jumphost password
+    type: string
     value: ubuntu
-
 composition:
   jumphost:
-    type: resource::jumphost-vnfc::0.1
-    quantity: 1
     properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      jumphostname:   
+      jumphostname:
         value: ${instance.name}
       networkid:
         value: ${networkid}
@@ -54,3 +44,20 @@ composition:
         value: ${jumphost_username}
       jumphost_password:
         value: ${jumphost_password}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::jumphost-vnfc::0.1
+    quantity: 1
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    jumphost:
+      x: 650
+      y: 40
+    assembly::jumphost::0.1:
+      x: 0
+      y: 180
