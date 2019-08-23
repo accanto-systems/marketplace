@@ -44,7 +44,7 @@
     port: 22
     host: "{{ server_result['server']['public_v4'] }}"
     delay: 10
-    timeout: 60
+    timeout: 120
 
 - name: report PROPERTIES
   debug:

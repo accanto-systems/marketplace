@@ -45,7 +45,7 @@
   wait_for:
     port: 22
     host: "{{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
-    timeout: 60
+    timeout: 120
 
 - name: report PROPERTIES
   debug:
