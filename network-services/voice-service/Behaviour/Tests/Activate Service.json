@@ -1,59 +1,59 @@
 {
-    "createdAt": "2019-08-22T16:04:19.947Z",
-    "description": "Activate the test service",
     "assemblyActors": [
         {
-            "initialState": "Active",
             "assemblyConfigurationRef": "fa65a647-08d0-4e8c-92aa-73cf12edcb45",
             "provided": false,
             "uninstallOnExit": true,
+            "initialState": "Active",
             "instanceName": "von-test"
         },
         {
-            "initialState": "Active",
             "assemblyConfigurationRef": "voice",
             "provided": false,
             "uninstallOnExit": false,
+            "initialState": "Active",
             "instanceName": "voice"
         }
     ],
-    "name": "Activate Service",
+    "description": "Activate the test service",
     "projectId": "assembly::voice-service::1.0",
+    "lastModifiedAt": "2019-08-23T11:24:20.493Z",
+    "name": "Activate Service",
     "stages": [
         {
             "name": "Default Stage",
             "steps": [
                 {
+                    "stepDefinitionName": "MetricRecording::StartRecordingInternalIntegrityMetrics",
                     "properties": {
-                        "metricName": "Health",
-                        "resourceName": "voice__voip-server__1__asterisk",
                         "metricType": "h_integrity",
-                        "topicName": "alm__integrity"
-                    },
-                    "stepDefinitionName": "MetricRecording::StartRecordingInternalIntegrityMetrics"
+                        "topicName": "alm__integrity",
+                        "resourceName": "voice__voip-server__1__asterisk",
+                        "metricName": "Health"
+                    }
                 },
                 {
+                    "stepDefinitionName": "Utilities::SleepForTime",
                     "properties": {
-                        "sleepTime": "1",
-                        "timeUnit": "minutes"
-                    },
-                    "stepDefinitionName": "Utilities::SleepForTime"
+                        "timeUnit": "minutes",
+                        "sleepTime": "1"
+                    }
                 },
                 {
+                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics",
                     "properties": {
                         "metricName": "Health"
-                    },
-                    "stepDefinitionName": "MetricRecording::StopRecordingMetrics"
+                    }
                 },
                 {
+                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue",
                     "properties": {
-                        "metricName": "Heath",
-                        "value": "1"
-                    },
-                    "stepDefinitionName": "MetricAssertions::ValidateMetricAlwaysEqualValue"
+                        "value": "1",
+                        "metricName": "Heath"
+                    }
                 }
             ]
         }
     ],
-    "lastModifiedAt": "2019-08-22T16:04:19.947Z"
+    "createdAt": "2019-08-22T16:04:19.947Z"
 }
