@@ -42,7 +42,7 @@ pipeline{
             steps{
                 sh "echo run Behaviour Tests"
                 sh "lmctl project test  ${TEST_ENV}"
-                /*sh "lmctl project test --tests 'Activate Service' ${TEST_ENV}"*/
+                /* sh "lmctl project test --tests 'Activate Service' ${TEST_ENV}" */
                 /* sh "lmctl project test --tests 'Scale test' ${TEST_ENV}" */
             }
         }
