@@ -1,0 +1,3 @@
+types:
+  - infrastructure_type: Openstack
+    vnfc_type: ansible
