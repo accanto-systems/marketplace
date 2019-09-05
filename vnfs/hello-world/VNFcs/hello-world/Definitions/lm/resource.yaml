@@ -22,11 +22,11 @@ properties:
     default: lm
 
 lifecycle:
-- CreateInfrastructure
+- Create
 - Install
 - Configure
 - Start
 - Integrity
 - Stop
 - Uninstall
-- DeleteInfrastructure
+- Delete
