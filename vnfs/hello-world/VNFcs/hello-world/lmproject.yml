@@ -1,0 +1,5 @@
+schema: '2.0' ## lmproject schema version
+name: helloworld ## name of your project
+version: '1.0' ## version of your project
+type: Resource ## type of project (Resource or Assembly)
+resource-manager: lm ## chosen rm type

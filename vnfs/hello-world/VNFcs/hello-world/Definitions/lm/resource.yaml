@@ -1,0 +1,32 @@
+name: resource::helloworld::1.0
+description: test resource
+properties:
+  key_name:
+    type: string
+    default: helloworld
+  image:
+    type: string
+    default: xenial-server-cloudimg-amd64-disk1
+  hello_world_private_ip:
+    description: The private IP address of the hello_world_server
+    type: string
+    read-only: true
+  ansible_ssh_user:
+    type: string
+    default: lm
+  ansible_ssh_pass:
+    type: string
+    default: lm
+  ansible_become_pass:
+    type: string
+    default: lm
+
+lifecycle:
+- Create
+- Install
+- Configure
+- Start
+- Integrity
+- Stop
+- Uninstall
+- Delete
