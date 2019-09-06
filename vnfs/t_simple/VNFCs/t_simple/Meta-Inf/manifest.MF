@@ -1,0 +1,3 @@
+version: '1.0'
+resource-manager: ansible
+name: t_simple

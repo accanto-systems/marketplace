@@ -1,0 +1,10 @@
+---  
+- name: Uninstall Lifecycle Operation
+  hosts: localhost
+  gather_facts: False
+  tasks:  
+    - name:  Lifecycle Operation
+      debug:
+        msg:
+          "DEBUG: Uninstall Lifecycle Operation"
+
