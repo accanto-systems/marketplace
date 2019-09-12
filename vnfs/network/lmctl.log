@@ -1,0 +1,50 @@
+2019-09-12 13:51:39,680 - lmctl.cli.ctlmgmt - ERROR - No ARM named 'defaultrm' on this group: dev
+Traceback (most recent call last):
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 46, in create_arm_session
+    arm_env = env_group.arm_named(arm_name)
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/environment/group.py", line 44, in arm_named
+    raise EnvironmentRuntimeError('No ARM named \'{0}\' on this group: {1}'.format(arm_name, self.name))
+lmctl.environment.common.EnvironmentRuntimeError: No ARM named 'defaultrm' on this group: dev
+2019-09-12 13:51:39,680 - lmctl.cli.ctlmgmt - ERROR - No ARM named 'defaultrm' on this group: dev
+Traceback (most recent call last):
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 46, in create_arm_session
+    arm_env = env_group.arm_named(arm_name)
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/environment/group.py", line 44, in arm_named
+    raise EnvironmentRuntimeError('No ARM named \'{0}\' on this group: {1}'.format(arm_name, self.name))
+lmctl.environment.common.EnvironmentRuntimeError: No ARM named 'defaultrm' on this group: dev
+2019-09-12 13:52:27,407 - lmctl.cli.ctlmgmt - ERROR - No ARM named 'defaultrm' on this group: dev
+Traceback (most recent call last):
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 46, in create_arm_session
+    arm_env = env_group.arm_named(arm_name)
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/environment/group.py", line 44, in arm_named
+    raise EnvironmentRuntimeError('No ARM named \'{0}\' on this group: {1}'.format(arm_name, self.name))
+lmctl.environment.common.EnvironmentRuntimeError: No ARM named 'defaultrm' on this group: dev
+2019-09-12 13:52:27,407 - lmctl.cli.ctlmgmt - ERROR - No ARM named 'defaultrm' on this group: dev
+Traceback (most recent call last):
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 46, in create_arm_session
+    arm_env = env_group.arm_named(arm_name)
+  File "/home/accanto/lmctl/venv/lib/python3.6/site-packages/lmctl/environment/group.py", line 44, in arm_named
+    raise EnvironmentRuntimeError('No ARM named \'{0}\' on this group: {1}'.format(arm_name, self.name))
+lmctl.environment.common.EnvironmentRuntimeError: No ARM named 'defaultrm' on this group: dev
+2019-09-12 13:53:46,788 - lmctl.cli.ctlmgmt - ERROR - Config environment variable LMCONFIG is not set
+Traceback (most recent call last):
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 16, in get_environment_group
+    ctl = get_ctl(config_path)
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 12, in get_ctl
+    return ctl_config.get_ctl(config_path)
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/ctl/config.py", line 179, in get_ctl
+    config_path = CtlConfigFinder(config_path, 'LMCONFIG').find()
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/ctl/config.py", line 155, in find
+    raise ConfigError('Config environment variable {0} is not set'.format(self.potential_env_var))
+lmctl.ctl.common.ConfigError: Config environment variable LMCONFIG is not set
+2019-09-12 13:53:46,788 - lmctl.cli.ctlmgmt - ERROR - Config environment variable LMCONFIG is not set
+Traceback (most recent call last):
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 16, in get_environment_group
+    ctl = get_ctl(config_path)
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/cli/ctlmgmt.py", line 12, in get_ctl
+    return ctl_config.get_ctl(config_path)
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/ctl/config.py", line 179, in get_ctl
+    config_path = CtlConfigFinder(config_path, 'LMCONFIG').find()
+  File "/home/accanto/.local/lib/python3.6/site-packages/lmctl/ctl/config.py", line 155, in find
+    raise ConfigError('Config environment variable {0} is not set'.format(self.potential_env_var))
+lmctl.ctl.common.ConfigError: Config environment variable LMCONFIG is not set

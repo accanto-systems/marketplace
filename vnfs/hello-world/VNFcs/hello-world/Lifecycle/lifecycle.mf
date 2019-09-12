@@ -1,3 +1,0 @@
-types:
-  - infrastructure_type: Openstack
-    lifecycle_type: ansible

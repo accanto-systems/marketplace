@@ -1,10 +1,9 @@
+## Lmctl has updated this file with the latest schema changes. A backup of your existing project file has been placed in the same directory with a .bak extension
+schema: '2.0'
 name: network
-vnfcs:
-  definitions:
-    network-vnfc:
-      directory: network-vnfc
-  packages:
-    ansible-rm-vnfcs:
-      packaging-type: ansible-rm
-      executions:
-      - vnfc: network-vnfc
+version: '1.0'
+contains:
+- name: network-vnfc
+  type: Resource
+  directory: network-vnfc
+  resource-manager: ansible-rm

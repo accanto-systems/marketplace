@@ -1,8 +1,0 @@
-templates:
-  - file: helloworld.yaml
-    infrastructure_type: Openstack
-  - file: helloworld-k8s.yaml
-    infrastructure_type: k8s
-discover:
-  - file: findnetwork.yaml
-    infrastructure_type: Openstack

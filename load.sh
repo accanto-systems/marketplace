@@ -2,10 +2,6 @@ cd vnfs/network
 lmctl project $1 $2
 cd ../baseinfrastructure
 lmctl project $1 $2
-cd ../router
-lmctl project $1 $2
-cd ../jumphost
-lmctl project $1 $2
 cd ../ip-pbx
 lmctl project $1 $2
 cd ../voip-gateway

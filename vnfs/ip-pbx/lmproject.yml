@@ -1,10 +1,9 @@
+## Lmctl has updated this file with the latest schema changes. A backup of your existing project file has been placed in the same directory with a .bak extension
+schema: '2.0'
 name: ip-pbx
-vnfcs:
-  definitions:
-    asterisk-vnfc:
-      directory: asterisk-vnfc
-  packages:
-    ansible-rm-vnfcs:
-      packaging-type: ansible-rm
-      executions:
-      - vnfc: asterisk-vnfc
+version: '1.0'
+contains:
+- name: asterisk-vnfc
+  type: Resource
+  directory: asterisk-vnfc
+  resource-manager: ansible-rm

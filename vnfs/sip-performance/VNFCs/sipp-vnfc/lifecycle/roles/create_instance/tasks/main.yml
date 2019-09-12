@@ -41,7 +41,6 @@
     var: server_result
 
 - name: check ssh is working on ip pbx vm before proceeding
-  delegate_to: jumphost
   wait_for:
     port: 22
     host: "{{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"

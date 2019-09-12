@@ -50,15 +50,6 @@ properties:
     type: string
     read-only: true
     value: ${asterisk.data_address}
-  jumphost_ip:
-    type: string
-    description: ip assigned to jumphost
-  jumphost_username:
-    type: string
-    description: jumphost username
-  jumphost_password:
-    type: string
-    description: jumphost password
 composition:
   asterisk:
     properties:
@@ -82,12 +73,6 @@ composition:
         value: 3
       publication_period:
         value: 60
-      jumphost_ip:
-        value: ${jumphost_ip}
-      jumphost_username:
-        value: ${jumphost_username}
-      jumphost_password:
-        value: ${jumphost_password}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:

@@ -1,0 +1,4 @@
+name: voice-load-generator
+vnfcs:
+  definitions: {}
+  packages: {}

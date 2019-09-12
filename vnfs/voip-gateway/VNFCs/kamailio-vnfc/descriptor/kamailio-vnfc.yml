@@ -45,16 +45,7 @@ properties:
     type: string
     description: assigned ip address on backend network. 
     read-only: true
-  # jumphost properties
-  jumphost_ip:
-    type: string
-    description: ip assigned to jumphost
-  jumphost_username:
-    type: string
-    description: jumphost username
-  jumphost_password:
-    type: string
-    description: jumphost password
+
 lifecycle:
 - Install
 - Configure

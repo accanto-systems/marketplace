@@ -36,18 +36,6 @@ properties:
     type: read_only
     read-only: true
     value: ${common.voice_securitygroup_id}
-  jumphost_ip:
-    type: string
-    read-only: true
-    value: ${jumphost.jumphost_ip}
-  jumphost_username:
-    type: string
-    read-only: true
-    value: ${jumphost.jumphost_username}
-  jumphost_password:
-    type: string
-    read-only: true
-    value: ${jumphost.jumphost_password}
 composition:
   common:
     properties:
@@ -64,22 +52,16 @@ composition:
       resourceManager:
         value: ${resourceManager}
       subnet:
-        value: 10.20.1.0/24
+        value: 10.30.0.0/24
+      provider_network: 
+        value: True
+      provider_network_type: 
+        value: vlan
+      provider_physical_network: 
+        value: provider
+      provider_segmentation_id: 
+        value: 5
     type: assembly::network::1.0
-    quantity: 1
-  mgmt_router:
-    properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      router_name:
-        value: jumprouter
-      network:
-        value: public
-      interface:
-        value: ${mgmt_network.subnetid}
-    type: assembly::neutron-router::0.1
     quantity: 1
   voice_network:
     properties:
@@ -88,34 +70,16 @@ composition:
       resourceManager:
         value: ${resourceManager}
       subnet:
-        value: 192.20.20.0/24
+        value: 10.10.0.0/24
+      provider_network: 
+        value: True
+      provider_network_type: 
+        value: vlan
+      provider_physical_network: 
+        value: provider
+      provider_segmentation_id: 
+        value: 10
     type: assembly::network::1.0
-    quantity: 1
-  voice_router:
-    properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      router_name:
-        value: voicerouter
-      network:
-        value: public
-      interface:
-        value: ${voice_network.subnetid}
-    type: assembly::neutron-router::0.1
-    quantity: 1
-  jumphost:
-    properties:
-      deploymentLocation:
-        value: ${mgmt_router.deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      networkid:
-        value: ${mgmt_network.networkid}
-      keyname:
-        value: ${keyname}
-    type: assembly::jumphost::0.1
     quantity: 1
 designerLayout:
   description: The following information is solely used to determine the presentation
