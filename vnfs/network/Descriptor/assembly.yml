@@ -29,6 +29,14 @@ properties:
     description: VLAN/VXLAN id
     type: string
     default: 10
+  startip:
+    type: string
+    description: start of ip address range
+    default: 10.20.0.2
+  endip: 
+    type: string
+    description: end of ip address range
+    default: 10.20.0.50
   networkid:
     description: id of network instance
     type: string
@@ -56,6 +64,10 @@ composition:
         value: ${provider_physical_network}
       provider_segmentation_id:
         value: ${provider_segmentation_id}
+      startip:
+        value: ${startip}
+      endip: 
+        value: ${endip}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:

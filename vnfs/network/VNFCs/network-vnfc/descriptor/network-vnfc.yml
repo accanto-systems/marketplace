@@ -18,20 +18,6 @@ properties:
     type: string
     description: id of network subnet instance
     read-only: true
-
-  # Docker specific properties
-  gateway:
-    type: string
-    description: subnet of user defined network
-  iprange: 
-    type: string
-    description: ip range to be allocated on network
-  bridgeid:
-    type: string
-    description: id of linux bridge if this is a docker network, otherwise null
-    read-only: true
-
-  # Openstack specific properties
   provider_network: 
     type: string
     description: set to true if provider network is used
@@ -47,6 +33,12 @@ properties:
     type: string
     description: VLAN/VXLAN id
     default: 10
+  startip:
+    type: string
+    description: start of ip address range
+  endip: 
+    type: string
+    description: end of ip address range
 
 lifecycle:
 - Install

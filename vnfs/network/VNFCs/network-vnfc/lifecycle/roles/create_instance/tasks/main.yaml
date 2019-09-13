@@ -46,6 +46,8 @@
     network_name: "{{ networkname }}" 
     name: "{{ networkname }}_subnet"
     cidr: "{{ subnet }}"
+    allocation_pool_start: "{{ startip }}"
+    allocation_pool_end: "{{ endip }}"
   register: subnet_result
 
 - debug:

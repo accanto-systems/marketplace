@@ -86,6 +86,10 @@ composition:
         value: provider
       provider_segmentation_id: 
         value: 50
+      startip:
+        value: 10.0.20.2
+      endip: 
+        value: 10.0.20.50
     type: assembly::network::1.0
 references:
   base:
