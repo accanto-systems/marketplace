@@ -8,38 +8,43 @@
   delegate_to: k8s
   command: "kubectl apply -f /opt/{{ instance_name }}.yaml"
   environment:
-    KUBECONFIG=/etc/kubernetes/admin.conf
+    KUBECONFIG: /etc/kubernetes/admin.conf
   register: pod_result
 
 - name: Wait for sipp to be ready
   delegate_to: k8s
-  shell: kubectl get pods | grep sipp
-  register: kamailio_status
-  until: kamailio_status.stdout.find("1/1") != -1
+  shell: "kubectl get pods | grep {{ instance_name }}"
+  register: sipp_status
+  until: sipp_status.stdout.find("1/1") != -1
   retries: 120
   delay: 20
   environment:
-    KUBECONFIG=/etc/kubernetes/admin.conf
+    KUBECONFIG: /etc/kubernetes/admin.conf
 
 - name: get sipp pod details
   delegate_to: k8s
-  command: kubectl get pod sipp -o json --export
+  command: "kubectl get pod {{ instance_name }} -o yaml --export"
   register: sipp_details
   environment:
-    KUBECONFIG=/etc/kubernetes/admin.conf
+    KUBECONFIG: /etc/kubernetes/admin.conf
 
-# - set_fact:
-#     sipp: "{{ sipp_details.stdout_lines | join('\n') | from_json }}"
+- set_fact:
+    sipp: "{{ sipp_details.stdout_lines | join('\n') | from_yaml }}"
 
-# - set_fact:
-#     network-status: "{{ sipp['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+- name: find mgmt ip address 
+  set_fact:
+    mgmt_ip_address: "{{ item.ips[0] }}"
+  with_items: "{{ sipp['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+  when: "{{ mgmt_network }} == item.name"
 
-- debug: 
-    var: sipp_details
+- name: find data ip address 
+  set_fact:
+    data_ip_address: "{{ item.ips[0] }}"
+  with_items: "{{ sipp['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+  when: "{{ data_network }} == item.name"
 
-# - name: report PROPERTIES
-#   debug:
-#     msg:
-#     - "mgmt_address: {{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
-#     - "external_address: {{ ext_port_result['port']['fixed_ips'][0]['ip_address'] }}"
-#     - "internal_address: {{ int_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+- name: report PROPERTIES
+  debug:
+    msg:
+    - "mgmt_address: {{ mgmt_ip_address }}"
+    - "data_address: {{ data_ip_address }}"

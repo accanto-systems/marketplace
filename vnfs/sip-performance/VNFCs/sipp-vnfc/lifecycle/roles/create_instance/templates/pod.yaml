@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: "sipp"
+  name: "{{ instance_name }}"
   annotations:
-    k8s.v1.cni.cncf.io/networks: "l3-bridge"
+    k8s.v1.cni.cncf.io/networks: "{{ mgmt_network }},{{ data_network }}"
 spec:
   containers:
-  - name: "sipp"
+  - name: "{{ instance_name }}"
     image: accanto/sipp:1.0

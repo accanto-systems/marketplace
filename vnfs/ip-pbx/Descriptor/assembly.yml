@@ -4,7 +4,7 @@ properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
     type: string
-    default: local
+    default: core
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string

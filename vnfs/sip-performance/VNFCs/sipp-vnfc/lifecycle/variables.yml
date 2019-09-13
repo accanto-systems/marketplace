@@ -1,0 +1,8 @@
+k8s_address: 192.168.10.20
+k8s_ssh_user: vagrant
+k8s_ssh_password: vagrant 
+almip: 10.0.30.5
+type: "Kubernetes"
+instance_name: jim
+mgmt_network: l3bridge
+data_network: l3bridge
