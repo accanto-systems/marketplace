@@ -1,0 +1,43 @@
+{
+    "lastModifiedAt": "2019-07-25T09:45:30.096Z",
+    "stages": [
+        {
+            "steps": [],
+            "name": "Default Stage"
+        }
+    ],
+    "createdAt": "2019-06-25T11:40:04.017Z",
+    "assemblyActors": [
+        {
+            "uninstallOnExit": false,
+            "initialState": "Active",
+            "assemblyConfigurationRef": "internal-network",
+            "instanceName": "internal-network",
+            "provided": false
+        },
+        {
+            "uninstallOnExit": false,
+            "initialState": "Active",
+            "assemblyConfigurationRef": "mgmt-network",
+            "instanceName": "mgmt-network",
+            "provided": false
+        },
+        {
+            "uninstallOnExit": false,
+            "initialState": "Active",
+            "assemblyConfigurationRef": "sg-network",
+            "instanceName": "sg-network",
+            "provided": false
+        },
+        {
+            "uninstallOnExit": false,
+            "initialState": "Active",
+            "assemblyConfigurationRef": "s1-network",
+            "instanceName": "s1-network",
+            "provided": false
+        }
+    ],
+    "projectId": "assembly::epc-ns::1.0.3",
+    "name": "create networks",
+    "description": null
+}

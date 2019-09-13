@@ -1,0 +1,1 @@
+10.0.2.15 ansible_connection=ssh ansible_user=ubuntu ansible_pass=ubuntu

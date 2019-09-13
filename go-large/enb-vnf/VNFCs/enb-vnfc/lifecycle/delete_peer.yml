@@ -1,0 +1,5 @@
+---
+- name: get deployment location_server
+  hosts: localhost
+  gather_facts: False
+ 

@@ -1,0 +1,219 @@
+### Target Helm Charts:
+### - helm-foundation
+### - lm-configurator
+### - lm-helm
+
+### Aims:
+### - To configure services with minimum resource requirements
+
+### Configuration for helm-foundation ###
+
+cassandra:
+  persistence:
+    size: 500Mi
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  config:
+    max_heap_size: 512M
+    heap_new_size: 128M
+
+elasticsearch:
+  enabled: false
+  client:
+    serviceType: NodePort
+
+eslite:
+  enabled: true
+  client:
+    service:
+      type: NodePort
+  data:
+    persistence:
+      size: 1Gi
+    heapSize: "1200m"
+    resources:
+      requests:
+        cpu: 250m
+        memory: 1.5Gi
+      limits:
+        cpu: 500m
+        memory: 1.5Gi
+
+kafka:
+  persistence:
+    size: 1Gi
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: 300m
+      memory: 512Mi
+  kafkaHeapOptions: "-Xmx512M -Xms512M"
+  external:
+    enabled: true
+  livenessProbe:
+    initialDelaySeconds: 90
+    timeoutSeconds: 10
+  readinessProbe:
+    initialDelaySeconds: 90
+    timeoutSeconds: 10
+  zookeeper:
+    env:
+      ZK_HEAP_SIZE: "256M"
+    persistence:
+      size: 1Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 100m
+        memory: 256Mi
+
+kibana:
+{% if lm_kibana_enabled|default(False)|bool == True %}
+  enabled: true
+{% else %}
+  enabled: false
+{% endif %}
+  image:
+    tag: "6.1.1"
+  ingress:
+    enabled: true
+    hosts:
+      - "kibana.lm"
+kafdrop:
+{% if lm_kafdrop_enabled|default(False)|bool == True %}
+  enabled: true
+{% else %}
+  enabled: false
+{% endif %}
+
+openldap:
+{% if lm_secure|default(False)|bool == True and lm_external_openldap|default(False)|bool != True %}
+  enabled: true
+{% else %}
+  enabled: false
+{% endif %}
+  persistence:
+    size: 500Mi
+  resources:
+    requests:
+      cpu: 25m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 256Mi
+
+vault:
+  enabled: true
+  resources:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 150m
+    memory: 128Mi
+
+vaultInit:
+  enabled: true
+
+filebeat:
+  enabled: true
+  resources:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 256Mi
+
+### End helm-foundation
+
+{% if lm_external_openldap|default(False)|bool == True %}
+### lm-configurator ###
+configurator:
+  lmConfigImport:
+    ishtar:
+      alm.ishtar.security.ldap.url: {{lm_external_openldap_url}}
+      ribbon.ReadTimeout: 60000
+      daytona.ribbon.ReadTimeout: 120000
+    daytona:
+      spring.mvc.async.request-timeout: 120s
+  security:
+    ldap:
+      enabled: false
+### End lm-configurator ###
+{% endif %}
+
+### Configuration lm-helm ###
+apollo: 
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx100m"
+    
+conductor:
+  app:
+    config:
+      configServer:
+        vault: 
+          enabled: true
+      env:
+        "JVM_OPTIONS": "-Xmx100m"
+
+relay:
+  service:
+    type: NodePort
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx100m"
+
+daytona:
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx256m"
+
+galileo:
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx256m"
+
+ishtar:
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx100m"
+doki:
+  enabled: true
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx200m"
+
+nimrod:
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx100m"
+    
+talledega:
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx256m"
+    
+watchtower:
+  app:
+    config:
+      env:
+        "JVM_OPTIONS": "-Xmx256m"
+  
+### End lm-helm ###

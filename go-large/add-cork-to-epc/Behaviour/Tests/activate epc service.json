@@ -1,0 +1,43 @@
+{
+    "name": "activate epc service",
+    "assemblyActors": [
+        {
+            "assemblyConfigurationRef": "internal-network",
+            "initialState": "Active",
+            "instanceName": "internal-network",
+            "uninstallOnExit": true,
+            "provided": false
+        },
+        {
+            "assemblyConfigurationRef": "mgmt-network",
+            "initialState": "Active",
+            "instanceName": "mgmt-network",
+            "uninstallOnExit": true,
+            "provided": false
+        },
+        {
+            "assemblyConfigurationRef": "s1-network",
+            "initialState": "Active",
+            "instanceName": "s1-network",
+            "uninstallOnExit": true,
+            "provided": false
+        },
+        {
+            "assemblyConfigurationRef": "epc-ns",
+            "initialState": "Active",
+            "instanceName": "video-service",
+            "uninstallOnExit": true,
+            "provided": false
+        }
+    ],
+    "lastModifiedAt": "2019-07-25T09:45:16.669Z",
+    "projectId": "assembly::epc-ns::1.0.1",
+    "description": null,
+    "stages": [
+        {
+            "name": "Default Stage",
+            "steps": []
+        }
+    ],
+    "createdAt": "2019-06-25T11:39:52.79Z"
+}

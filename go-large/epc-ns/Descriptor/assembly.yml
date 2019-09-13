@@ -1,0 +1,235 @@
+name: assembly::epc-ns::1.0
+description: Video service over epc access
+properties:
+  edge-location-1:
+    type: string
+    default: local
+  edge-location-2:
+    type: string
+    default: local
+  edge-location-3:
+    type: string
+    default: local
+  agg-location-1:
+    type: string
+    default: local
+  agg-location-2:
+    type: string
+    default: local
+  core-location:
+    type: string
+    default: local
+composition:
+  epc-aggregation-dublin:
+    properties:
+      mgmt-network-name:
+        value: ${mgmt-network.name}
+      s1-network-name:
+        value: ${s1-network.name}
+      internal-network-name:
+        value: ${internal-network.name}
+      deploymentLocation:
+        value: ${agg-location-1}
+    type: assembly::aggregation-epc-location::1.0
+  epc-aggregation-london:
+    properties:
+      mgmt-network-name:
+        value: ${mgmt-network.name}
+      s1-network-name:
+        value: ${s1-network.name}
+      internal-network-name:
+        value: ${internal-network.name}
+      deploymentLocation:
+        value: ${agg-location-1}
+    type: assembly::aggregation-epc-location::1.0
+  enb1:
+    properties:
+      deploymentLocation:
+        value: ${edge-location-1}
+      s1-network-name:
+        value: ${s1-network.name}
+      mgmt-network-name:
+        value: ${mgmt-network.name}
+    type: assembly::enb-vnf::1.0
+  enb2:
+    properties:
+      deploymentLocation:
+        value: ${edge-location-2}
+      s1-network-name:
+        value: ${s1-network.name}
+      mgmt-network-name:
+        value: ${mgmt-network.name}
+    type: assembly::enb-vnf::1.0
+  enb3:
+    properties:
+      deploymentLocation:
+        value: ${edge-location-3}
+      s1-network-name:
+        value: ${s1-network.name}
+      mgmt-network-name:
+        value: ${mgmt-network.name}
+    type: assembly::enb-vnf::1.0
+  core-epc-eu:
+    properties:
+      mgmt-network-name:
+        value: ${mgmt-network.name}
+      sg-network-name:
+        value: ${sg-network.name}
+      internal-network-name:
+        value: ${internal-network.name}
+    type: assembly::core-epc-location::1.0
+references:
+  mgmt-network:
+    properties:
+      name:
+        value: mgmt-network
+    type: assembly::logical-network::1.0
+  s1-network:
+    properties:
+      name:
+        value: s1-network
+    type: assembly::logical-network::1.0
+  internal-network:
+    properties:
+      name:
+        value: internal-network
+    type: assembly::logical-network::1.0
+  sg-network:
+    properties:
+      name:
+        value: sg-network
+    type: assembly::logical-network::1.0
+relationships:
+  enb1-s1:
+    properties:
+      name:
+        value: s1
+    lifecycle:
+      Create:
+      - target.attach_sgw
+      - target.attach_mme
+      Cease:
+      - target.detach_sgw
+      - target.detach_mme
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - enb1.capability
+    target-requirements:
+    - epc-aggregation-dublin.requirement
+  enb2-s1:
+    properties:
+      name:
+        value: s1
+    lifecycle:
+      Create:
+      - target.attach_sgw
+      - target.attach_mme
+      Cease:
+      - target.detach_sgw
+      - target.detach_mme
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - enb2.capability
+    target-requirements:
+    - epc-aggregation-dublin.requirement
+  enb3-s1:
+    properties:
+      name:
+        value: s1
+    lifecycle:
+      Create:
+      - target.attach_sgw
+      - target.attach_mme
+      Cease:
+      - target.detach_sgw
+      - target.detach_mme
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - enb3.capability
+    target-requirements:
+    - epc-aggregation-london.requirement
+  dublin-eu:
+    properties:
+      name:
+        value: epc
+    lifecycle:
+      Create:
+      - target.attach_hss
+      - target.attach_pgw
+      Cease:
+      - target.detach_hss
+      - target.detach_pgw
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - epc-aggregation-dublin.capability
+    target-requirements:
+    - core-epc-eu.requirement
+  london-eu:
+    properties:
+      name:
+        value: epc
+    lifecycle:
+      Create:
+      - target.attach_hss
+      - target.attach_pgw
+      Cease:
+      - target.detach_hss
+      - target.detach_pgw
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - epc-aggregation-london.capability
+    target-requirements:
+    - core-epc-eu.requirement
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    epc-aggregation-dublin:
+      x: 790.0000610351562
+      y: 69.33333587646484
+    epc-aggregation-london:
+      x: 778
+      y: 286.6666564941406
+    enb1:
+      x: 344.6666259765625
+      y: 81.33334350585938
+    enb2:
+      x: 343.33331298828125
+      y: 238.66665649414062
+    enb3:
+      x: 346
+      y: 438.6666717529297
+    core-epc-eu:
+      x: 1240.666748046875
+      y: 165.33334350585938
+    mgmt-network:
+      x: 623.3333129882812
+      y: 752
+    s1-network:
+      x: 370
+      y: 754.6666870117188
+    internal-network:
+      x: 847.333251953125
+      y: 748
+    sg-network:
+      x: 1078
+      y: 749.3334045410156
+    assembly::epc-ns::1.0:
+      x: 0
+      y: 180

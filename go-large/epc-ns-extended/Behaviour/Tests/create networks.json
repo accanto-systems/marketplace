@@ -1,0 +1,43 @@
+{
+    "assemblyActors": [
+        {
+            "initialState": "Active",
+            "instanceName": "internal-network",
+            "uninstallOnExit": false,
+            "assemblyConfigurationRef": "internal-network",
+            "provided": false
+        },
+        {
+            "initialState": "Active",
+            "instanceName": "mgmt-network",
+            "uninstallOnExit": false,
+            "assemblyConfigurationRef": "mgmt-network",
+            "provided": false
+        },
+        {
+            "initialState": "Active",
+            "instanceName": "sg-network",
+            "uninstallOnExit": false,
+            "assemblyConfigurationRef": "sg-network",
+            "provided": false
+        },
+        {
+            "initialState": "Active",
+            "instanceName": "s1-network",
+            "uninstallOnExit": false,
+            "assemblyConfigurationRef": "s1-network",
+            "provided": false
+        }
+    ],
+    "stages": [
+        {
+            "steps": [],
+            "name": "Default Stage"
+        }
+    ],
+    "createdAt": "2019-06-25T11:39:45.517Z",
+    "lastModifiedAt": "2019-07-25T09:45:07.053Z",
+    "name": "create networks",
+    "description": "create all networks used by epc service",
+    "projectId": "assembly::epc-ns::1.1"
+}

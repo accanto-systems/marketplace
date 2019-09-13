@@ -1,0 +1,22 @@
+{
+    "lastModifiedAt": "2019-06-25T11:39:56.21Z",
+    "projectId": "assembly::epc-ns::1.0.2",
+    "assemblyActors": [
+        {
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "instanceName": "video-service",
+            "assemblyConfigurationRef": "epc-ns"
+        }
+    ],
+    "name": "active agg",
+    "stages": [
+        {
+            "name": "Default Stage",
+            "steps": []
+        }
+    ],
+    "createdAt": "2019-06-25T11:39:56.21Z",
+    "description": null
+}

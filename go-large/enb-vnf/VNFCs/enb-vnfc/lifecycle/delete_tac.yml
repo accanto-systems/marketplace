@@ -1,0 +1,4 @@
+---
+- name: delete tac
+  hosts: localhost
+  gather_facts: False  

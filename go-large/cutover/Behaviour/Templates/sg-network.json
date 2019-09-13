@@ -1,0 +1,9 @@
+{
+    "projectId": "assembly::epc-ns::1.0.2",
+    "properties": {},
+    "name": "sg-network",
+    "descriptorName": "assembly::logical-network::1.0",
+    "createdAt": "2019-06-25T11:39:55.862Z",
+    "description": null,
+    "lastModifiedAt": "2019-07-25T09:45:22.052Z"
+}

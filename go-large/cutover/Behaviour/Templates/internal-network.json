@@ -1,0 +1,9 @@
+{
+    "projectId": "assembly::epc-ns::1.0.2",
+    "properties": {},
+    "name": "internal-network",
+    "descriptorName": "assembly::logical-network::1.0",
+    "createdAt": "2019-06-25T11:39:55.715Z",
+    "description": "internal network for all epc components",
+    "lastModifiedAt": "2019-07-25T09:45:21.179Z"
+}

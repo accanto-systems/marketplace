@@ -1,0 +1,9 @@
+{
+    "descriptorName": "assembly::logical-network::1.0",
+    "createdAt": "2019-06-25T11:39:44.478Z",
+    "lastModifiedAt": "2019-07-25T09:45:04.876Z",
+    "name": "s1-network",
+    "description": "s1 network across eNodeb and aggregation location",
+    "properties": {},
+    "projectId": "assembly::epc-ns::1.1"
+}

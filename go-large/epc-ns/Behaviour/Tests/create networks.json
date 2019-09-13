@@ -1,0 +1,43 @@
+{
+    "name": "create networks",
+    "createdAt": "2019-06-25T11:39:42.213Z",
+    "assemblyActors": [
+        {
+            "initialState": "Active",
+            "instanceName": "internal-network",
+            "assemblyConfigurationRef": "internal-network",
+            "uninstallOnExit": false,
+            "provided": false
+        },
+        {
+            "initialState": "Active",
+            "instanceName": "mgmt-network",
+            "assemblyConfigurationRef": "mgmt-network",
+            "uninstallOnExit": false,
+            "provided": false
+        },
+        {
+            "initialState": "Active",
+            "instanceName": "sg-network",
+            "assemblyConfigurationRef": "sg-network",
+            "uninstallOnExit": false,
+            "provided": false
+        },
+        {
+            "initialState": "Active",
+            "instanceName": "s1-network",
+            "assemblyConfigurationRef": "s1-network",
+            "uninstallOnExit": false,
+            "provided": false
+        }
+    ],
+    "stages": [
+        {
+            "name": "Default Stage",
+            "steps": []
+        }
+    ],
+    "description": "pre-provision networks for epc network service",
+    "projectId": "assembly::epc-ns::1.0",
+    "lastModifiedAt": "2019-07-25T09:45:00.392Z"
+}

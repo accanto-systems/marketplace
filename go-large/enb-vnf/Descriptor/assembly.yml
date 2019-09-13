@@ -1,0 +1,57 @@
+name: assembly::enb-vnf::1.0
+description: 'eNodeB VNF, Radio Resource Control rrc, Radio link control rlc, Software
+  Defined Radio sdr
+
+  '
+properties:
+  tracking_area_code:
+    type: string
+    default: 1
+  mobile_country_code:
+    type: string
+    default: 208
+  mobile_network_code:
+    type: string
+    default: 92
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    type: string
+    default: local
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+  s1-network-name:
+    type: string
+    default: s1-network
+  mgmt-network-name:
+    type: string
+    default: mgmt-network
+composition:
+  controller:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::enb-vnfc::1.0
+    quantity: 1
+operations:
+  add_peer:
+    properties: {}
+    source-operation: controller.add_peer
+  delete_peer:
+    properties: {}
+    source-operation: controller.delete_peer
+  attach_s1:
+    properties: {}
+    source-operation: controller.add_peer
+  attach_mgmt:
+    properties: {}
+    source-operation: controller.add_peer
+  detach_s1:
+    properties: {}
+    source-operation: controller.delete_peer
+  detach_mgmt:
+    properties: {}
+    source-operation: controller.delete_peer

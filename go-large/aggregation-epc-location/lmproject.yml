@@ -1,0 +1,4 @@
+name: aggregation-epc-location
+vnfcs:
+  definitions: {}
+  packages: {}

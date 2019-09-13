@@ -1,0 +1,54 @@
+{
+    "name": "move aggregation location",
+    "createdAt": "2019-06-25T11:39:42.394Z",
+    "assemblyActors": [
+        {
+            "instanceName": "epc-ns",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "assemblyConfigurationId": null,
+            "provided": true
+        }
+    ],
+    "stages": [
+        {
+            "name": "Add new aggregation site  ",
+            "steps": [
+                {
+                    "stepDefinitionName": "IntentEngine::UpgradeAssemblyDescriptor",
+                    "properties": {
+                        "descriptorName": "assembly::epc-ns::1.0.1",
+                        "assemblyName": "epc-ns"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Cut traffic across to new site",
+            "steps": [
+                {
+                    "stepDefinitionName": "IntentEngine::UpgradeAssemblyDescriptor",
+                    "properties": {
+                        "descriptorName": "assembly::epc-ns::1.0.2",
+                        "assemblyName": "epc-ns"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Tear down old site",
+            "steps": [
+                {
+                    "stepDefinitionName": "IntentEngine::UpgradeAssemblyDescriptor",
+                    "properties": {
+                        "descriptorName": "assembly::epc-ns::1.0.3",
+                        "assemblyName": "epc-ns"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "move aggregation location from dublin to cork for an epc called epc-ns",
+    "projectId": "assembly::epc-ns::1.0",
+    "lastModifiedAt": "2019-07-25T09:45:00.993Z"
+}

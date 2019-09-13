@@ -1,0 +1,29 @@
+name: resource::logical-network-vnfc::1.0
+description: Proxy for PNF
+
+properties:
+  pnf_name:
+    type: string
+    description: "the friendly name of the pnf"
+    default: pnf
+  instanceid:
+    value: ${instance.id}
+
+lifecycle:
+- Install
+- Uninstall
+
+operations:
+  attach:
+    properties:
+      interface_name:
+        type: string
+        description: interface name
+  
+  detach:
+    properties:
+      interface_name:
+        type: string
+        description: interface name
+
+

@@ -1,0 +1,9 @@
+{
+    "projectId": "assembly::epc-ns::1.0.2",
+    "properties": {},
+    "name": "epc-ns",
+    "descriptorName": "assembly::epc-ns::1.0",
+    "createdAt": "2019-06-25T11:39:55.652Z",
+    "description": "video service with epc access",
+    "lastModifiedAt": "2019-07-25T09:45:20.89Z"
+}

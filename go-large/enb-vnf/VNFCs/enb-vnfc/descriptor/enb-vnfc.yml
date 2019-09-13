@@ -1,0 +1,44 @@
+name: resource::enb-vnfc::1.0
+description: Proxy for PNF
+
+properties:
+  pnf_name:
+    type: string
+    description: "the friendly name of the pnf"
+    default: pnf
+  instanceid:
+    value: ${instance.id}
+
+lifecycle:
+- Install
+- Configure
+- Start
+- Integrity
+- Stop
+- Uninstall
+
+operations:
+  add_peer:
+    properties:
+      bearer_name:
+        type: string
+        description: name of the bearer to add to pnf
+        required: true
+  delete_peer:
+    properties:
+      bearer_name:
+        type: string
+        description: name of bearer to remove
+        required: true
+  set_tac:
+    properties:
+      tac:
+        type: string
+        description: name of tac to add 
+        required: true
+  delete_tac:
+    properties:
+      tac:
+        type: string
+        description: name of tac to remove
+        required: true

@@ -1,0 +1,10 @@
+name: logical-network
+vnfcs:
+  definitions:
+    logical-network-vnfc:
+      directory: logical-network-vnfc
+  packages:
+    ansible-rm-vnfcs:
+      packaging-type: ansible-rm
+      executions:
+      - vnfc: logical-network-vnfc

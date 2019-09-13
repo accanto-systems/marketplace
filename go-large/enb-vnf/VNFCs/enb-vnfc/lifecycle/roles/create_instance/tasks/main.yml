@@ -1,0 +1,11 @@
+
+
+
+- name: report INTERNAL_PROPERTIES
+  debug:
+    msg:
+    - "instance_id: {{ instanceid }}"
+    - "mgmt_ip: {{ mgmt_ip }}"
+    #      - "docker_container: {{ ansible_facts.docker_container }}"
+    #- "docker_container_id: {{ docker_container['ansible_facts']['docker_container']['Id'] }}"
+    - "data_subnet: {{ data_subnet }}"

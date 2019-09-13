@@ -1,0 +1,140 @@
+name: assembly::core-epc-location::1.0
+description: null
+properties:
+  mgmt-network-name:
+    type: string
+    default: mgmt-network
+  sg-network-name:
+    type: string
+    default: sg-network
+  internal-network-name:
+    type: string
+    default: internal-network
+  deploymentLocation:
+    type: string
+    default: local
+  resourceManager:
+    type: string
+    default: defaultrm
+composition:
+  hss:
+    properties: {}
+    type: assembly::epc-vnf::1.0
+  pgw:
+    properties: {}
+    type: assembly::epc-vnf::1.0
+references:
+  mgmt-network:
+    properties:
+      name:
+        value: ${mgmt-network-name}
+    type: assembly::logical-network::1.0
+  sg-network:
+    properties:
+      name:
+        value: ${sg-network-name}
+    type: assembly::logical-network::1.0
+  internal-network:
+    properties:
+      name:
+        value: ${internal-network-name}
+    type: assembly::logical-network::1.0
+relationships:
+  internal-hss:
+    properties:
+      name:
+        value: s1
+    lifecycle:
+      Create:
+      - target.attach_s1
+      Cease:
+      - target.detach_s1
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - internal-network.capability
+    target-requirements:
+    - hss.requirement
+  mgmt-hss:
+    properties:
+      name:
+        value: mgmt
+    lifecycle:
+      Create:
+      - target.attach_mgmt
+      Cease:
+      - target.detach_mgmt
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - mgmt-network.capability
+    target-requirements:
+    - hss.requirement
+  sg-pgw:
+    properties:
+      name:
+        value: s1
+    lifecycle:
+      Create:
+      - target.attach_s1
+      Cease:
+      - target.detach_s1
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - sg-network.capability
+    target-requirements:
+    - pgw.requirement
+  mgmt-pgw:
+    properties:
+      name:
+        value: mgmt
+    lifecycle:
+      Create:
+      - target.attach_mgmt
+      Cease:
+      - target.detach_mgmt
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - mgmt-network.capability
+    target-requirements:
+    - pgw.requirement
+  internal-pgw:
+    properties:
+      name:
+        value: internal
+    lifecycle:
+      Create:
+      - target.attach_internal
+      Cease:
+      - target.detach_internal
+    source-state: Active
+    source-state-modifier: post
+    target-state: Active
+    target-state-modifier: post
+    source-capabilities:
+    - internal-network.capability
+    target-requirements:
+    - pgw.requirement
+operations:
+  attach_hss:
+    properties: {}
+    source-operation: hss.attach_internal
+  detach_hss:
+    properties: {}
+    source-operation: hss.detach_internal
+  attach_pgw:
+    properties: {}
+    source-operation: pgw.attach_internal
+  detach_pgw:
+    properties: {}
+    source-operation: pgw.detach_internal
