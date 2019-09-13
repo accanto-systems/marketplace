@@ -7,14 +7,6 @@ properties:
   resourceManager:
     type: string
     default: defaultrm
-  keyname:
-    description: openstack keypair name
-    type: string
-    required: true
-    default: default
-  base_infrastructure:
-    type: string
-    default: base
   voice_service:
     description: target voice service for voip traffic load
     type: string
@@ -26,25 +18,14 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-      keyname:
-        value: ${keyname}
       target_sip_address:
         value: ${voice_service.voice_service_ipaddress}
-      mgmt_securitygroup_id:
-        value: ${base.mgmt_securitygroup_id}
-      voice_securitygroup_id:
-        value: ${base.voice_securitygroup_id}
       mgmt_network:
-        value: ${base.mgmt_networkid}
+        value: mgmt
       data_network:
-        value: ${base.voice_networkid}
+        value: voice
     type: assembly::sip-performance::1.0
 references:
-  base:
-    properties:
-      name:
-        value: ${base_infrastructure}
-    type: assembly::base::0.1
   voice_service:
     properties:
       name:
