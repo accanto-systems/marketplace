@@ -9,6 +9,8 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  instance_name:
+    default: ${instance.name}
   target_sip_address:
     description: name of sip-server component to send traffic to
     type: string
@@ -43,6 +45,8 @@ properties:
 composition:
   sipp:
     properties:
+      instance_name:
+        value: ${instance_name}
       target_sip_address:
         value: ${target_sip_address}
       keyname:

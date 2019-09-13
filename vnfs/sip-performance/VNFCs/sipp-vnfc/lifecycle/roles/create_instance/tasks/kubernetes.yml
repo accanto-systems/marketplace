@@ -4,7 +4,7 @@
     src: pod.yaml
     dest: "/opt/{{ instance_name }}.yaml"
 
-- name: Start kamailio container
+- name: Start sipp container
   delegate_to: k8s
   command: "kubectl apply -f /opt/{{ instance_name }}.yaml"
   environment:
