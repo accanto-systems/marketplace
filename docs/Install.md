@@ -1,5 +1,9 @@
 # NFVI Demo Setup
 
+ALM       192.168.10.5
+Openstack 192.168.10.10
+k8s       192.168.10.50
+
 ## Setup LM
 
 Clone lm-allinone project and add LM distribution to **lm-allnone/lm-artifacts** directory.
@@ -54,9 +58,9 @@ LM mgmt interface is on VLAN with id 5. Add VM vNIC VLAN subinterface by doing t
 ```
 cd lm-allinone
 vagrant ssh
-ifconfig eth3
-ip link add link eth3 name eth3.5 type vlan id 5
-ifconfig eth3.5 10.0.30.5
+ifconfig eth2
+ip link add link eth2 name eth2.5 type vlan id 5
+ifconfig eth2.5 10.0.30.5
 ```
 ## Setup virtual data centre and VIMs
 
@@ -105,15 +109,11 @@ almip: 10.0.30.5
 In ALM add a location called "edge" with the type "Kubernetes" and provide the following properties
 
 ```
-k8s_address: 192.168.10.20
+k8s_address: 192.168.10.50
 k8s_ssh_user: vagrant
 k8s_ssh_password: vagrant 
 almip: 10.0.30.5
 ```
-
-### Setup k8s networking with correct VLAN ids
-
-
 
 ## Setup LMCTL
 
@@ -129,17 +129,17 @@ Create a file called **lmconfig.yaml** and add the following:
 dev:
   description: dev environment on BT
   alm:
-    ip_address: 172.16.14.11
+    ip_address: 192.168.10.5
     port: 8083
     protocol: https
     secure_port: true
-    auth_address: 172.16.14.11
+    auth_address: 192.168.10.5
     auth_port: 8082
     username: jack
     password: jack
   arm:
     defaultrm:
-      ip_address: 172.16.14.11
+      ip_address: 192.168.10.5
       port: 31081
       secure_port: True
       onboarding_addr: https://osslm-ansible-rm:8443
