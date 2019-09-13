@@ -31,7 +31,7 @@
     image: "{{ ippbx_image['ansible_facts']['openstack_image']['id'] }}"
     timeout: 200
     auto_ip: false
-    flavor: m1.small
+    flavor: m1.tiny
     key_name: "{{ keyname }}"
     config_drive: true
     userdata: "{{ lookup('file','../../config/ippbx-user-data.yml') | string}}"

@@ -31,7 +31,7 @@
     image: "{{ sipp_image['ansible_facts']['openstack_image']['id'] }}"
     timeout: 200
     auto_ip: false
-    flavor: m1.small
+    flavor: m1.tiny
     config_drive: true
     key_name: "{{ keyname }}"
     userdata: "{{ lookup('file','../../config/sipp-user-data.yml') | string}}"
