@@ -35,13 +35,13 @@
   set_fact:
     mgmt_ip_address: "{{ item.ips[0] }}"
   with_items: "{{ sipp['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
-  when: "{{ mgmt_network }} == item.name"
+  when: "'{{ mgmt_network }}' == item.name"
 
 - name: find data ip address 
   set_fact:
     data_ip_address: "{{ item.ips[0] }}"
   with_items: "{{ sipp['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
-  when: "{{ data_network }} == item.name"
+  when: "'{{ data_network }}' == item.name"
 
 - name: report PROPERTIES
   debug:
