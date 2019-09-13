@@ -11,6 +11,9 @@ properties:
     description: target voice service for voip traffic load
     type: string
     default: voice
+  instance_name:
+    type: string
+    default: ${instance.name}
 composition:
   sipp-server:
     properties:
@@ -18,6 +21,8 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+      instance_name:
+        value: ${instance_name}
       target_sip_address:
         value: ${voice_service.voice_service_ipaddress}
       mgmt_network:
@@ -37,8 +42,8 @@ designerLayout:
     description of the Assembly and should not be edited directly.
   elements:
     sipp-server:
-      x: 388.6666259765625
-      y: 44
+      x: 500.6666259765625
+      y: 89.3333511352539
     base:
       x: 586
       y: 590.6667022705078
