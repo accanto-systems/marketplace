@@ -52,7 +52,7 @@ composition:
       resourceManager:
         value: ${resourceManager}
       subnet:
-        value: 10.30.0.0/24
+        value: 10.0.30.0/24
       provider_network: 
         value: True
       provider_network_type: 
@@ -70,7 +70,7 @@ composition:
       resourceManager:
         value: ${resourceManager}
       subnet:
-        value: 10.10.0.0/24
+        value: 10.0.10.0/24
       provider_network: 
         value: True
       provider_network_type: 

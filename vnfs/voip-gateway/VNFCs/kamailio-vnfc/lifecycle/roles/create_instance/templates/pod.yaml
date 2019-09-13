@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ instance_name }}"
+  annotations:
+    k8s.v1.cni.cncf.io/networks: "{{ network_name }}"
+spec:
+  containers:
+  - name: "{{ instance_name }}"
+    image: accanto/kamailio

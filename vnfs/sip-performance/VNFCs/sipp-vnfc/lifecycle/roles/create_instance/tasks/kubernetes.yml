@@ -1,0 +1,45 @@
+- name: copy the pod descriptor
+  delegate_to: k8s
+  template:
+    src: pod.yaml
+    dest: "/opt/{{ instance_name }}.yaml"
+
+- name: Start kamailio container
+  delegate_to: k8s
+  command: "kubectl apply -f /opt/{{ instance_name }}.yaml"
+  environment:
+    KUBECONFIG=/etc/kubernetes/admin.conf
+  register: pod_result
+
+- name: Wait for sipp to be ready
+  delegate_to: k8s
+  shell: kubectl get pods | grep sipp
+  register: kamailio_status
+  until: kamailio_status.stdout.find("1/1") != -1
+  retries: 120
+  delay: 20
+  environment:
+    KUBECONFIG=/etc/kubernetes/admin.conf
+
+- name: get sipp pod details
+  delegate_to: k8s
+  command: kubectl get pod sipp -o json --export
+  register: sipp_details
+  environment:
+    KUBECONFIG=/etc/kubernetes/admin.conf
+
+# - set_fact:
+#     sipp: "{{ sipp_details.stdout_lines | join('\n') | from_json }}"
+
+# - set_fact:
+#     network-status: "{{ sipp['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+
+- debug: 
+    var: sipp_details
+
+# - name: report PROPERTIES
+#   debug:
+#     msg:
+#     - "mgmt_address: {{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+#     - "external_address: {{ ext_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+#     - "internal_address: {{ int_port_result['port']['fixed_ips'][0]['ip_address'] }}"

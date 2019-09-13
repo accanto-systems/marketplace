@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "sipp"
+  annotations:
+    k8s.v1.cni.cncf.io/networks: "l3-bridge"
+spec:
+  containers:
+  - name: "sipp"
+    image: accanto/sipp:1.0

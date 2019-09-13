@@ -1,9 +1,10 @@
-## Lmctl has updated this file with the latest schema changes. A backup of your existing project file has been placed in the same directory with a .bak extension
-schema: '2.0'
 name: voip-gateway
-version: '1.0'
-contains:
-- name: kamailio-vnfc
-  type: Resource
-  directory: kamailio-vnfc
-  resource-manager: ansible-rm
+vnfcs:
+  definitions:
+    kamailio-vnfc:
+      directory: kamailio-vnfc
+  packages:
+    ansible-rm-vnfcs:
+      packaging-type: ansible-rm
+      executions:
+      - vnfc: kamailio-vnfc

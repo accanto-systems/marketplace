@@ -1,0 +1,32 @@
+- name: Start kamailio virtual machine
+  k8s:
+    state: present
+    definition: "{{ lookup('template', 'pod.yaml') }}"
+  register: pod_result
+
+- name: Get facts about kamailio pod
+  k8s_facts:
+    api_version: v1
+    kind: Pod
+    name: "{{ instance_name }}"
+  register: pod_status
+
+# - name: wait until pod is running
+
+- debug: 
+    var: pod_status
+
+- name: check ssh is working on gateway container before proceeding
+  wait_for:
+    port: 22
+    host: "{{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+
+
+# - name: create inventory and gather facts on it
+
+- name: report PROPERTIES
+  debug:
+    msg:
+    - "mgmt_address: {{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+    - "external_address: {{ ext_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+    - "internal_address: {{ int_port_result['port']['fixed_ips'][0]['ip_address'] }}"

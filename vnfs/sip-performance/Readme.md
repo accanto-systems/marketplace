@@ -62,6 +62,14 @@ Replace the above with your Openstack credentials.
 
 __Note:__ do not use the admin account, because it can see all other projects, it will cause issues choosing between multiple default security groups.
 
+## k8s RM configuration
+
+```
+k8s_address: 192.168.10.20
+k8s_ssh_user: vagrant
+k8s_ssh_password: vagrant 
+```
+
 ## Deploying this VNF
 
 Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:

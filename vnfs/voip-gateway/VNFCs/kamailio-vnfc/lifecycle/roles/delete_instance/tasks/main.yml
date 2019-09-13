@@ -1,21 +1,5 @@
----
-- name: "Remove gateway instance {{ instance_name }}"
-  os_server:
-    state: absent
-    name: "{{ instance_name }}"
-  register: server_result
+- import_tasks: openstack.yml
+  when: type == "Openstack"
 
-- name: remove internal port
-  os_port:
-    state: absent
-    name: "int_port-{{ instance_name }}"
-
-- name: remove external port
-  os_port:
-    state: absent
-    name: "ext_port-{{ instance_name }}"
-
-- name: remove mgmt port
-  os_port:
-    state: absent
-    name: "mgmt_port-{{ instance_name }}"
+- import_tasks: kubernetes.yml
+  when: type == "Kubernetes"

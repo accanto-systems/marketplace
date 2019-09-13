@@ -22,7 +22,7 @@
     OS_TENANT_NAME: "{{ os_projectname }}"
     OS_USERNAME: "{{ os_username }}"
     OS_USER_DOMAIN_ID: "default"
-    OS_VOLUME_API_VERSION: "3"  
+    OS_VOLUME_API_VERSION: "3" 
 
   roles:
     - { role: create_instance }

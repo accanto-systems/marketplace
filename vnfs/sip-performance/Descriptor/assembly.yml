@@ -9,22 +9,15 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
-  keyname:
-    type: string
-    description: name of the openstack keyname
-    require: true
   target_sip_address:
     description: name of sip-server component to send traffic to
     type: string
     required: true
-  mgmt_securitygroup_id:
+  keyname:
+    description: openstack keypair name
     type: string
-    description: id of the mgmt security group
     required: true
-  voice_securitygroup_id:
-    type: string
-    description: id of the voice security group
-    required: true
+    default: default
   mgmt_network:
     type: string
     required: true
@@ -32,6 +25,14 @@ properties:
     description: mgmt address assigned
     type: string
     value: ${sipp.mgmt_address}
+  mgmt_securitygroup_id:
+    type: string
+    descripion: id of mgmt securitygroup
+    required: true
+  voice_securitygroup_id:
+    type: string
+    descripion: id of voice securitygroup
+    required: true
   data_network:
     type: string
     required: true
@@ -42,16 +43,16 @@ properties:
 composition:
   sipp:
     properties:
-      keyname:
-        value: ${keyname}
       target_sip_address:
         value: ${target_sip_address}
+      keyname:
+        value: ${keyname}
+      mgmt_network:
+        value: ${mgmt_network}
       mgmt_securitygroup_id:
         value: ${mgmt_securitygroup_id}
       voice_securitygroup_id:
         value: ${voice_securitygroup_id}
-      mgmt_network:
-        value: ${mgmt_network}
       data_network:
         value: ${data_network}
       deploymentLocation:
