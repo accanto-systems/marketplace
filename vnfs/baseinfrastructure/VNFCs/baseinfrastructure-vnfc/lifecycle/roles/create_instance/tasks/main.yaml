@@ -14,12 +14,24 @@
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
 
+- name: open ICMP
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-mgmt-sec"
+    protocol: icmp
+    remote_ip_prefix: 0.0.0.0/0
+
 - name: create voip security group
   os_security_group:
     state: present
     name: "{{ instance_name }}-voip-sec"
     description: "security group for ip pbx {{ instance_name }}"
   register: voip_security_result
+
+- name: open ICMP
+  os_security_group_rule:
+    security_group: "{{ instance_name }}-voip-sec"
+    protocol: icmp
+    remote_ip_prefix: 0.0.0.0/0
 
 - name: open all tcp ports for now
   os_security_group_rule:

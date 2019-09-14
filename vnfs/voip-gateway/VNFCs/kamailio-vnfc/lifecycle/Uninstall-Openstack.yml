@@ -1,9 +1,8 @@
----
-
 - name: delete instance
   hosts: "localhost"
   gather_facts: False
   become: true
+  environment: 
     OS_AUTH_TYPE: "password"
     OS_AUTH_URL: "{{ os_auth_url }}"
     OS_CACERT: ""

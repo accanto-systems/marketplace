@@ -8,8 +8,8 @@
 
 - name: Include Kubernetes Install
   when: type == "Kubernetes"
-  import_playbook: Install_Openstack.yaml
+  import_playbook: Install-Kubernetes.yml
 
 - name: Include Openstack Install
   when: type == "Openstack"
-  import_playbook: Install_Openstack.yaml
+  import_playbook: Install-Openstack.yml

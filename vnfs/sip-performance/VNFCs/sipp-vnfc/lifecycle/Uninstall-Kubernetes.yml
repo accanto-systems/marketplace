@@ -1,5 +1,3 @@
----
-
 - name: delete instance
   hosts: "localhost"
   gather_facts: False
