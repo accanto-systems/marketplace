@@ -1,0 +1,8 @@
+---
+
+- name: delete instance
+  hosts: "localhost"
+  gather_facts: False
+  become: true
+  roles:
+    - { role: delete_instance }

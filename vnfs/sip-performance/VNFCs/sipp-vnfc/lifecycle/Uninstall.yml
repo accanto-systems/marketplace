@@ -5,9 +5,10 @@
   roles:
     - { role: create_inventory }
 
-- name: delete instance
-  hosts: "localhost"
-  gather_facts: False
-  become: true
-  roles:
-    - { role: delete_instance }
+- name: Include Kubernetes Uninstall
+  when: type == "Kubernetes"
+  import_playbook: Uninstall_Openstack.yaml
+
+- name: Include Openstack Uninstall
+  when: type == "Openstack"
+  import_playbook: Uninstall_Openstack.yaml

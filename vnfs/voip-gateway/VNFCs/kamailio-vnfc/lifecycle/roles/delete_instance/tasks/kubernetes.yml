@@ -1,6 +1,6 @@
 ---
-- name: "Remove gateway instance {{ instance_name }}"
-  os_server:
-    state: absent
-    name: "{{ instance_name }}"
-  register: server_result
+- name: "Remove kamailio instance {{ instance_name }}"
+  delegate_to: k8s
+  command: "kubectl delete pod {{ instance_name }}"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf

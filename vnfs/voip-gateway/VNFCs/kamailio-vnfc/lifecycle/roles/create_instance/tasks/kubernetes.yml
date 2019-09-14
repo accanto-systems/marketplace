@@ -1,32 +1,57 @@
-- name: Start kamailio virtual machine
-  k8s:
-    state: present
-    definition: "{{ lookup('template', 'pod.yaml') }}"
+- name: copy the pod descriptor
+  delegate_to: k8s
+  template:
+    src: pod.yaml
+    dest: "/opt/{{ instance_name }}.yaml"
+
+- name: Start kamailio container
+  delegate_to: k8s
+  command: "kubectl apply -f /opt/{{ instance_name }}.yaml"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
   register: pod_result
 
-- name: Get facts about kamailio pod
-  k8s_facts:
-    api_version: v1
-    kind: Pod
-    name: "{{ instance_name }}"
-  register: pod_status
+- name: Wait for kamailio to be ready
+  delegate_to: k8s
+  shell: "kubectl get pods | grep {{ instance_name }}"
+  register: kamailio_status
+  until: kamailio_status.stdout.find("1/1") != -1
+  retries: 120
+  delay: 20
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
 
-# - name: wait until pod is running
+- name: get kamailio pod details
+  delegate_to: k8s
+  command: "kubectl get pod {{ instance_name }} -o yaml --export"
+  register: kamailio_details
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
 
-- debug: 
-    var: pod_status
+- set_fact:
+    kamailio: "{{ kamailio_details.stdout_lines | join('\n') | from_yaml }}"
 
-- name: check ssh is working on gateway container before proceeding
-  wait_for:
-    port: 22
-    host: "{{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+- name: find mgmt ip address 
+  set_fact:
+    mgmt_ip_address: "{{ item.ips[0] }}"
+  with_items: "{{ kamailio['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+  when: "mgmt_network == item.name"
 
+- name: find internal ip address 
+  set_fact:
+    internal_ip_address: "{{ item.ips[0] }}"
+  with_items: "{{ kamailio['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+  when: "internal_network == item.name"
 
-# - name: create inventory and gather facts on it
+- name: find data ip address 
+  set_fact:
+    data_ip_address: "{{ item.ips[0] }}"
+  with_items: "{{ kamailio['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+  when: "data_network == item.name"
 
 - name: report PROPERTIES
   debug:
     msg:
-    - "mgmt_address: {{ mgmt_port_result['port']['fixed_ips'][0]['ip_address'] }}"
-    - "external_address: {{ ext_port_result['port']['fixed_ips'][0]['ip_address'] }}"
-    - "internal_address: {{ int_port_result['port']['fixed_ips'][0]['ip_address'] }}"
+    - "mgmt_address: {{ mgmt_ip_address }}"
+    - "data_address: {{ data_ip_address }}"
+    - "internal_address: {{ data_ip_address }}"
