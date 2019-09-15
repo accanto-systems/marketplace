@@ -22,11 +22,9 @@ This project provides a set of working lifecycle manager Network Service and VNF
 |----------------------------------------|---------------------------------------|-----------|-------------------|
 | [baseinfrastructure](/vnfs/baseinfrastructure/Readme.md) | Create shared VNF infrastructure  | ARM       | Openstack |
 | [network](/vnfs/network/Readme.md)     | Manage a single network instance      | ARM       | Openstack |
-| [router](/vnfs/router/Readme.md)       | Neutron router                        | ARM       | Openstack |
-| [jumphost](/vnfs/jumphost/Readme.md)   | Basic openstack jumphost              | ARM       | Openstack |
-| [ip-pbx](/vnfs/ip-pbx/Readme.md)       | Asterisk VoIP PBX                     | ARM       | Openstack |
-| [voip-gateway](vnfs/voip-gateway/Readme.md)  | Kamailio VoIP Gateway           | ARM       | Openstack |
-| [sip-performance](/vnfs/sip-performance/Readme.md) | SIP Performance tester    | ARM       | Openstack |
+| [ip-pbx](/vnfs/ip-pbx/Readme.md)       | Asterisk VoIP PBX                     | ARM       | Openstack, Kubernetes |
+| [voip-gateway](vnfs/voip-gateway/Readme.md)  | Kamailio VoIP Gateway           | ARM       | Openstack, Kubernetes |
+| [sip-performance](/vnfs/sip-performance/Readme.md) | SIP Performance tester    | ARM       | Openstack, Kubernetes |
 
 ## VIM
 

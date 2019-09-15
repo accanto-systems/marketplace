@@ -6,7 +6,7 @@ pipeline{
     agent { label 'lmctl' }
     environment {
         ORGANISATION = 'marketplace'
-        TEST_ENV = 'test'
+        TEST_ENV = 'testing'
         GOGS_HOST = "${CICDHUB_GOGS_SERVICE_HOST}:${CICDHUB_GOGS_SERVICE_PORT_GOGS_HTTP}"
         NEXUS_URL = "http://${NEXUS_SVC_NODEPORT_SERVICE_HOST}:${NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP}"
     }    
@@ -16,9 +16,7 @@ pipeline{
                 script 
                 {
                     onboard_dependencies("test.deps")
-                    
                     onboard_dependencies("release.deps")
-                    
                 }   
             }
         }
@@ -40,7 +38,10 @@ pipeline{
 
         stage('Behaviour Tests'){
             steps{
-                sh "lmctl project test ${TEST_ENV}"
+                sh "echo run Behaviour Tests"
+                sh "lmctl project test  ${TEST_ENV}"
+                /* sh "lmctl project test --tests 'Activate Service' ${TEST_ENV}" */
+                /* sh "lmctl project test --tests 'Scale test' ${TEST_ENV}" */
             }
         }
 
@@ -100,8 +101,8 @@ def onboard_dependencies(dependency_filename)
     {
       def packages = readFile("${WORKSPACE}/${dependency_filename}").split('\n')
       for (int i = 0; i < packages.size(); ++i) {
-        n = packages[i].split('-')[0].trim()
-        v = packages[i].split('-')[1].trim()
+        n = packages[i].split(' ')[0].trim()
+        v = packages[i].split(' ')[1].trim()
         /*
           try to get a released package (without -SNAPSHOT suffix)
           if not try get a SNAPSHOT
@@ -137,3 +138,5 @@ def package_exists(repo, package_name)
     echo "status: ${status}"
     return "${status}"
 }
+
+

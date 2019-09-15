@@ -1,0 +1,6 @@
+---
+- name: "Remove sipp instance {{ instance_name }}"
+  delegate_to: k8s
+  command: "kubectl delete pod {{ instance_name }}"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf

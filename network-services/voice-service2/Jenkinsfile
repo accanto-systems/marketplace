@@ -16,7 +16,9 @@ pipeline{
                 script 
                 {
                     onboard_dependencies("test.deps")
+                    
                     onboard_dependencies("release.deps")
+                    
                 }   
             }
         }

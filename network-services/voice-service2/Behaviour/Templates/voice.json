@@ -1,0 +1,11 @@
+{
+    "properties": {
+        "keyname": "default"
+    },
+    "description": "service under test",
+    "projectId": "assembly::voice-service::1.0",
+    "lastModifiedAt": "2019-08-23T11:24:20.366Z",
+    "descriptorName": "assembly::voice-service::2.0",
+    "name": "voice",
+    "createdAt": "2019-08-22T16:04:19.825Z"
+}

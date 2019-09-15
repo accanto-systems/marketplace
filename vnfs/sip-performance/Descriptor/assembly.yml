@@ -18,7 +18,6 @@ properties:
   keyname:
     description: openstack keypair name
     type: string
-    required: true
     default: default
   mgmt_network:
     type: string
@@ -30,11 +29,9 @@ properties:
   mgmt_securitygroup_id:
     type: string
     descripion: id of mgmt securitygroup
-    required: true
   voice_securitygroup_id:
     type: string
     descripion: id of voice securitygroup
-    required: true
   data_network:
     type: string
     required: true

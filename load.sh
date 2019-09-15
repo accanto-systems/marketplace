@@ -12,5 +12,7 @@ cd ../../network-services/base
 lmctl project $1 $2
 cd ../voice-service
 lmctl project $1 $2
+cd ../voice-service2
+lmctl project $1 $2
 cd ../voice-load-generator
 lmctl project $1 $2

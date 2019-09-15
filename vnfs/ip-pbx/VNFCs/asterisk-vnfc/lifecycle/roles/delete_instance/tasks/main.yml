@@ -1,16 +1,5 @@
----
-- name: "Remove ip pbx instance {{ instance_name }}"
-  os_server:
-    state: absent
-    name: "{{ instance_name }}"
- 
-- name: remove mgmt port
-  os_port:
-    state: absent
-    name: "mgmt_port-{{ instance_name }}"
- 
-- name: remove data port
-  os_port:
-    state: absent
-    name: "data_port-{{ instance_name }}"
- 
+- import_tasks: openstack.yml
+  when: type == "Openstack"
+
+- import_tasks: kubernetes.yml
+  when: type == "Kubernetes"

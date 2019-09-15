@@ -12,21 +12,18 @@ properties:
   keyname:
     description: openstack keypair name
     type: string
-    required: true
     default: default
   mgmt_securitygroup_id:
     type: string
     descripion: id of mgmt securitygroup
-    required: true
   voice_securitygroup_id:
     type: string
     descripion: id of voice securitygroup
-    required: true
   mgmt_network:
     type: string
     descripion: name of management network
     required: true
-    default: l3-bridge
+    default: mgmt
   mgmt_address:
     type: string
     description: management ip address of this vnfc
@@ -34,7 +31,7 @@ properties:
   data_network:
     type: string
     descripion: name of data network 
-#    required: true
+    default: voice
   data_address:
     type: string
     description: assigned ip address on voip network. This is the voip endpoint
@@ -42,7 +39,7 @@ properties:
   target_sip_address:
     type: string
     description: address of SIP server to send traffic to
-#    required: true 
+    required: true 
 
 lifecycle:
 - Install

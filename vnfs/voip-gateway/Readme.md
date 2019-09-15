@@ -49,14 +49,14 @@ If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment
 Openstack lifecycle manager location variables are as follows: 
 
 ```
-os_auth_url: "http://192.168.56.130/identity/v3"
-os_projectname: demo
-os_username: demo
-os_password: secret
-almip: 192.168.56.100
+os_auth_url: "http://192.168.10.10:5000/v3"
+os_projectname: admin
+os_username: admin
+os_password: password
+almip: 10.0.30.5
 ```
 
-__Note:__ do not use the admin account, because it can see all other projects, it will cause issues choosing between multiple default security groups.
+__Note:__ Take care when using the admin account, because it can see all other projects it can cause issues choosing between multiple default security groups.
 
 Replace the above with your Openstack credentials.
 

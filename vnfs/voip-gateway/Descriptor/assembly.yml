@@ -4,7 +4,7 @@ properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
     type: string
-    default: local
+    default: core
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string
@@ -12,15 +12,12 @@ properties:
   keyname:
     type: string
     description: openstack key name
-    required: true
   mgmt_securitygroup_id:
     type: string
     description: id of the mgmt security group
-    required: true
   voice_securitygroup_id:
     type: string
     description: id of the voice security group
-    required: true
   mgmt_network:
     type: string
     required: true

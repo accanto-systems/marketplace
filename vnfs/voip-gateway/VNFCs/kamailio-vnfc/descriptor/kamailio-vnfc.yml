@@ -5,7 +5,7 @@ properties:
   instance_name:
     type: string
     description: hostname address of this container
-    value: ${instance.name}
+    default: ${instance.name}
   instanceid:
     description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
     value: ${instance.id}
@@ -17,7 +17,6 @@ properties:
     type: string
     description: "the key name"
     required: true
-  # security groups
   mgmt_securitygroup_id:
     type: string
     description: id of the mgmt security group

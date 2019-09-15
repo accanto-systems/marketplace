@@ -1,21 +1,142 @@
+def descriptor = 'UNKNOWN'
+def version = 'UNKNOWN'
+
+
 pipeline{
-    agent any
+    agent { label 'lmctl' }
+    environment {
+        ORGANISATION = 'marketplace'
+        TEST_ENV = 'testing'
+        GOGS_HOST = "${CICDHUB_GOGS_SERVICE_HOST}:${CICDHUB_GOGS_SERVICE_PORT_GOGS_HTTP}"
+        NEXUS_URL = "http://${NEXUS_SVC_NODEPORT_SERVICE_HOST}:${NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP}"
+    }    
     stages{
-        stage('onboard sip-performance'){
+        stage('Onboard VNF and NS Project Dependencies'){
             steps{
-				sh "lmctl env list"
-				sh "lmctl project push testing"               
+                script 
+                {
+                    onboard_dependencies("test.deps")
+                    onboard_dependencies("release.deps")
+                }   
             }
         }
-        stage('test sip-performance'){
+        stage("Onboard Project"){
             steps{
-                sh "lmctl project test testing"
+                script{ 
+                    /* get the descriptor name from the top-level assembly, that will be the package name */
+                    descriptor = get_descriptor()
+                    sh("echo ${descriptor}")
+                    /* get version from top-level assembly. this is the version number to use for packaging */   
+                    version =  get_version()
+                    sh("echo ${version}")
+
+                    /* Push the project into the test environment */
+                    sh("lmctl project push ${TEST_ENV}" )
+                }               
             }
         }
-        stage('package sip-performance'){
+
+        stage('Behaviour Tests'){
             steps{
-                sh "curl -v -u admin:admin123 --upload-file ./_lmctl/_build/sip-performance-1.0.tgz http://$NEXUS_SVC_NODEPORT_SERVICE_HOST:$NEXUS_SVC_NODEPORT_SERVICE_PORT_NEXUS_HTTP/repository/raw/sip-performance/"              
+                sh "echo run Behaviour Tests"
+                sh "lmctl project test  ${TEST_ENV}"
+                /* sh "lmctl project test --tests 'Activate Service' ${TEST_ENV}" */
+                /* sh "lmctl project test --tests 'Scale test' ${TEST_ENV}" */
+            }
+        }
+
+        stage('Version Project'){
+            steps{
+
+                version_project("${descriptor}", "${version}")
+            }    
+        }
+        stage('Package'){
+            steps{
+                /* 
+                  we have a new snapshot for this version, delete the old one and upload the new
+                */
+                withCredentials([usernamePassword(credentialsId: 'nexus-id', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                    sh "curl -X DELETE -v -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} ${NEXUS_URL}/repository/raw/packages/${descriptor}/${descriptor}-${version}-SNAPSHOT.tgz"
+                    sh "curl -v -u ${NEXUS_USERNAME}:${NEXUS_PASSWORD} --upload-file ./_lmctl/_build/${descriptor}-${version}.tgz ${NEXUS_URL}/repository/raw/packages/${descriptor}/${descriptor}-${version}-SNAPSHOT.tgz"              
+                }
             }
         }
     }
 }
+
+def get_descriptor()
+{
+    return sh(returnStdout: true, script:  "grep -E ^name:[[:space:]].*::.*::.* ${WORKSPACE}/Descriptor/assembly.yml |cut -d ':' -f4").trim()
+}
+
+def get_version()
+{
+    return sh(returnStdout: true, script:  "grep -E ^name:[[:space:]].*::.*::.* ${WORKSPACE}/Descriptor/assembly.yml |cut -d ':' -f6").trim()
+}
+
+def version_project(descriptor, version)
+{
+    /*
+      Delete the tag if it exists already, we want to move it.
+      Then tag this commit
+    */
+    withCredentials([usernamePassword(credentialsId: 'gogs-id', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+        sh("git config --global user.email 'jenkins@cicdhub.com'")
+        sh("git config --global user.name 'Jenkins'")
+        sh("git tag -d ${version} |true")
+        sh("git push http://${GIT_USERNAME}:${GIT_PASSWORD}@${GOGS_HOST}/${ORGANISATION}/${descriptor} --delete ${version} |true")
+        sh("git push ${GIT_URL} --delete ${version} |true")
+        sh("git tag -a ${version} -m 'Jenkins' ${GIT_COMMIT} |true")
+        sh("git push http://${GIT_USERNAME}:${GIT_PASSWORD}@${GOGS_HOST}/${ORGANISATION}/${descriptor} --tags")
+    }    
+}
+
+def onboard_dependencies(dependency_filename)
+{
+    def n /* name of package */
+    def v /* version of package */
+    
+    if (fileExists("${WORKSPACE}/${dependency_filename}")) 
+    {
+      def packages = readFile("${WORKSPACE}/${dependency_filename}").split('\n')
+      for (int i = 0; i < packages.size(); ++i) {
+        n = packages[i].split(' ')[0].trim()
+        v = packages[i].split(' ')[1].trim()
+        /*
+          try to get a released package (without -SNAPSHOT suffix)
+          if not try get a SNAPSHOT
+        */
+        
+        if (package_exists("raw", "packages/${n}/${n}-${v}.tgz") == "0")
+        {
+            sh("wget ${NEXUS_URL}/repository/raw/packages/${n}/${n}-${v}.tgz")
+            sh("lmctl pkg push ${n}-${v}.tgz ${TEST_ENV}")
+            echo "onboarded  ${n}-${v}.tgz "               
+        }
+        else
+        {
+            sh("wget ${NEXUS_URL}/repository/raw/packages/${n}/${n}-${v}-SNAPSHOT.tgz")
+            sh("lmctl pkg push ${n}-${v}-SNAPSHOT.tgz ${TEST_ENV}")
+            echo "onboarded  ${n}-${v}-SNAPSHOT.tgz"                
+        }
+        
+                                    
+      }
+    }
+    
+}
+
+def package_exists(repo, package_name)
+{
+    response = sh(  returnStdout: true, 
+                    script: "curl -X GET \"${NEXUS_URL}/service/rest/v1/search?repository=${repo}&name=${package_name}\""
+                )
+    echo "response: ${response}"
+    status = sh( returnStatus: true,
+                script: "echo \"${response}\" | grep ${package_name}")
+    echo "status: ${status}"
+    return "${status}"
+}
+
+

@@ -1,0 +1,50 @@
+- name: copy the pod descriptor
+  delegate_to: k8s
+  template:
+    src: pod.yaml
+    dest: "/opt/{{ instance_name }}.yaml"
+
+- name: Start asterisk container
+  delegate_to: k8s
+  command: "kubectl apply -f /opt/{{ instance_name }}.yaml"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  register: pod_result
+
+- name: Wait for asterisk to be ready
+  delegate_to: k8s
+  shell: "kubectl get pods | grep {{ instance_name }}"
+  register: asterisk_status
+  until: asterisk_status.stdout.find("1/1") != -1
+  retries: 120
+  delay: 20
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+- name: get asterisk pod details
+  delegate_to: k8s
+  command: "kubectl get pod {{ instance_name }} -o yaml --export"
+  register: asterisk_details
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+
+- set_fact:
+    asterisk: "{{ asterisk_details.stdout_lines | join('\n') | from_yaml }}"
+
+- name: find mgmt ip address 
+  set_fact:
+    mgmt_ip_address: "{{ item.ips[0] }}"
+  with_items: "{{ asterisk['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+  when: "mgmt_network == item.name"
+
+- name: find data ip address 
+  set_fact:
+    data_ip_address: "{{ item.ips[0] }}"
+  with_items: "{{ sipp['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
+  when: "data_network == item.name"
+
+- name: report PROPERTIES
+  debug:
+    msg:
+    - "mgmt_address: {{ mgmt_ip_address }}"
+    - "data_address: {{ data_ip_address }}"

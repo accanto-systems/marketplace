@@ -1,0 +1,141 @@
+name: assembly::voice-service::2.0
+description: Voice Service
+properties:
+  resourceManager:
+    type: string
+    default: defaultrm
+    required: true
+  keyname:
+    description: name of the openstack keyname
+    type: string
+    required: true
+    default: default
+  voice_service_ipaddress:
+    description: the ip address of the endpoint for the voice service
+    type: string
+    read-only: true
+    value: ${gateway.external_address}
+  base_infrastructure:
+    type: string
+    default: base
+    required: true
+composition:
+  gateway:
+    properties:
+      deploymentLocation:
+        value: edge
+      resourceManager:
+        value: ${resourceManager}
+      mgmt_network:
+        value: mgmt
+      external_network:
+        value: voice
+      internal_network:
+        value: internal
+    type: assembly::voip-gateway::1.0
+    quantity: 1
+  voip-server:
+    properties:
+      deploymentLocation:
+        value: core
+      resourceManager:
+        value: ${resourceManager}
+      gw_address:
+        value: ${gateway.internal_address}
+      keyname:
+        value: ${keyname}
+      mgmt_securitygroup_id:
+        value: ${base.mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${base.voice_securitygroup_id}
+      mgmt_network:
+        value: ${base.mgmt_networkid}
+      data_network:
+        value: ${internal.networkid}
+      data_cidr:
+        value: ${internal.subnet}
+    type: assembly::ip-pbx::1.0
+    cluster:
+      initial-quantity: 1
+      minimum-nodes: 1
+      maximum-nodes: 10
+      scaling-increment: 1
+  internal:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      subnet:
+        value: 10.0.20.0/24
+      provider_network: 
+        value: True
+      provider_network_type: 
+        value: vlan
+      provider_physical_network: 
+        value: provider
+      provider_segmentation_id: 
+        value: 50
+      startip:
+        value: 10.0.20.2
+      endip: 
+        value: 10.0.20.50
+    type: assembly::network::1.0
+references:
+  base:
+    properties:
+      name:
+        value: ${base_infrastructure}
+    type: assembly::base::0.1
+relationships:
+  manageDispatchList:
+    properties:
+      ipaddr:
+        value: ${source.data_address}
+      port:
+        value: '5060'
+    source-state: Active
+    target-state: Active
+    source-state-modifier: post
+    target-state-modifier: post
+    lifecycle:
+      Create:
+      - target.addToDispatchList
+      Cease:
+      - target.deleteFromDispatchList
+    source-capabilities:
+    - voip-server.poolNode
+    target-requirements:
+    - gateway.poolController
+policies:
+  scaleVoipServer:
+    properties:
+      scaleOut_threshold:
+        value: 58
+      scaleIn_threshold:
+        value: 32
+      smoothing:
+        value: 3
+    type: policy::scale
+    metric: gateway.h_load
+    target: voip-server
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    gateway:
+      x: 650
+      y: 40
+    voip-server:
+      x: 944.6666870117188
+      y: 177.33334350585938
+    internal:
+      x: 490
+      y: 400
+    base:
+      x: 531.3333740234375
+      y: 672
+    assembly::voice-service::1.0:
+      x: -10.66668701171875
+      y: -38.66667938232422
