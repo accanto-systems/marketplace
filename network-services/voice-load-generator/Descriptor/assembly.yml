@@ -13,7 +13,7 @@ properties:
     default: voice
   instance_name:
     type: string
-    default: ${instance.name}
+    value: ${instance.name}
 composition:
   sipp-server:
     properties:

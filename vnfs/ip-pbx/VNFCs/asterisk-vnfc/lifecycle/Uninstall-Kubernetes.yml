@@ -1,5 +1,5 @@
 ---
-- name: "Remove sipp instance {{ instance_name }}"
+- name: "Remove asterisk vnfc instance"
   delegate_to: k8s
   command: "kubectl delete pod {{ instance_name }}"
   environment:

@@ -5,7 +5,6 @@ properties:
   instance_name:
     type: string
     description: hostname address of this container
-    default: ${instance.name}
   instanceid:
     description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
     value: ${instance.id}

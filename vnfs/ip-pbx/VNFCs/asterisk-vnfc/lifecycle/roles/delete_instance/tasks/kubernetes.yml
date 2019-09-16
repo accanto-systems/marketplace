@@ -1,5 +1,5 @@
 ---
-- name: "Remove ip pbx instance {{ instance_name }}"
+- name: "Remove ip pbx instance"
   os_server:
     state: absent
     name: "{{ instance_name }}"

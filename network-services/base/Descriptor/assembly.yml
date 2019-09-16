@@ -53,17 +53,17 @@ composition:
         value: ${resourceManager}
       subnet:
         value: 10.0.30.0/24
-      provider_network: 
-        value: True
-      provider_network_type: 
+      provider_network:
+        value: true
+      provider_network_type:
         value: vlan
-      provider_physical_network: 
+      provider_physical_network:
         value: provider
-      provider_segmentation_id: 
+      provider_segmentation_id:
         value: 5
       startip:
         value: 10.0.30.2
-      endip: 
+      endip:
         value: 10.0.30.50
     type: assembly::network::1.0
     quantity: 1
@@ -75,17 +75,17 @@ composition:
         value: ${resourceManager}
       subnet:
         value: 10.0.10.0/24
-      provider_network: 
-        value: True
-      provider_network_type: 
+      provider_network:
+        value: true
+      provider_network_type:
         value: vlan
-      provider_physical_network: 
+      provider_physical_network:
         value: provider
-      provider_segmentation_id: 
+      provider_segmentation_id:
         value: 10
       startip:
         value: 10.0.10.2
-      endip: 
+      endip:
         value: 10.0.10.50
     type: assembly::network::1.0
     quantity: 1

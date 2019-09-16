@@ -9,6 +9,8 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  instance_name:
+    description: instance name
   keyname:
     type: string
     description: openstack key name
@@ -47,6 +49,8 @@ composition:
     properties:
       keyname:
         value: ${keyname}
+      instance_name:
+        value: ${instance_name}
       mgmt_securitygroup_id:
         value: ${mgmt_securitygroup_id}
       voice_securitygroup_id:

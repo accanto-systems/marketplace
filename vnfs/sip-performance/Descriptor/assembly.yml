@@ -10,7 +10,7 @@ properties:
     type: string
     default: defaultrm
   instance_name:
-    default: ${instance.name}
+    description: instance name
   target_sip_address:
     description: name of sip-server component to send traffic to
     type: string

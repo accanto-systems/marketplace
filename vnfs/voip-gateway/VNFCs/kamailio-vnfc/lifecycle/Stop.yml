@@ -13,15 +13,18 @@
   tasks:
   - name: Stop Kamailio
     become: yes
+    when: type == "Openstack"
     shell: pkill kamailio 
     ignore_errors: yes
 
   - name: Stop rtp engine
+    when: type == "Openstack"
     become: yes
     shell: pkill rtpengine   
     ignore_errors: yes    
 
   - name: Stop collectd
+    when: type == "Openstack"
     become: yes
     shell: "pkill collectd" 
     ignore_errors: yes

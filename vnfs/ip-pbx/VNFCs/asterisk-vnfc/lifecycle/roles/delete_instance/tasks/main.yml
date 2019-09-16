@@ -1,5 +1,5 @@
 - import_tasks: openstack.yml
-  when: type == "Openstack"
+# when: type == "Openstack"
 
-- import_tasks: kubernetes.yml
-  when: type == "Kubernetes"
+# - import_tasks: kubernetes.yml
+#   when: type == "Kubernetes"

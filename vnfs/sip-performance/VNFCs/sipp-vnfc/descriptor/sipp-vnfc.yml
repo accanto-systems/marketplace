@@ -4,7 +4,6 @@ properties:
   instance_name:
     type: string
     description: the name of this resource instance
-    default: ${instance.name}
   imagename:
     type: string
     description: the name of this resource image

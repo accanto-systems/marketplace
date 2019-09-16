@@ -33,7 +33,7 @@ properties:
     type: string
     description: start of ip address range
     default: 10.20.0.2
-  endip: 
+  endip:
     type: string
     description: end of ip address range
     default: 10.20.0.50
@@ -66,7 +66,7 @@ composition:
         value: ${provider_segmentation_id}
       startip:
         value: ${startip}
-      endip: 
+      endip:
         value: ${endip}
       deploymentLocation:
         value: ${deploymentLocation}

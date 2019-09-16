@@ -5,10 +5,10 @@
   roles:
     - { role: create_inventory }
 
-- name: Include Kubernetes Uninstall
-  when: type == "Kubernetes"
-  import_playbook: Uninstall-Kubernetes.yml
+# - name: Include Kubernetes Uninstall
+#   when: type == "Kubernetes"
+#   import_playbook: Uninstall-Kubernetes.yml
 
 - name: Include Openstack Uninstall
-  when: type == "Openstack"
+  # when: type == "Openstack"
   import_playbook: Uninstall-Openstack.yml

@@ -47,11 +47,11 @@
   set_fact:
     data_ip_address: "{{ item.ips[0] }}"
   with_items: "{{ kamailio['metadata']['annotations']['k8s.v1.cni.cncf.io/networks-status'] }}"
-  when: "data_network == item.name"
+  when: "external_network == item.name"
 
 - name: report PROPERTIES
   debug:
     msg:
     - "mgmt_address: {{ mgmt_ip_address }}"
-    - "data_address: {{ data_ip_address }}"
+    - "external_address: {{ data_ip_address }}"
     - "internal_address: {{ data_ip_address }}"
