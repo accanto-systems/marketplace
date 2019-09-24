@@ -54,4 +54,4 @@
     msg:
     - "mgmt_address: {{ mgmt_ip_address }}"
     - "external_address: {{ data_ip_address }}"
-    - "internal_address: {{ data_ip_address }}"
+    - "internal_address: {{ internal_ip_address }}"
