@@ -1,12 +1,18 @@
 # NFVI Demo Setup
 
-ALM       192.168.10.5
-Openstack 192.168.10.10
-k8s       192.168.10.50
+## Setup virtual data centre and VIMs
+
+Create the virtual infrastructure and VIMs by cloning the NFVI underlay project as follows:
+
+```
+git clone https://github.com/accanto-systems/nfvi-environment.git
+```
+
+Follow instructions in nfvi-environment project Readme.md to configure and setup your virtual NFVI environment. 
 
 ## Setup LM
 
-Clone lm-allinone project and add LM distribution to **lm-allnone/lm-artifacts** directory.
+Clone [lm-allinone](https://github.com/accanto-systems/lm-allinone.git) project and add your LM software source and helm charts to **lm-allnone/lm-artifacts** directory.
 
 Update the following properties in **lm-allinone/ansible/ansible-variables.yml** file to point to LM software
 
@@ -27,7 +33,7 @@ configurator:
       alm.daytona.resource-manager.polling-interval: 5000
 ```
 
-### Theme LM if you need
+### Theme LM if you need to
 
 Add your theme tar file to **lm-allinone/ansible** directory and update the following properties in your **lm-allinone/ansible/ansible-variables.yml** file.
 
@@ -37,9 +43,9 @@ lm_theme_directory: .
 lm_theme_name: bluerinse
 ```
 
-### Add underlay interface to AIO VM
+### Add NFVI interface to AIO VM
 
-Add the following to your **lm-allinone/Vagrantfile** as the last vNIC in the list. 
+The NFVI infrastructure creates a set of provider networks that are used by Openstack and Kubernetes VIMs. The AIO VM must have a vNIC attached to the provider switching network and configured on the management network. To attach the AIO to the provider network, add the following to your **lm-allinone/Vagrantfile** as the last vNIC in the list, as follows: 
 
 ```
     nodeconfig.vm.network 'public_network', dev: 's1', type: 'bridge', mode: 'bridge', :ovs => true, ip: '10.0.30.5'
@@ -47,54 +53,31 @@ Add the following to your **lm-allinone/Vagrantfile** as the last vNIC in the li
 
 ### Run the AIO installation
 
+Create your AIO by running the following command:
+
 ```
 vagrant up
 ```
 
-### Set the mgmt interface on the LM VIM
+### Configure the mgmt interface on the AIO virtual machine
 
-LM mgmt interface is on VLAN with id 5. Add VM vNIC VLAN subinterface by doing the following
+Once the AIO VM is up you need to configure the NIC attached to the provider switches with the correct VLAN and IPAM. The Mgmt interface is on VLAN with id 5. Add a VLAN subinterface by running the following commands in the AIO directory on your host machine as follows:
 
 ```
 cd lm-allinone
 vagrant ssh
-ifconfig eth2
-ip link add link eth2 name eth2.5 type vlan id 5
-ifconfig eth2.5 10.0.30.5
+sudo ifconfig eth2 0
+sudo ip link add link eth2 name eth2.5 type vlan id 5
+sudo ifconfig eth2.5 10.0.30.5
 ```
-## Setup virtual data centre and VIMs
-
-Create the virtual infrastructure and VIMs by cloning the NFVI underlay projects
-
-```
-git clone underlay
-```
-
-Run the following commands to install everything
-
-```
-cd underlay
-ansible-playbook -i inventory underlay.yaml
-vagrant up
-ansible-playbook -i inventory overlay.yaml
-```
-
-### Openstack images
-
-Load the following Openstack images
-* sipp
-* ippbx
-* kamailio
-
-### Create openstack keypair
-
-Create an openstack keypair called **default** 
 
 ## Configure locations in LM
 
+Once AIO is up and running, log onto LM at https://192.168.10.5:8082 and create the following locations. 
+
 ### Add openstack Core location
 
-In ALM add a location called "core" with the type "Openstack" and provide the following properties
+Add a location called "core" with resource manager "defaultRM" and infrastructure type "Openstack" and provide the following properties
 
 ```
 os_auth_url: "http://192.168.10.10:5000/v3"
@@ -106,7 +89,7 @@ almip: 10.0.30.5
 
 ### Add k8s edge location
 
-In ALM add a location called "edge" with the type "Kubernetes" and provide the following properties
+Add a location called "edge" with resource manager "defaultRM" with infrastructure type "Kubernetes" and provide the following properties
 
 ```
 k8s_address: 192.168.10.50
@@ -117,17 +100,17 @@ almip: 10.0.30.5
 
 ## Setup LMCTL
 
-Install 2.0 version of lmctl
+Install lmctl on your host machine by running the folowing command:
 
 ```
-python3 -m pip install lmctl==2.0.7.1
+python3 -m pip install lmctl
 ```
 
 Create a file called **lmconfig.yaml** and add the following:
 
 ```
 dev:
-  description: dev environment on BT
+  description: demo environment
   alm:
     ip_address: 192.168.10.5
     port: 8083
@@ -152,14 +135,16 @@ export LMCONFIG=~/lmconfig.yaml
 
 ## Load VNFs and Network Services
 
-clone this marketplace project and checkout the **provider** branch
+Clone the marketplace project and checkout the **provider** branch
 
 ```
 git clone https://github.com/accanto-systems/marketplace.git
 git checkout provider
 ```
 
-And finally load the VNFs and Network services into LM
+As required, build VNF images as per each VNF readme and load into target VIM if necessary
+
+Finally load the VNFs and Network services into LM
 
 ```
 cd marketplace
