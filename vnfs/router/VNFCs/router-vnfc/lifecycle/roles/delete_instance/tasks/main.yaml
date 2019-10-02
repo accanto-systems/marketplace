@@ -1,4 +1,0 @@
-- os_router:
-    state: absent
-    name: "{{ router_name }}"
-

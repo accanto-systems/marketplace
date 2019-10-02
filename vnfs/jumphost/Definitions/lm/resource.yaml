@@ -1,0 +1,28 @@
+description: descriptor for jumphost
+properties:
+  key_name:
+    default: default
+    description: Name of key-pair to be used for compute instance
+  image_id:
+    default: xenial-server-cloudimg-amd64-disk1
+    description: Image to be used for compute instance
+  flavor:
+    default: m1.small
+    description: Type of instance (flavor) to be used
+    
+  jumphost_internal_ip: 
+    read-only: true
+  jumphost_public_ip: 
+    read-only: true
+  mgmt_network_id: 
+    read-only: true
+  mgmt_security_group_id: 
+    read-only: true
+  voice_network_id: 
+    read-only: true
+  voice_security_group_id: 
+    read-only: true
+
+lifecycle:
+  - Create
+  - Delete

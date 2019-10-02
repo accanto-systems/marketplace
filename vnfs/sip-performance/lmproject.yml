@@ -1,10 +1,9 @@
+schema: '2.0'
 name: sip-performance
-vnfcs:
-  definitions:
-    sipp-vnfc:
-      directory: sipp-vnfc
-  packages:
-    ansible-rm-vnfcs:
-      packaging-type: ansible-rm
-      executions:
-      - vnfc: sipp-vnfc
+version: '1.0'
+type: Assembly
+contains:
+- name: sipp-vnfc
+  type: Resource
+  resource-manager: brent
+  directory: sipp-vnfc

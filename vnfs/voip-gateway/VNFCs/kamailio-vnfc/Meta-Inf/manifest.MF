@@ -1,3 +1,0 @@
-name: kamailio-vnfc
-version: 1.0
-resource-manager: ansible

@@ -1,10 +1,9 @@
+schema: '2.0'
 name: voip-gateway
-vnfcs:
-  definitions:
-    kamailio-vnfc:
-      directory: kamailio-vnfc
-  packages:
-    ansible-rm-vnfcs:
-      packaging-type: ansible-rm
-      executions:
-      - vnfc: kamailio-vnfc
+version: '1.0'
+type: Assembly
+contains:
+- name: kamailio-vnfc
+  type: Resource
+  resource-manager: brent
+  directory: kamailio-vnfc

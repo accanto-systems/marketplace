@@ -1,7 +1,0 @@
-- os_security_group:
-    state: absent
-    name: "{{ instance_name }}-mgmt-sec"
-
-- os_security_group:
-    state: absent
-    name: "{{ instance_name }}-voip-sec"
