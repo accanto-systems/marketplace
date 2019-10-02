@@ -1,5 +1,5 @@
 heat_template_version: "2018-08-31"
-description: "Infrastructure for sipp"
+description: "Infrastructure for voice gateway"
 
 parameters:
   instance_name:
@@ -34,7 +34,12 @@ parameters:
     type: string
     label: Voice Security Group id
     description: Type of instance (flavor) to be used
-
+  internal_secgroup_id :
+    type: string
+    label: Internal  Security Group id
+  internal_network_id:
+    type: string
+    label: Internal Network id
 
 resources:
 
@@ -56,15 +61,22 @@ resources:
       name: { get_param: instance_name }
       network: { get_param: voice_network_id }
 
+  internal_port: 
+    type: "OS::Neutron::Port"
+    properties: 
+      admin_state_up: true
+      security_groups: 
+        - { get_param: internal_secgroup_id }
+      name: { get_param: instance_name }
+      network: { get_param: internal_network_id }
 
-
-  sipp: 
+  gateway: 
     type: "OS::Nova::Server"
     properties: 
       networks: 
         - port: { get_resource: mgmt_port }
         - port: { get_resource: voice_port }
-
+        - port: { get_resource: internal_port }
       name: { get_param: instance_name }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
@@ -92,4 +104,5 @@ outputs:
     value: { get_attr: [ mgmt_port , fixed_ips, 0, ip_address ] }
   voice_ip_address:
     value: { get_attr: [ voice_port, fixed_ips, 0, ip_address ] }
-
+  internal_ip_address:
+    value: { get_attr: [ internal_port, fixed_ips, 0, ip_address ] }

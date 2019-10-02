@@ -1,1 +1,99 @@
 description: descriptor for kamailio-vnfc
+
+properties:
+  instance_name:
+    description: the name of this resource instance
+    value: ${instance.name}
+  key_name:
+     description: Openstack key
+     required: true
+  image_id:
+    description: "the image name"
+    value: kamailio
+  flavor:
+    description: "Type of instance (flavor) to be used"
+    default: m1.small
+
+  mgmt_network_id:
+    description: mgmt network id
+    required: true
+  mgmt_secgroup_id:
+    description: mgmt secgroup id
+    required: true
+  voice_network_id:
+    description: voice network id
+    required: true
+  voice_secgroup_id:
+    description: voice secgroup id
+    required: true
+  voice_ip_address:
+    description: assigned ip address on voip network. This is the voip endpoint 
+    read-only: true
+  mgmt_ip_address:
+    read-only: true  
+  internal_network_id:
+    description: internal network id
+    required: true
+  internal_secgroup_id:
+    description: internal secgroup id
+    required: true
+  internal_ip_address:
+    description: assigned ip address on internal network. 
+    read-only: true
+
+  
+  # properties for metrics and policies
+  instanceid:
+    description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
+    value: ${instance.id}    
+  integrity_smoothing:
+     description: Integrity smoothing
+     default: 3     
+  publication_period:
+    description: Metric publication period in seconds
+    default: 60
+
+  # jumphost properties
+  jumphost_ip:
+    description: ip assigned to jumphost
+  jumphost_username:
+    description: jumphost username
+  jumphost_password:
+    description: jumphost password
+
+lifecycle:
+- Create
+- Configure
+- Start
+- Integrity
+- Stop
+- Delete
+
+operations:
+  addToDispatchList:
+    properties:
+      ipaddr:
+        type: string
+        description: address of the voip server to add to pool
+        required: true
+      port:
+        type: string
+        description: port of the voip server to add to pool
+        default: 5060
+        required: true
+  deleteFromDispatchList:
+    properties:
+      ipaddr:
+        type: string
+        description: address of the voip server to remove from the pool
+        required: true
+      port:
+        type: string
+        description: address of the voip server to remove from the pool
+        default: 5060
+        required: true
+metrics:
+  h_load:
+    type: metric::load
+    publication_period: 60
+

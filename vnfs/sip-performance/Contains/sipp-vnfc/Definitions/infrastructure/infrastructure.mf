@@ -1,3 +1,4 @@
-templates: []
-  #- file: example.yaml
-  #  infrastructure_type: Openstack
+templates: 
+  - file: heat.yaml
+    infrastructure_type: Openstack
+    template_type: HEAT

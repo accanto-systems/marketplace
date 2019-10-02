@@ -1,151 +1,84 @@
-name: assembly::voice-service::1.0
-description: Voice Service
+description: descriptor for voice-service
 properties:
-  deploymentLocation:
+  deployment_location:
     type: string
-    default: devstack
+    default: madurai
     required: true
-  resourceManager:
+  mgmt_infra_name:
     type: string
-    default: defaultrm
+    default: mgmt
     required: true
-  keyname:
-    description: name of the openstack keyname
-    type: string
-    required: true
-    default: default
-  voice_service_ipaddress:
-    description: the ip address of the endpoint for the voice service
+  voice_network_id:
+    read-only: true
+    value: ${voice_infra.voice_network_id}
+  voice_security_group_id:
+    read-only: true
+    value: ${voice_infra.voice_security_group_id}
+  voice_service_access_ip:
     type: string
     read-only: true
-    value: ${gateway.external_address}
-  base_infrastructure:
-    type: string
-    default: base
-    required: true
+    value: ${gateway.voice_address}
 composition:
+  voice_infra:
+    properties:
+      deploymentLocation:
+        value: ${deployment_location}
+      resourceManager:
+        value: brent
+    type: $lmctl:/contains:/infra:/descriptor_name
+  voice_server:
+    properties:
+      deploymentLocation:
+        value: ${deployment_location}
+      gw_address:
+        value: ${gateway.internal_address}
+      voice_network:
+        value: ${voice_infra.internal_network_id}
+      voice_security_group:
+        value: ${voice_infra.internal_security_group_id}
+      mgmt_infra_name:
+        value: ${mgmt_infra_name}
+    type: assembly::ip-pbx::1.0
   gateway:
     properties:
       deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      keyname:
-        value: ${keyname}
-      mgmt_securitygroup_id:
-        value: ${base.mgmt_securitygroup_id}
-      voice_securitygroup_id:
-        value: ${base.voice_securitygroup_id}
-      mgmt_network:
-        value: ${base.mgmt_networkid}
-      external_network:
-        value: ${base.voice_networkid}
+        value: ${deployment_location}
+      voice_network:
+        value: ${voice_infra.voice_network_id}
+      voice_security_group:
+        value: ${voice_infra.voice_security_group_id}
       internal_network:
-        value: ${internal.networkid}
-      jumphost_ip:
-        value: ${base.jumphost_ip}
-      jumphost_username:
-        value: ${base.jumphost_username}
-      jumphost_password:
-        value: ${base.jumphost_password}
+        value: ${voice_infra.internal_network_id}
+      internal_security_group:
+        value: ${voice_infra.internal_security_group_id}
+      mgmt_infra_name:
+        value: ${mgmt_infra_name}
     type: assembly::voip-gateway::1.0
-    quantity: 1
-  voip-server:
-    properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      gw_address:
-        value: ${gateway.internal_address}
-      keyname:
-        value: ${keyname}
-      mgmt_securitygroup_id:
-        value: ${base.mgmt_securitygroup_id}
-      voice_securitygroup_id:
-        value: ${base.voice_securitygroup_id}
-      mgmt_network:
-        value: ${base.mgmt_networkid}
-      data_network:
-        value: ${internal.networkid}
-      data_cidr:
-        value: ${internal.subnet}
-      jumphost_ip:
-        value: ${base.jumphost_ip}
-      jumphost_username:
-        value: ${base.jumphost_username}
-      jumphost_password:
-        value: ${base.jumphost_password}
-    type: assembly::ip-pbx::1.0
-    cluster:
-      initial-quantity: 1
-      minimum-nodes: 1
-      maximum-nodes: 10
-      scaling-increment: 1
-  internal:
-    properties:
-      deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      subnet:
-        value: 10.0.0.0/24
-    type: assembly::network::1.0
 references:
-  base:
+  mgmt_infra:
     properties:
       name:
-        value: ${base_infrastructure}
-    type: assembly::base::0.1
-relationships:
-  manageDispatchList:
-    properties:
-      ipaddr:
-        value: ${source.data_address}
-      port:
-        value: '5060'
-    source-state: Active
-    target-state: Active
-    source-state-modifier: post
-    target-state-modifier: post
-    lifecycle:
-      Create:
-      - target.addToDispatchList
-      Cease:
-      - target.deleteFromDispatchList
-    source-capabilities:
-    - voip-server.poolNode
-    target-requirements:
-    - gateway.poolController
-policies:
-  scaleVoipServer:
-    properties:
-      scaleOut_threshold:
-        value: 58
-      scaleIn_threshold:
-        value: 32
-      smoothing:
-        value: 3
-    type: policy::scale
-    metric: gateway.h_load
-    target: voip-server
+        value: ${mgmt_infra_name}
+    type: assembly::mgmt_infra::1.0
 designerLayout:
-  description: The following information is solely used to determine the presentation
-    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
-    description of the Assembly and should not be edited directly.
+  description: >-
+    The following information is solely used to determine the presentation of
+    this Assembly Design in the LM UI. It does not form part of
+    operational/behavioural description of the Assembly and should not be edited
+    directly.
   elements:
-    gateway:
-      x: 650
-      y: 40
-    voip-server:
-      x: 944.6666870117188
-      y: 177.33334350585938
-    internal:
-      x: 490
-      y: 400
-    base:
-      x: 531.3333740234375
-      y: 672
+    voice_infra:
+      x: 569.9998779296875
+      y: 668.0000228881836
+    mgmt_infra:
+      x: 342
+      y: 684
     assembly::voice-service::1.0:
-      x: -10.66668701171875
-      y: -38.66667938232422
+      x: 0.00000762939453125
+      y: 180
+    voice_server:
+      x: 1446.0000610351562
+      y: 86.66666412353516
+    gateway:
+      x: 815.3333129882812
+      y: 86.66667938232422

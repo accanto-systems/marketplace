@@ -42,18 +42,18 @@ resources:
     properties: 
       admin_state_up: true
       security_groups: 
-        - { get_resource: mgmt_secgroup_id }
-      name: { get_parameter: instance_name }
-      network: { get_resource: mgmt_network_id }
+        - { get_param: mgmt_secgroup_id }
+      name: { get_param: instance_name }
+      network: { get_param: mgmt_network_id }
 
   voice_port: 
     type: "OS::Neutron::Port"
     properties: 
       admin_state_up: true
       security_groups: 
-        - { get_parameter: voice_secgroup_id }
-      name: { get_parameter: instance_name }
-      network: { get_parameter: voice_network_id }
+        - { get_param: voice_secgroup_id }
+      name: { get_param: instance_name }
+      network: { get_param: voice_network_id }
 
   pbx: 
     type: "OS::Nova::Server"
@@ -61,7 +61,7 @@ resources:
       networks: 
         - port: { get_resource: mgmt_port }
         - port: { get_resource: voice_port }
-      name: { get_parameter: instance_name }
+      name: { get_param: instance_name }
       flavor: { get_param: flavor }
       key_name: { get_param: key_name }
       image: { get_param: image_id }
@@ -84,5 +84,7 @@ resources:
         package_update: false
 
 outputs:
-  ip_address: 
-    value: { get_attr: [ pbx , first_address ] }
+  mgmt_ip_address: 
+    value: { get_attr: [ mgmt_port , fixed_ips, 0, ip_address ] }
+  voice_ip_address:
+    value: { get_attr: [ voice_port, fixed_ips, 0, ip_address ] }

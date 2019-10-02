@@ -1,1 +1,115 @@
 description: descriptor for voip-gateway
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    required: true
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: brent
+  keyname:
+    type: string
+    default: default
+    required: true
+  mgmt_address:
+    description: managemet ip address of this vnfc
+    type: string
+    read-only: true
+    value: ${gateway.mgmt_ip_address}
+  voice_network:
+    type: string
+    descripion: id of data network
+    required: true
+  voice_security_group:
+    description: voice security group
+    required: true
+  voice_address:
+    description: assigned ip address on voip network. This is the voip endpoint
+    type: string
+    read-only: true
+    value: ${gateway.voice_ip_address}
+  internal_network:
+    type: string
+    descripion: id of internal network
+    required: true
+  internal_security_group:
+    description: internal security group
+    required: true
+  internal_address:
+    description: assigned ip address on internal network. This is the voip endpoint
+    type: string
+    read-only: true
+    value: ${gateway.internal_ip_address}
+  mgmt_infra_name:
+    description: managemet infrastructure instance name
+    default: mgmt
+composition:
+  gateway:
+    properties:
+      key_name:
+        value: ${keyname}
+      image_id:
+        value: kamailio
+      flavor:
+        value: m1.small
+      mgmt_network_id:
+        value: ${mgmt.mgmt_network_id}
+      mgmt_secgroup_id:
+        value: ${mgmt.mgmt_security_group_id}
+      voice_network_id:
+        value: ${voice_network}
+      voice_secgroup_id:
+        value: ${voice_security_group}
+      internal_network_id:
+        value: ${internal_network}
+      internal_secgroup_id:
+        value: ${internal_security_group}
+      integrity_smoothing:
+        value: 3
+      publication_period:
+        value: 60
+      jumphost_ip:
+        value: ${mgmt.jumphost_public_ip}
+      jumphost_username:
+        value: ${mgmt.jumphost_username}
+      jumphost_password:
+        value: ${mgmt.jumphost_password}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      gw_address:
+        value: ${gw_address}
+    type: $lmctl:/contains:/kamailio-vnfc:/descriptor_name
+    quantity: 1
+references:
+  mgmt:
+    properties:
+      name:
+        value: ${mgmt_infra_name}
+    type: assembly::mgmt_infra::1.0
+operations:
+  addToDispatchList:
+    source-operation: kamailio.addToDispatchList
+  deleteFromDispatchList:
+    source-operation: kamailio.deleteFromDispatchList
+metrics:
+  h_load:
+    type: metric::load
+    source-metric: kamailio.h_load
+designerLayout:
+  description: >-
+    The following information is solely used to determine the presentation of
+    this Assembly Design in the LM UI. It does not form part of
+    operational/behavioural description of the Assembly and should not be edited
+    directly.
+  elements:
+    gateway:
+      x: 1195.3333129882812
+      y: -122.66666793823242
+    mgmt:
+      x: 538.5281982421875
+      y: 313.0795593261719
+    assembly::voip-gateway::1.0:
+      x: -131.30865478515625
+      y: 66.97479248046875

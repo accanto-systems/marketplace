@@ -1,1 +1,88 @@
 description: descriptor for sip-performance
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    required: true
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: brent
+  keyname:
+    type: string
+    default: default
+    required: true
+  mgmt_address:
+    description: managemet ip address of this vnfc
+    type: string
+    read-only: true
+    value: ${sipp.mgmt_ip_address}
+  voice_network:
+    type: string
+    descripion: id of data network
+    required: true
+  voice_security_group:
+    description: voice security group
+    required: true
+  voice_source_address:
+    description: assigned ip address on voip network. This is the voip endpoint
+    type: string
+    read-only: true
+    value: ${sipp.voice_ip_address}
+  mgmt_infra_name:
+    description: managemet infrastructure instance name
+    default: mgmt
+  target_ip_address:
+    required: true
+composition:
+  sipp:
+    properties:
+      key_name:
+        value: ${keyname}
+      image_id:
+        value: sipp
+      flavor:
+        value: m1.small
+      mgmt_network_id:
+        value: ${mgmt.mgmt_network_id}
+      mgmt_secgroup_id:
+        value: ${mgmt.mgmt_security_group_id}
+      voice_network_id:
+        value: ${voice_network}
+      voice_secgroup_id:
+        value: ${voice_security_group}
+      target_ip_address:
+        value: ${target_ip_address}
+      jumphost_ip:
+        value: ${mgmt.jumphost_public_ip}
+      jumphost_username:
+        value: ${mgmt.jumphost_username}
+      jumphost_password:
+        value: ${mgmt.jumphost_password}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: $lmctl:/contains:/sipp-vnfc:/descriptor_name
+    quantity: 1
+references:
+  mgmt:
+    properties:
+      name:
+        value: ${mgmt_infra_name}
+    type: assembly::mgmt_infra::1.0
+designerLayout:
+  description: >-
+    The following information is solely used to determine the presentation of
+    this Assembly Design in the LM UI. It does not form part of
+    operational/behavioural description of the Assembly and should not be edited
+    directly.
+  elements:
+    sipp:
+      x: 1093.9999389648438
+      y: -133.33333206176758
+    mgmt:
+      x: 630
+      y: 330.6666564941406
+    assembly::sip-performance::1.0:
+      x: 18.666671752929688
+      y: -41.33333206176758

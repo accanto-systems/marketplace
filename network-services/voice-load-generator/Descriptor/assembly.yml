@@ -1,75 +1,44 @@
-name: assembly::voice-load-generator::1.0
-description: Network service to generate a load for the voice network services
+description: descriptor for voice-load-generator
 properties:
-  deploymentLocation:
+  deployment_location:
     type: string
-    default: devstack
-  resourceManager:
-    type: string
-    default: defaultrm
-  keyname:
-    description: openstack keypair name
-    type: string
+    default: madurai
     required: true
-    default: default
-  base_infrastructure:
-    type: string
-    default: base
-  voice_service:
-    description: target voice service for voip traffic load
+  target_service_name:
     type: string
     default: voice
+    required: true
 composition:
-  sipp-server:
+  sipp:
     properties:
       deploymentLocation:
-        value: ${deploymentLocation}
-      resourceManager:
-        value: ${resourceManager}
-      keyname:
-        value: ${keyname}
-      target_sip_address:
-        value: ${voice_service.voice_service_ipaddress}
-      mgmt_securitygroup_id:
-        value: ${base.mgmt_securitygroup_id}
-      voice_securitygroup_id:
-        value: ${base.voice_securitygroup_id}
-      mgmt_network:
-        value: ${base.mgmt_networkid}
-      data_network:
-        value: ${base.voice_networkid}
-      jumphost_ip:
-        value: ${base.jumphost_ip}
-      jumphost_username:
-        value: ${base.jumphost_username}
-      jumphost_password:
-        value: ${base.jumphost_password}
+        value: ${deployment_location}
+      voice_network:
+        value: ${target-service.voice_network_id}
+      voice_security_group:
+        value: ${target-service.voice_security_group_id}
+      target_ip_address:
+        value: ${target-service.voice_service_access_ip}
     type: assembly::sip-performance::1.0
 references:
-  base:
+  target-service:
     properties:
       name:
-        value: ${base_infrastructure}
-    type: assembly::base::0.1
-  voice_service:
-    properties:
-      name:
-        value: ${voice_service}
+        value: ${target_service_name}
     type: assembly::voice-service::1.0
 designerLayout:
-  description: The following information is solely used to determine the presentation
-    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
-    description of the Assembly and should not be edited directly.
+  description: >-
+    The following information is solely used to determine the presentation of
+    this Assembly Design in the LM UI. It does not form part of
+    operational/behavioural description of the Assembly and should not be edited
+    directly.
   elements:
-    sipp-server:
-      x: 388.6666259765625
-      y: 44
-    base:
-      x: 586
-      y: 590.6667022705078
-    voice_service:
-      x: 936.6665649414062
-      y: 264
+    sipp:
+      x: 1127.3333129882812
+      y: 75.99999237060547
+    target-service:
+      x: 633.3308715820312
+      y: 299.1679382324219
     assembly::voice-load-generator::1.0:
-      x: -20
-      y: 68
+      x: 0
+      y: 180
