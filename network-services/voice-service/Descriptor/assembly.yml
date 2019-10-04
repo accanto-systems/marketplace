@@ -38,6 +38,8 @@ composition:
         value: ${voice_infra.internal_security_group_id}
       mgmt_infra_name:
         value: ${mgmt_infra_name}
+      voice_cidr:
+        value: ${voice_infra.voice_cidr}
     type: assembly::ip-pbx::1.0
   gateway:
     properties:
@@ -68,8 +70,8 @@ designerLayout:
     directly.
   elements:
     voice_infra:
-      x: 569.9998779296875
-      y: 668.0000228881836
+      x: 539.3331909179688
+      y: 396.0000228881836
     mgmt_infra:
       x: 342
       y: 684

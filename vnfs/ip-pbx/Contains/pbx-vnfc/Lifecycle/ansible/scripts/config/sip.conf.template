@@ -1,6 +1,6 @@
 [general]
 port=5060
-bindaddr={{data_address}}
+bindaddr={{properties.voice_ip_address}}
 dtmf=rfc2833
 canreinvite=no
 qualify=yes
@@ -21,14 +21,14 @@ callcounter = yes
 ;recordhistory=yes              ; Record SIP history by default
 ;dumphistory=yes                ; Dump SIP history at end of SIP dialogue
 
-{% if gw_address is defined and gw_address != '' %}
+{% if properties.gw_address is defined and properties.gw_address != '' %}
 
-outboundproxy={{gw_address}},force;
-permit={{data_cidr}}/255.255.255.0
+outboundproxy={{properties.gw_address}},force;
+permit={{properties.voice_cidr}}/255.255.255.0
 
 [Kamailio-Private1]
 type=friend
-host={{gw_address}}
+host={{properties.gw_address}}
 port=5060
 disallow=all
 allow=ulaw

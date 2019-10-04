@@ -1,34 +1,36 @@
 description: descriptor for mgmt_infra
 properties:
   deployment_location:
+    type: string
+    default: madurai
     required: true
   jumphost_internal_ip:
     read-only: true
+    value: ${infra.jumphost_internal_ip}
   jumphost_public_ip:
     read-only: true
+    value: ${infra.jumphost_public_ip}
   jumphost_username:
     default: ubuntu
   jumphost_password:
     default: ubuntu
   mgmt_network_id:
     read-only: true
+    value: ${infra.mgmt_network_id}
   mgmt_security_group_id:
     read-only: true
+    value: ${infra.mgmt_security_group_id}
 composition:
   infra:
     properties:
-      jumphost_internal_ip:
-        read-only: true
-      jumphost_public_ip:
-        read-only: true
       jumphost_username:
-        default: ubuntu
+        value: ${jumphost_username}
       jumphost_password:
-        default: ubuntu
-      mgmt_network_id:
-        read-only: true
-      mgmt_security_group_id:
-        read-only: true
+        value: ${jumphost_password}
+      deploymentLocation:
+        value: ${deployment_location}
+      resourceManager:
+        value: brent
     type: $lmctl:/contains:/infra:/descriptor_name
 designerLayout:
   description: >-

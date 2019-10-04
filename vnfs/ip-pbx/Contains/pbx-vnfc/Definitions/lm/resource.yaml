@@ -23,6 +23,8 @@ properties:
   voice_network_id:
     description: voice network id
     required: true
+  voice_cidr:
+    required: true
   voice_secgroup_id:
     description: voice secgroup id
     required: true
@@ -55,6 +57,7 @@ properties:
 
 lifecycle:
 - Create
+- Install
 - Configure
 - Start
 - Integrity

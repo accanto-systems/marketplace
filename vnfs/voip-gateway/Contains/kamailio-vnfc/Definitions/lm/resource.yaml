@@ -63,10 +63,10 @@ properties:
 
 lifecycle:
 - Create
-- Configure
-- Start
-- Integrity
-- Stop
+# - Configure
+# - Start
+# - Integrity
+# - Stop
 - Delete
 
 operations:

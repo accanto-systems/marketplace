@@ -81,7 +81,7 @@ resources:
             ubuntu:ubuntu
           expire: False
         packages:
-         - python"
+         - python
 
   mgmt_router: 
     type: "OS::Neutron::Router"

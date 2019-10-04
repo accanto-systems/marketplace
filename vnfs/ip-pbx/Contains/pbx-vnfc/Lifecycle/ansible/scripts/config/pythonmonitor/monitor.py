@@ -5,7 +5,7 @@ import urllib
 import urllib2
 import json
 
-hostname = "{{instance_name}}"
+hostname = "{{properties.instance_name}}"
 
 def configer(ObjConfiguration):
   collectd.info('Configuring Stuff') 
@@ -14,7 +14,7 @@ def initer():
   collectd.info('initing stuff')
 
 def get_metric_key():
-  metric_key = "{{instanceid}}"
+  metric_key = "{{properties.instanceid}}"
   
   collectd.info(metric_key)
   if metric_key == "no params file found":
@@ -54,7 +54,7 @@ def send_integrity_metric():
 	state = 'BROKEN'
 	state_int = 0
 	
-  url = 'http://{{almip}}:31285/api/send/integrity/' + metric_key + '?metricName=h_integrity&integrity=' + state
+  url = 'http://{{dl_properties.almip}}:31285/api/send/integrity/' + metric_key + '?metricName=h_integrity&integrity=' + state
   collectd.info(url) 
   try:  urllib2.urlopen(url)
   except Exception as e:

@@ -38,6 +38,9 @@ properties:
   mgmt_infra_name:
     description: managemet infrastructure instance name
     default: mgmt
+  voice_cidr:
+    type: string
+    required: true
 composition:
   asterisk:
     properties:
@@ -53,6 +56,8 @@ composition:
         value: ${mgmt.mgmt_security_group_id}
       voice_network_id:
         value: ${voice_network}
+      voice_cidr:
+        value: ${voice_cidr}
       voice_secgroup_id:
         value: ${voice_security_group}
       gw_address:
@@ -93,8 +98,8 @@ designerLayout:
       x: 513.0260314941406
       y: 331.9881896972656
     assembly::ip-pbx::1.0:
-      x: -5.333343505859375
-      y: -42.66667938232422
+      x: 105.33331298828125
+      y: -550.6666679382324
     mgmt:
       x: 556.6666259765625
       y: 226.66664123535156
