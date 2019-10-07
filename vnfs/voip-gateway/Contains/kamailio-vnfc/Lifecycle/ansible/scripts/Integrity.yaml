@@ -1,0 +1,14 @@
+---
+
+
+- name: Start Lifecycle Transition
+  hosts: resource
+  gather_facts: False
+  become: true
+
+  tasks:
+  - name: Report integrity
+    debug:
+      msg: 
+        - "Kamailio is OK"
+   

@@ -1,0 +1,19 @@
+---
+
+
+- name: Stop Lifecycle Transition
+  hosts: resource
+  gather_facts: False
+  become: true
+  ignore_errors: yes
+  
+  tasks:
+  - name: Stop sipp
+    become: yes
+    shell: "pkill sipp"
+    ignore_errors: yes
+
+  - name: Stop collectd
+    become: yes
+    shell: "pkill collectd" 
+    ignore_errors: yes

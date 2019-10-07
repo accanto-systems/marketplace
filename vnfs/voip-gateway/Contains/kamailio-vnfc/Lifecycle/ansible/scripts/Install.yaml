@@ -1,4 +1,13 @@
 ---
-- name: Install
-  hosts: all
+
+- name: Configure Lifecycle Transition
+  hosts: resource
   gather_facts: False
+  become: true
+
+  tasks:
+  - name: pause
+    shell: python --version
+  
+      
+  
