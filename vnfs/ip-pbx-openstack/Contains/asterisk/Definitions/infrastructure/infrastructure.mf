@@ -1,5 +1,5 @@
 templates:
   - file: ippbx.yaml
-    infrastructure_type: Openstac
+    infrastructure_type: Openstack
   - file: ippbx-k8s.yaml
     infrastructure_type: Kubernetes
