@@ -21,6 +21,12 @@ node_types:
       class:
         type: string
 
+  accanto.nodes.K8sNetwork:
+    derived_from: tosca.nodes.Root
+    properties:
+      name:
+        type: string
+
 topology_template:
   inputs:
     instancename:
@@ -59,12 +65,22 @@ topology_template:
               type: tosca.relationships.AttachesTo
               properties:
                 location: /data
+        - local_network:
+            capability: tosca.capabilities.Attachment
+            node: ippbx_network
+            relationship:
+              type: tosca.relationships.ConnectsTo
 
     ippbx_storage:
       type: accanto.nodes.K8sStorage
       properties:
         size: { get_input: storage_size }
         class: { get_input: storage_class }
+
+    ippbx_network:
+      type: accanto.nodes.K8sNetwork
+      properties:
+        name: mgmt
 
   outputs:
     ippbx_private_ip:
