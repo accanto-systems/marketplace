@@ -1,0 +1,69 @@
+name: resource::asterisk-ip-pbx-sg::1.0
+description: asterisk server vnfc
+
+properties:
+  instancename:
+    type: string
+    description: the name of this resource instance
+    value: ${instance.name}
+
+  key_name:
+     type: string
+     description: Openstack key
+     required: true
+  image:
+    type: string
+    description: "the image name"
+    value: ippbx
+
+  mgmt_network:
+    type: string
+    description: id of the mgmt security group
+    required: true
+  mgmt_security_group:
+    description: id of the mgmt security group
+    required: true
+    type: string
+  flavor:
+    type: string
+    default: m1.small
+
+  mgmt_address:
+    type: string
+    description: managemet ip address of this vnfc
+    read-only: true
+
+  gw_address:
+    type: string
+    description: if a gw is in front then pass in its private or internal ip address 
+
+  integrity_smoothing:
+     type: string
+     description: Integrity smoothing
+     default: 3
+     
+  publication_period:
+    type: string
+    description: Metric publication period in seconds
+    default: 60
+
+lifecycle:
+- Create
+# - Install
+- Configure
+# - Start
+# - Integrity
+# - Stop
+# - Uninstall
+- Delete
+# metrics:
+#   h_integrity:
+#     type: "metric::integrity"
+#     publication-period: "10"
+# policies:
+#   heal:
+#     metric: "h_integrity"
+#     type: "policy::heal"
+#     properties:
+#       smoothing:
+#         value: ${integrity_smoothing}

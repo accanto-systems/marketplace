@@ -1,0 +1,9 @@
+schema: '2.0'
+name: ip-pbx-sg
+version: '1.0'
+type: Assembly
+contains:
+- name: asterisk
+  type: Resource
+  resource-manager: brent
+  directory: asterisk
