@@ -2,7 +2,7 @@ description: descriptor for voice-load-generator
 properties:
   deployment_location:
     type: string
-    default: madurai
+    default: core
     required: true
   target_service_name:
     type: string

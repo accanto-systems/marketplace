@@ -2,7 +2,7 @@ description: descriptor for infra
 properties:
   voice_network_id: 
     read-only: true
-  voice_cidr:
+  internal_cidr:
     read-only: true
   voice_security_group_id: 
     read-only: true

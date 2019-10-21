@@ -68,8 +68,8 @@ outputs:
     value: { get_resource:  voice_net }
   voice_security_group_id: 
     value: { get_resource: voice_security_group }
-  voice_cidr:
-    value: {get_attr: [ voice_subnet, cidr ] } 
+  internal_cidr:
+    value: {get_attr: [ internal_subnet, cidr ] } 
   internal_network_id: 
     value: { get_resource:  internal_net }
   internal_security_group_id: 

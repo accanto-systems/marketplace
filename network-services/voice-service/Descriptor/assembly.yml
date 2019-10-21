@@ -27,6 +27,11 @@ composition:
         value: brent
     type: $lmctl:/contains:/infra:/descriptor_name
   voice_server:
+    cluster:
+      initial-quantity: 1
+      minimum-nodes: 1
+      maximum-nodes: 10
+      scaling-increment: 1
     properties:
       deploymentLocation:
         value: ${deployment_location}
@@ -39,7 +44,7 @@ composition:
       mgmt_infra_name:
         value: ${mgmt_infra_name}
       voice_cidr:
-        value: ${voice_infra.voice_cidr}
+        value: ${voice_infra.internal_cidr}
     type: assembly::ip-pbx::1.0
   gateway:
     properties:
@@ -62,6 +67,40 @@ references:
       name:
         value: ${mgmt_infra_name}
     type: assembly::mgmt_infra::1.0
+
+relationships:
+  manageDispatchList:
+    properties:
+      ipaddr:
+        value: ${source.voice_address}
+      port:
+        value: '5060'
+    source-state: Active
+    target-state: Active
+    source-state-modifier: post
+    target-state-modifier: post
+    lifecycle:
+      Create:
+      - target.addToDispatchList
+      Cease:
+      - target.deleteFromDispatchList
+    source-capabilities:
+    - voice_server.poolNode
+    target-requirements:
+    - gateway.poolController
+policies:
+  scaleVoipServer:
+    properties:
+      scaleOut_threshold:
+        value: 58
+      scaleIn_threshold:
+        value: 32
+      smoothing:
+        value: 3
+    type: policy::scale
+    metric: gateway.h_load
+    target: voice_server
+
 designerLayout:
   description: >-
     The following information is solely used to determine the presentation of

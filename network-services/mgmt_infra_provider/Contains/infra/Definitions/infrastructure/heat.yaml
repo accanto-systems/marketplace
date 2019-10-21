@@ -1,0 +1,40 @@
+heat_template_version: "2018-08-31"
+description: "Base infrastructure for Voice Provider Demo"
+
+resources:
+
+  mgmt_security_group: 
+    type: "OS::Neutron::SecurityGroup"
+    properties: 
+      rules: 
+        - port_range_min: 22
+          port_range_max: 22
+          protocol: tcp
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: icmp
+      name: mgmt_security_group
+
+  mgmt_net: 
+    type: "OS::Neutron::ProviderNet"
+    properties: 
+      network_type: vlan
+      physical_network: provider
+      admin_state_up: true
+      name: mgmt_net
+      segmentation_id: 5
+
+  mgmt_subnet: 
+    type: "OS::Neutron::Subnet"
+    properties: 
+      network: { get_resource: mgmt_net }
+      name: mgmt_subnet
+      enable_dhcp: true
+      cidr: "10.0.30.0/24"
+      allocation_pools: [{ start: 10.0.30.2, end: 10.0.30.50 }]
+
+outputs:
+  mgmt_network_id: 
+    value: { get_resource: mgmt_net }
+  mgmt_security_group_id: 
+    value: { get_resource: mgmt_security_group }
+

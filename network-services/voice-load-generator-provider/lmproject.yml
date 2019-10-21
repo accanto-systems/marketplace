@@ -1,0 +1,4 @@
+schema: '2.0'
+name: voice-load-generator-provider
+version: '1.0'
+type: Assembly

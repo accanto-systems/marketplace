@@ -59,33 +59,31 @@ topology_template:
         image: { get_input: docker_image }
         container_port: 80
       requirements:
-        # contextually this can only be a relationship type
-        - local_storage:
-            # capability is provided by Compute Node Type
+        - mgmt_network:
             capability: tosca.capabilities.Attachment
-            node: ippbx_storage
+            node: mgmt_network
             relationship:
-              type: tosca.relationships.AttachesTo
-              properties:
-                location: /data
-        - local_network:
+              type: tosca.relationships.ConnectsTo
+        - voice_network:
             capability: tosca.capabilities.Attachment
-            node: ippbx_network
+            node: voice_network
             relationship:
               type: tosca.relationships.ConnectsTo
 
-    ippbx_storage:
-      type: accanto.nodes.K8sStorage
-      properties:
-        size: { get_input: storage_size }
-        class: { get_input: storage_class }
-
-    ippbx_network:
+    mgmt_network:
       type: accanto.nodes.K8sNetwork
       properties:
         name: mgmt
+    voice_network:
+      type: accanto.nodes.K8sNetwork
+      properties:
+        name: internal
 
   outputs:
-    ippbx_private_ip:
+    mgmt_ip_address:
       description: The private IP address of ippbx
-      value: { get_attribute: [ippbx_network, address] }
+      value: { get_attribute: [mgmt_network, address] }
+    voice_ip_address:
+      description: The private IP address of ippbx
+      value: { get_attribute: [voice_network, address] }
+

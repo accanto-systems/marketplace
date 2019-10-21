@@ -4,6 +4,7 @@ properties:
   instance_name:
     description: the name of this resource instance
     value: ${instance.name}
+
   key_name:
      description: Openstack key
      required: true
@@ -16,16 +17,13 @@ properties:
 
   mgmt_network_id:
     description: mgmt network id
-    required: true
   mgmt_secgroup_id:
     description: mgmt secgroup id
-    required: true
   voice_network_id:
     description: voice network id
-    required: true
   voice_secgroup_id:
     description: voice secgroup id
-    required: true
+
   voice_ip_address:
     description: assigned ip address on voip network. This is the voip endpoint 
     read-only: true
@@ -35,7 +33,6 @@ properties:
   target_ip_address:
     description: target for voip test load
     required: true
-
   
   # properties for metrics and policies
   instanceid:
@@ -53,6 +50,7 @@ properties:
 
 lifecycle:
 - Create
+- Install
 - Configure
 - Start
 - Integrity

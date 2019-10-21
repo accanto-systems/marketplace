@@ -29,24 +29,31 @@
        state: absent
            
   tasks:
-    - name: get current dispatcher.list
-      shell: cat /usr/local/etc/kamailio/dispatcher.list
-      register: dispatcher_list_current
+    - name: update dispatch list
+      lineinfile:
+        path: /usr/local/etc/kamailio/dispatcher.list
+        line: "1 sip: {{ host_ip }}:{{ host_port }}"
+        state: absent
+
+    # - name: get current dispatcher.list
+    #   shell: cat /usr/local/etc/kamailio/dispatcher.list
+    #   register: dispatcher_list_current
       
-    - name: Run Python script to create new dispatch list
-      local_action: shell python config/deleteFromDispatchList.py "{{ dispatch_list_template }}" "{{dispatcher_list_current.stdout}}" "{{ host_ip }}" "{{ host_port }}"
-      register: raw_dispatch_list_new 
+    # - name: Run Python script to create new dispatch list
+    #   become: false
+    #   local_action: shell python config/deleteFromDispatchList.py "{{ dispatch_list_template }}" "{{dispatcher_list_current.stdout}}" "{{ host_ip }}" "{{ host_port }}"
+    #   register: raw_dispatch_list_new 
     
-    - set_fact:
-        dispatch_list_new : "{{ raw_dispatch_list_new.stdout_lines }}"
+    # - set_fact:
+    #     dispatch_list_new : "{{ raw_dispatch_list_new.stdout_lines }}"
      
-    - name: write new kamailio dispatcher.list
-      template:
-        src: config/dispatcher.list.template
-        dest: /usr/local/etc/kamailio/dispatcher.list     
+    # - name: write new kamailio dispatcher.list
+    #   template:
+    #     src: config/dispatcher.list.template
+    #     dest: /usr/local/etc/kamailio/dispatcher.list     
     
-    - name: new dispatch list
-      debug: msg={{ dispatch_list_new }}  
+    # - name: new dispatch list
+    #   debug: msg={{ dispatch_list_new }}  
 
     - name: reload Kamailio
       shell: /usr/local/sbin/kamcmd dispatcher.reload        

@@ -4,9 +4,6 @@ This project provides a set of working lifecycle manager Network Service and VNF
 
 * **Network Services**: End to end network services composed from a number of VNFs
 * **VNFs**: Discrete logical network functions that can be composed to deliver a network service
-* **VIMs**: Installers for VIM software
-* **Servers**: Compute infrastructure device configurations
-* **Fabric**: Installers for network controllers and logical network services
 
 ## Network Services
 
@@ -28,24 +25,3 @@ This project provides a set of working lifecycle manager Network Service and VNF
 | [voip-gateway](vnfs/voip-gateway/Readme.md)  | Kamailio VoIP Gateway           | ARM       | Openstack |
 | [sip-performance](/vnfs/sip-performance/Readme.md) | SIP Performance tester    | ARM       | Openstack |
 
-## VIM
-
-Coming soon
-
-* Openstack
-
-## Servers
-
-Coming soon
-
-* Compute Node
-* Control Node
-* Network Node
-* Network Bond
-
-## Fabric
-
-Coming soon
-
-* OVS Switch
-* Onos Controller

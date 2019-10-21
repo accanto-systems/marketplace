@@ -16,23 +16,22 @@ properties:
 
   mgmt_network_id:
     description: mgmt network id
-    required: true
   mgmt_secgroup_id:
     description: mgmt secgroup id
-    required: true
   voice_network_id:
     description: voice network id
-    required: true
-  voice_cidr:
-    required: true
   voice_secgroup_id:
     description: voice secgroup id
-    required: true
+
   voice_ip_address:
     description: assigned ip address on voip network. This is the voip endpoint 
     read-only: true
+
   mgmt_ip_address:
     read-only: true
+
+  voice_cidr:
+    required: true
   gw_address:
     description: if a gw is in front then pass in its private or internal ip address
   

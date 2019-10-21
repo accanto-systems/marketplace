@@ -1,0 +1,20 @@
+description: descriptor for mgmt_infra_provider
+properties:
+  deployment_location:
+    type: string
+    default: core-provider
+    required: true
+  mgmt_network_id:
+    read-only: true
+    value: ${infra.mgmt_network_id}
+  mgmt_security_group_id:
+    read-only: true
+    value: ${infra.mgmt_security_group_id}
+composition:
+  infra:
+    properties:
+      deploymentLocation:
+        value: ${deployment_location}
+      resourceManager:
+        value: brent
+    type: $lmctl:/contains:/infra:/descriptor_name

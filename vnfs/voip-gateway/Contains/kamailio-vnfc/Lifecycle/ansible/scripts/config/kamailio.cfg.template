@@ -1,7 +1,7 @@
 #!KAMAILIO
 
 #!define DS_LIST "/usr/local/etc/kamailio/dispatcher.list"
-#!define LISTEN_UDP_PUBLIC udp:{{properties.voip_ip_address}}:5060
+#!define LISTEN_UDP_PUBLIC udp:{{properties.voice_ip_address}}:5060
 #!define LISTEN_UDP_PRIVATE udp:{{properties.internal_ip_address}}:5060
 
 #set module path
