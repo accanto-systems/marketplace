@@ -45,10 +45,11 @@ lm_theme_name: bluerinse
 
 ### Add NFVI interface to AIO VM
 
-The NFVI infrastructure creates a set of provider networks that are used by Openstack and Kubernetes VIMs. The AIO VM must have a vNIC attached to the provider switching network and configured on the management network. To attach the AIO to the provider network, add the following to your **lm-allinone/Vagrantfile** as the last vNIC in the list, as follows: 
+The NFVI infrastructure creates a set of provider networks that are used by Openstack and Kubernetes VIMs. The AIO VM must have a vNIC attached to the provider switching network, public openstack network and the management network. To attach the AIO to the provider and openstack public networks, add the following to your **lm-allinone/Vagrantfile** as the last vNICs in the list, as follows: 
 
 ```
     nodeconfig.vm.network 'public_network', dev: 's1', type: 'bridge', mode: 'bridge', :ovs => true, ip: '10.0.30.5'
+    nodeconfig.vm.network 'public_network', dev: 'br-ex', type: 'bridge', mode: 'bridge', :ovs => true, ip: '172.24.4.2'
 ```
 
 ### Run the AIO installation
