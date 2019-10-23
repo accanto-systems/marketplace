@@ -104,7 +104,7 @@ almip: 10.0.30.5
 Install lmctl on your host machine by running the folowing command:
 
 ```
-python3 -m pip install lmctl
+python3 -m pip install lmctl==2.0.7.1
 ```
 
 Create a file called **lmconfig.yaml** and add the following:
