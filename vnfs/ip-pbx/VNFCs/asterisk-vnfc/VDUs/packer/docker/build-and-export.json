@@ -3,7 +3,7 @@
     {
       "type": "docker",
       "image": "ubuntu",
-      "export_path": "../../../targets/docker/ip-pbx.tar",
+      "export_path": "ip-pbx.tar",
       "changes": [
         "EXPOSE 5060 22",
         "CMD /usr/sbin/runsvdir-start"

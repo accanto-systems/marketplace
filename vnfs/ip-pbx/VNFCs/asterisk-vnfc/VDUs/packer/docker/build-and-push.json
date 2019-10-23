@@ -40,7 +40,7 @@
     [
       {
         "type": "docker-tag",
-        "repository": "lifecyclemanager.com:5002/ip-pbx",
+        "repository": "accanto/ip-pbx",
         "tag": "latest"
       },
       "docker-push"

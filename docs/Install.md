@@ -151,3 +151,11 @@ Finally load the VNFs and Network services into LM
 cd marketplace
 ./load.sh push dev
 ```
+
+## Accessing the k8s dashboard
+
+get admin-user token to log in
+
+```
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | a
+```

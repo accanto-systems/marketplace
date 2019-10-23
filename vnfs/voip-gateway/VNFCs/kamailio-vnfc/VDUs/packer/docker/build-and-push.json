@@ -36,7 +36,7 @@
     [
       {
         "type": "docker-tag",
-        "repository": "lifecyclemanager.com:5002/kamailio-vnfc",
+        "repository": "accanto/kamailio",
         "tag": "latest"
       },
       "docker-push"

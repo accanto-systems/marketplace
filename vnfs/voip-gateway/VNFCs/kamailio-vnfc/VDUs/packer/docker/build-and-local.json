@@ -36,7 +36,7 @@
     [
       {
         "type": "docker-tag",
-        "repository": "kamailio-vnfc",
+        "repository": "kamailio",
         "tag": "latest"
       }
     ]

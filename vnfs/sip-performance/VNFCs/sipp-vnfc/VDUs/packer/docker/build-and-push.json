@@ -36,7 +36,7 @@
     [
       {
         "type": "docker-tag",
-        "repository": "lifecyclemanager.com:5002/sipp",
+        "repository": "accanto/sipp",
         "tag": "latest"
       },
       "docker-push"

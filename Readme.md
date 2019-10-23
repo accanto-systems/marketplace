@@ -1,12 +1,6 @@
 # Lifecycle Manager Project Marketplace
 
-This project provides a set of working lifecycle manager Network Service and VNF examples. 
-
-* **Network Services**: End to end network services composed from a number of VNFs
-* **VNFs**: Discrete logical network functions that can be composed to deliver a network service
-* **VIMs**: Installers for VIM software
-* **Servers**: Compute infrastructure device configurations
-* **Fabric**: Installers for network controllers and logical network services
+This project provides a set of working lifecycle manager Network Service and VNF examples along with a demonstration scenario script. 
 
 ## Network Services
 
@@ -14,6 +8,7 @@ This project provides a set of working lifecycle manager Network Service and VNF
 |----------------------------|----------------------------------------------------------|------------------------------|
 | [base](/network-services/base/Readme.md) | Create shared infrastructure and jumphost   | baseinfrastructure, network, router, jumphost |
 | [voice-service](/network-services/voice-service/Readme.md) | Create a scaling voice service | voip-gateway, ip-pbx, network |
+| [voice-service2](/network-services/voice-service2/Readme.md) | Clone of voice service1 with different deployment location setup | voip-gateway, ip-pbx, network |
 | [voice-load-generator](/network-services/voice-load-generator/Readme.md) |  Run SIP traffic against voice service | sip-performance | 
 
 ## VNFs
@@ -26,24 +21,3 @@ This project provides a set of working lifecycle manager Network Service and VNF
 | [voip-gateway](vnfs/voip-gateway/Readme.md)  | Kamailio VoIP Gateway           | ARM       | Openstack, Kubernetes |
 | [sip-performance](/vnfs/sip-performance/Readme.md) | SIP Performance tester    | ARM       | Openstack, Kubernetes |
 
-## VIM
-
-Coming soon
-
-* Openstack
-
-## Servers
-
-Coming soon
-
-* Compute Node
-* Control Node
-* Network Node
-* Network Bond
-
-## Fabric
-
-Coming soon
-
-* OVS Switch
-* Onos Controller

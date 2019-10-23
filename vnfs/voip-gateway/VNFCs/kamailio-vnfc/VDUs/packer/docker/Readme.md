@@ -6,7 +6,7 @@
 
 ## Create the Kamailio Image
 
-Download [Kamailio](https://www.kamailio.org/pub/kamailio/5.0.2/src/kamailio-5.0.2_src.tar.gz) to voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/software/ directory.
+Download [Kamailio](https://www.kamailio.org/pub/kamailio/5.0.2/src/kamailio-5.0.2_src.tar.gz) and [RTP engine](https://github.com/sipwise/rtpengine/archive/mr5.5.10.1.zip) to voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/software/ directory.
 
 To build an image in your local registry run the following command
 ```

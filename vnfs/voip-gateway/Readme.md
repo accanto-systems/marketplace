@@ -18,10 +18,13 @@ The network VNF has the following properties:
 | **external_address**          | external facing ip address          | Read Only |
 | **internal_network**          | id of the internal network          | Input     |
 | **internal_address**          | internal ip address                 | Read Only |
+| **keyname**                   | openstack key name                  | Input     |
+| **mgmt_securitygroup_id**     | id of the mgmt security group       | Input     |
+| **voice_securitygroup_id**    | id of the voice security group      | Input     |
 
 ### Operations
 
-There are no operations. 
+There following operation are available. 
 
 | Operation                     |  Description                               |
 |-------------------------------|--------------------------------------------|
@@ -44,9 +47,9 @@ There are no policies
 
 If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment location)[http://servicelifecyclemanager.com/reference/resource-manager/add-vim/] is configured with the following variables:
 
-### Openstack configuration
+### Openstack Location configuration
 
-Openstack lifecycle manager location variables are as follows: 
+Required Openstack lifecycle manager variables are as follows: 
 
 ```
 os_auth_url: "http://192.168.10.10:5000/v3"

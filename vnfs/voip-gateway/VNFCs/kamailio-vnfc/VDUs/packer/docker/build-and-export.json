@@ -3,7 +3,7 @@
     {
       "type": "docker",
       "image": "ubuntu",
-      "export_path": "../../../targets/docker/kamailio-vnfc.tar",
+      "export_path": "kamailio.tar",
       "changes": [
            "EXPOSE 5060 22",
            "CMD /usr/bin/supervisord"

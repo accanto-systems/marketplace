@@ -18,6 +18,9 @@ The network VNF has the following properties:
 | **jumphost_ip**       | ip assigned to jumphost                       | Input     |
 | **jumphost_username** | jumphost username                             | Input     |
 | **jumphost_password** | jumphost password                             | Input     |
+| **keyname**           | name of the openstack key                     | Input     |
+| **mgmt_securitygroup_id | id of mgmt securitygroup                    | Input     |
+|  **voice_securitygroup_id | id of voice securitygroup                 | Input     |
 
 ### Operations
 
