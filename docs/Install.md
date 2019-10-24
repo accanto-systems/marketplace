@@ -297,10 +297,10 @@ Create a file with the following json:
 ```
 {   
     "k8s-server": "https://192.168.10.50:6443",
-    "k8s-token": "INSERT_TOKEN",
     "k8s-namespace": "default",
-    "certificate-authority-data": "INSERT_AUTH_CERT",
-    "client-certificate-data": "INSERT_CLIENT_CERT",
+    "k8s-certificate-authority-data": "INSERT_CERT_AUTH_DATA",
+    "k8s-client-certificate-data": "INSERT_CLIENT_CERT",
+    "k8s-client-key-data": "INSERT_CLIENT_KEY",
     "almip": "10.0.30.5"
 }
 ```
@@ -317,10 +317,10 @@ Create a file with the following json:
 ```
 {   
     "k8s-server": "https://192.168.10.50:6443",
-    "k8s-token": "INSERT_TOKEN",
     "k8s-namespace": "default",
-    "certificate-authority-data": "INSERT_AUTH_CERT",
-    "client-certificate-data": "INSERT_CLIENT_CERT",
+    "k8s-certificate-authority-data": "INSERT_CERT_AUTH_DATA",
+    "k8s-client-certificate-data": "INSERT_CLIENT_CERT",
+    "k8s-client-key-data": "INSERT_CLIENT_KEY",
     "almip": "172.24.4.2"
 }
 ```
