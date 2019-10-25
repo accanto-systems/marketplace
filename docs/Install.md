@@ -264,32 +264,6 @@ kubectl get secret default-token-XXXXX -o yaml
 
 ```
 
-#### Configure locations in LM
-
-Once AIO is up and running, log onto LM at https://192.168.10.5:8082 and create the following locations. 
-
-Add a location called "edge-provider" with resource manager "brent" and infrastructure type "Openstack" and provide the following properties
-
-```
-k8s-server: "https://192.168.10.50:6443"
-k8s-token: "INSERT_TOKEN"
-k8s-namespace: default
-certificate-authority-data: "INSERT_AUTH_CERT"
-client-certificate-data: "INSERT_CLIENT_CERT"
-almip: 10.0.30.5
-```
-
-Add a location called "edge" with resource manager "brent" and infrastructure type "Openstack" and provide the following properties
-
-```
-k8s-server: "https://192.168.10.50:6443"
-k8s-token: "INSERT_TOKEN"
-k8s-namespace: default
-certificate-authority-data: "INSERT_AUTH_CERT"
-client-certificate-data: "INSERT_CLIENT_CERT"
-almip: 172.24.4.2
-```
-
 #### Configure locations with lmctl
 
 Create a file with the following json:
