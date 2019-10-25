@@ -255,14 +255,13 @@ lmctl deployment add dev core -r brent -i Openstack -d "something" -p "path to f
 
 #### Grab k8s secret and certificates
 
-log onto NFVI k8s master node, e.g. 192.168.10.50 (vagrant/vagrant), export KUBECONFIG=/etc/kubernetes/admin.conf, and run following
+Log onto NFVI k8s master node (assume kubeadm K8s cluster), e.g. 192.168.10.50 (vagrant/vagrant), and note down from the /etc/kubernetes/admin.conf file the following:
 
-```
+* client-certificate-data
+* client-key-data
+* certificate-authority-data
 
-kubectl get secrets
-kubectl get secret default-token-XXXXX -o yaml
-
-```
+These will be needed when adding the K8s deployment location to LM.
 
 #### Configure locations with lmctl
 
@@ -272,9 +271,9 @@ Create a file with the following json:
 {   
     "k8s-server": "https://192.168.10.50:6443",
     "k8s-namespace": "default",
-    "k8s-certificate-authority-data": "INSERT_CERT_AUTH_DATA",
-    "k8s-client-certificate-data": "INSERT_CLIENT_CERT",
-    "k8s-client-key-data": "INSERT_CLIENT_KEY",
+    "k8s-certificate-authority-data": "INSERT client-certificate-data",
+    "k8s-client-certificate-data": "INSERT client-certificate-data",
+    "k8s-client-key-data": "INSERT client-key-data",
     "almip": "10.0.30.5"
 }
 ```
@@ -292,9 +291,9 @@ Create a file with the following json:
 {   
     "k8s-server": "https://192.168.10.50:6443",
     "k8s-namespace": "default",
-    "k8s-certificate-authority-data": "INSERT_CERT_AUTH_DATA",
-    "k8s-client-certificate-data": "INSERT_CLIENT_CERT",
-    "k8s-client-key-data": "INSERT_CLIENT_KEY",
+    "k8s-certificate-authority-data": "INSERT client-certificate-data",
+    "k8s-client-certificate-data": "INSERT client-certificate-data",
+    "k8s-client-key-data": "INSERT client-key-data",
     "almip": "172.24.4.2"
 }
 ```
