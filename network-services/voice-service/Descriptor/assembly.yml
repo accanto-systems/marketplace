@@ -2,7 +2,7 @@ description: descriptor for voice-service
 properties:
   deployment_location:
     type: string
-    default: madurai
+    default: core
     required: true
   mgmt_infra_name:
     type: string

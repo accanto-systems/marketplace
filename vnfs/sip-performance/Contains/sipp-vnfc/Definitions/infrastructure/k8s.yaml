@@ -36,7 +36,7 @@ topology_template:
       type: string
     docker_image:
       type: string
-      default: accanto/sipp:1.0
+      default: accanto/sipp:1.1
 
   node_templates:
     vnfc:
