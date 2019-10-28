@@ -2,7 +2,7 @@ description: descriptor for mgmt_infra
 properties:
   deployment_location:
     type: string
-    default: madurai
+    default: core
     required: true
   jumphost_internal_ip:
     read-only: true
