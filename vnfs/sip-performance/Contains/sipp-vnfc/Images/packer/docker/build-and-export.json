@@ -6,7 +6,7 @@
       "export_path": "sipp.tar",
       "changes": [
            "EXPOSE 5060 22",
-           "CMD /usr/bin/supervisord"
+           "ENTRYPOINT /usr/bin/supervisord"
 	  ]
     }],
   "provisioners": [

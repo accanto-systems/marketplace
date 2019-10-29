@@ -6,7 +6,7 @@
       "export_path": "ip-pbx.tar",
       "changes": [
         "EXPOSE 5060 22",
-        "CMD /usr/sbin/runsvdir-start"
+        "ENTRYPOINT /usr/sbin/runsvdir-start"
         ]
     }],
   "provisioners": [

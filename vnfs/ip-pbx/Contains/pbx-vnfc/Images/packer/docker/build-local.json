@@ -3,10 +3,10 @@
     {
       "type": "docker",
       "commit": true,
-      "image": "ubuntu",
+      "image": "ubuntu:xenial",
       "changes": [
         "EXPOSE 5060 22",
-        "CMD /usr/bin/supervisord"
+        "ENTRYPOINT /usr/bin/supervisord"
         ]
     }],
   "provisioners": [
