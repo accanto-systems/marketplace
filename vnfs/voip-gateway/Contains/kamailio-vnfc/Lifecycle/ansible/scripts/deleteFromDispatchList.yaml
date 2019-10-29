@@ -32,7 +32,7 @@
     - name: update dispatch list
       lineinfile:
         path: /usr/local/etc/kamailio/dispatcher.list
-        line: "1 sip: {{ host_ip }}:{{ host_port }}"
+        line: "1 sip:{{ host_ip }}:{{ host_port }}"
         state: absent
 
     # - name: get current dispatcher.list

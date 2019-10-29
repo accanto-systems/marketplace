@@ -33,7 +33,7 @@
       lineinfile:
         path: /usr/local/etc/kamailio/dispatcher.list
         create: yes
-        line: "1 sip: {{ host_ip }}:{{ host_port }}"
+        line: "1 sip:{{ host_ip }}:{{ host_port }}"
         state: present
 
     # - name: get current dispatcher.list
