@@ -120,22 +120,10 @@ Log into the AIO box @ 192.168.10.5. Username/Password is vagrant/vagrant and ru
 
 Create an Ansible lifecycle driver by running the following commands in the AIO VM. 
 
-Log into 192.168.10.5 (vagrant/vagrant) and add Ansible driver micro service.
-
-Create the following ansible-driver-values.yaml file:
+Log into 192.168.10.5 (vagrant/vagrant) and add Ansible driver micro service:
 
 ```
-docker:
-  image: accanto/ansible-lifecycle-driver
-  version: 0.4.0.dev0
-  imagePullPolicy: Always
-```
-
-Run helm command to install the driver micro service. 
-
-```
-helm init
-helm install --name ansible-lifecycle-driver https://github.com/accanto-systems/ansible-lifecycle-driver/releases/download/0.3.0/ansiblelifecycledriver-0.3.0.tgz -f ansible-driver-values.yaml
+helm install --name ansible-lifecycle-driver https://github.com/accanto-systems/ansible-lifecycle-driver/releases/download/v0.4.0/ansiblelifecycledriver-0.4.0.tgz
 ```
 
 On your host machine run the following lmctl command to add the ansible lifecycle driver micro service to the ALM resource manager. 
@@ -159,22 +147,10 @@ lmctl vimdriver add --type Openstack --url http://os-vim-driver:8292 dev
 
 ### k8s Driver
 
-Create a k8s VIM driver by running the following commands on the AIO virtual machine @ 192.168.10.5 (vagrant/vagrant)
-
-Create a k8s-driver-values.yaml file with the followoing content:
+Create a k8s VIM driver by running the following command on the AIO virtual machine @ 192.168.10.5 (vagrant/vagrant)
 
 ```
-docker:
-  image: accanto/k8s-vim-driver
-  version: 0.1.0.dev0
-  imagePullPolicy: Always
-```
-
-Clone the k8s driver project and run the local helm chart as follows:
-
-```
-git clone https://github.com/accanto-systems/k8s-vim-driver.git
-helm install --name k8s-vim-driver k8s-vim-driver/helm/k8s-vim-driver -f k8s-driver-values.yaml
+helm install --name k8s-vim-driver  https://github.com/accanto-systems/k8s-vim-driver/releases/download/v0.1.0/k8s-vim-driver-0.1.0.tgz
 ```
 
 On your host run the following lmctl command to add the k8s vim driver to the resource manager. 
