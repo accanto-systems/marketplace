@@ -1,0 +1,14 @@
+---
+
+- name: Stop Lifecycle Transition
+  hosts: resource
+  gather_facts: False
+  become: true
+
+  tasks:
+  - name: pause
+    shell: python --version
+  - name: fail if data set to fail 
+    fail:
+      msg: The Stop transition has failed
+    when: fail == "Stop"
