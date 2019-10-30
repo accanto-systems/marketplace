@@ -1,12 +1,8 @@
 ---
-- name: create inventory
-  hosts: localhost
-  gather_facts: False
-  roles:
-    - { role: create_inventory }
+
 
 - name: Start Integrity Transition
-  hosts: "{{ instance_name }}"
+  hosts: resource
   gather_facts: False
   become: true
   tasks:

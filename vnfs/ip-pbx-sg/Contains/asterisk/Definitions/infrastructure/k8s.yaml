@@ -1,0 +1,89 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+description: Basic example to deploy a single VM
+
+# Custom type required to set "image" and "key_name" properties on Openstack Server.
+# This is a recommended workaround by Openstack (https://docs.openstack.org/heat-translator/latest/usage.html)
+node_types:
+  accanto.nodes.K8sCompute:
+    derived_from: tosca.nodes.Compute
+    properties:
+      image:
+        type: string
+      container_port:
+        type: integer
+
+  accanto.nodes.K8sStorage:
+    derived_from: tosca.nodes.BlockStorage
+    properties:
+      size:
+        type: integer
+      class:
+        type: string
+
+  accanto.nodes.K8sNetwork:
+    derived_from: tosca.nodes.Root
+    properties:
+      name:
+        type: string
+    attributes:
+      address:
+        type: string
+
+topology_template:
+  inputs:
+    instancename:
+      type: string
+    docker_image:
+      type: string
+      default: accanto/ip-pbx:1.0
+    storage_size:
+      type: integer
+      # in GB
+      default: 1
+    storage_class:
+      type: string
+      default: microk8s-hostpath
+
+  node_templates:
+    ippbx:
+      type: accanto.nodes.K8sCompute
+      capabilities:
+        host:
+          #Heat translator will try and find an Openstack "flavour" which matches the given properties
+          properties:
+            num_cpus: 2
+            disk_size: 10 GB
+            mem_size: 2 GB
+      properties:
+        image: { get_input: docker_image }
+        container_port: 80
+      requirements:
+        - mgmt_network:
+            capability: tosca.capabilities.Attachment
+            node: mgmt_network
+            relationship:
+              type: tosca.relationships.ConnectsTo
+        - voice_network:
+            capability: tosca.capabilities.Attachment
+            node: voice_network
+            relationship:
+              type: tosca.relationships.ConnectsTo
+
+    mgmt_network:
+      type: accanto.nodes.K8sNetwork
+      properties:
+        name: mgmt
+    voice_network:
+      type: accanto.nodes.K8sNetwork
+      properties:
+        name: internal
+
+  outputs:
+    mgmt_ip_address:
+      description: The private IP address of ippbx
+      value: { get_attribute: [mgmt_network, address] }
+    voice_ip_address:
+      description: The private IP address of ippbx
+      value: { get_attribute: [voice_network, address] }
+

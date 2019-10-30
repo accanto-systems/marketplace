@@ -10,7 +10,6 @@ properties:
   keyname:
     type: string
     default: default
-    required: true
   mgmt_address:
     description: managemet ip address of this vnfc
     type: string
@@ -19,10 +18,8 @@ properties:
   voice_network:
     type: string
     descripion: id of data network
-    required: true
   voice_security_group:
     description: voice security group
-    required: true
   voice_address:
     description: assigned ip address on voip network. This is the voip endpoint
     type: string
@@ -31,10 +28,8 @@ properties:
   internal_network:
     type: string
     descripion: id of internal network
-    required: true
   internal_security_group:
     description: internal security group
-    required: true
   internal_address:
     description: assigned ip address on internal network. This is the voip endpoint
     type: string
@@ -90,13 +85,13 @@ references:
     type: assembly::mgmt_infra::1.0
 operations:
   addToDispatchList:
-    source-operation: kamailio.addToDispatchList
+    source-operation: gateway.addToDispatchList
   deleteFromDispatchList:
-    source-operation: kamailio.deleteFromDispatchList
+    source-operation: gateway.deleteFromDispatchList
 metrics:
   h_load:
     type: metric::load
-    source-metric: kamailio.h_load
+    source-metric: gateway.h_load
 designerLayout:
   description: >-
     The following information is solely used to determine the presentation of

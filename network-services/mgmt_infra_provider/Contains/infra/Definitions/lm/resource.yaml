@@ -1,0 +1,10 @@
+description: descriptor for management NFVI
+properties:
+  mgmt_network_id: 
+    read-only: true
+  mgmt_security_group_id: 
+    read-only: true
+
+lifecycle:
+  - Create
+  - Delete

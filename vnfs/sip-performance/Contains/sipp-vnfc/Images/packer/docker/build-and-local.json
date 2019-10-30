@@ -1,0 +1,46 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "commit": true,
+      "image": "ubuntu",
+      "changes": [
+           "EXPOSE 5060 22",
+           "ENTRYPOINT /usr/bin/supervisord"
+	  ]
+    }],
+  "provisioners": [
+    {
+     "type": "file",
+     "source": "../../software/",
+     "destination": "/opt"
+    },
+    {
+     "type": "shell",
+     "inline": ["mkdir -p /etc/supervisor/conf.d"]
+    },
+    {
+     "type": "file",
+     "source": "./config/supervisord.conf",
+     "destination": "/etc/supervisor/conf.d/supervisord.conf"
+    },
+    {
+     "type": "shell",
+     "scripts": [
+      "../../common/scripts/docker-init.sh",
+      "../../common/scripts/sipp-install.sh"
+     ]
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "sipp",
+        "tag": "latest"
+      }
+    ]
+  ],
+  "variables": {
+  }
+}

@@ -1,6 +1,0 @@
----
-ansible_connection: kubectl
-ansible_kubectl_pod: {{ properties.host }}
-ansible_kubectl_namespace: {{ dl_properties['k8s-namespace'] }}
-ansible_kubectl_kubeconfig: {{ dl_properties.kubeconfig_path }}
-ansible_sudo_pass: vagrant
