@@ -1,0 +1,9 @@
+schema: '2.0'
+name: dnsmasq
+version: '1.0'
+type: Assembly
+contains:
+- name: dnsmasqvnfc
+  type: Resource
+  resource-manager: brent
+  directory: dnsmasqvnfc
