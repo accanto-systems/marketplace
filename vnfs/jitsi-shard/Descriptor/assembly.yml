@@ -1,0 +1,31 @@
+description: descriptor for jitsi-shard
+properties:
+  deployment_location:
+    type: string
+    default: core
+    required: true
+  public_ip:
+    type: string
+    read-only: true
+    value: ${jitsi-meet.public_ip}
+composition:
+  jitsi-meet:
+    properties:
+      deploymentLocation:
+        value: ${deployment_location}
+      resourceManager:
+        value: brent
+    type: $lmctl:/contains:/jitsi-meet:/descriptor_name
+designerLayout:
+  description: >-
+    The following information is solely used to determine the presentation of
+    this Assembly Design in the LM UI. It does not form part of
+    operational/behavioural description of the Assembly and should not be edited
+    directly.
+  elements:
+    jitsi-meet:
+      x: 650
+      y: 40
+    assembly::jitsi-shard::1.0:
+      x: 0
+      y: 180

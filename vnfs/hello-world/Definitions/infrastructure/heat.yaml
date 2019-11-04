@@ -82,8 +82,7 @@ resources:
           list: |
             ubuntu:ubuntu
           expire: False
-        packages:
-         - python"
+
 
   mgmt_router: 
     type: "OS::Neutron::Router"

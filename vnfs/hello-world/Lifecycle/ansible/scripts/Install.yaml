@@ -6,9 +6,10 @@
   become: true
 
   tasks:
-  - name: pause
-    shell: python --version
+  - name: If needed, install Python
+    raw: apt-get update && apt-get -y install python3 
+
   - name: fail if data set to fail 
     fail:
       msg: The Install transition has failed
-    when: fail == "Install"
+    when: properties.fail == "Install"

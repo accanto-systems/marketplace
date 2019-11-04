@@ -16,6 +16,7 @@ properties:
     read-only: true
 
 
+
   fail:
     default: no
     description: set to lifecyle name (Install, Configure, Start, Stop or Uninstall) to casue the transition to fail

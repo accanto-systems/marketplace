@@ -6,9 +6,8 @@
   become: true
 
   tasks:
-  - name: pause
-    shell: python --version
+
   - name: fail if data set to fail 
     fail:
       msg: The Start transition has failed
-    when: fail == "Start"
+    when: properties.fail == "Start"
