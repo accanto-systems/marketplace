@@ -2,17 +2,11 @@
 
 ## Setup virtual data centre and VIMs
 
-Create the virtual infrastructure and VIMs by cloning the NFVI underlay project as follows:
-
-```
-git clone https://github.com/accanto-systems/nfvi-environment.git
-```
-
-Follow instructions in nfvi-environment project Readme.md to configure and setup your virtual NFVI environment. 
+If you do not have an Openstack instance with appropriate provider networking, an virtual sandbox can be setup on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment). 
 
 ## Setup LM
 
-If you are using LM AIO project to install LM, then follow the following [guide](/docs/install-AIO.md).
+If you are using LM AIO project to install LM, then follow the following [guide](/docs/install-AIO.md). Otherwise skip this step and follow your LM instructions. 
 
 ## Configure locations in LM
 
@@ -44,6 +38,11 @@ almip: 10.0.30.5
 ## Load VNFs and Network Services
 
 As required, build VNF images as per each VNF readme and load into target VIM.
+
+Build the following Openstack images
+* [IPPBX Openstack](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md)
+* [Voip Gateway Openstack](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md)
+* [SIPP Openstack](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/openstack/Readme.md)
 
 [Install LMCTL](/docs/install-lmctl.md) and load the VNFs and Network services into LM by running the following commands. 
 

@@ -23,16 +23,21 @@ Once AIO is up and running, log onto LM at https://192.168.10.5:8082 and create 
 Add a location called "core" with resource manager "defaultRM" and infrastructure type "Openstack" and provide the following properties
 
 ```
-os_auth_url: "http://192.168.10.10:5000/v3"
-os_projectname: admin
-os_username: admin
-os_password: password
-almip: 10.0.30.5
+os_auth_url: "http://192.168.56.130/identity/v3"
+os_projectname: demo
+os_username: demo
+os_password: secret
+almip: 192.168.56.100
 ```
 
 ## Load VNFs and Network Services
 
 As required, build VNF images as per each VNF readme and load into target VIM.
+
+Build the following Openstack images
+* [IPPBX Openstack](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md)
+* [Voip Gateway Openstack](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md)
+* [SIPP Openstack](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/openstack/Readme.md)
 
 [Install LMCTL](/docs/install-lmctl.md) and load the VNFs and Network services into LM by running the following commands. 
 

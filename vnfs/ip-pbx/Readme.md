@@ -40,23 +40,6 @@ There are no operations.
 
 If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment location)[http://servicelifecyclemanager.com/reference/resource-manager/add-vim/] is configured with the following variables:
 
-
-### Openstack configuration
-
-Openstack lifecycle manager location variables are as follows: 
-
-```
-os_auth_url: "http://192.168.56.130/identity/v3"
-os_projectname: demo
-os_username: demo
-os_password: secret
-almip: 192.168.56.100
-```
-
-Replace the above with your Openstack credentials.
-
-__Note:__ do not use the admin account, because it can see all other projects, it will cause issues choosing between multiple default security groups.
-
 ## Deploying this VNF
 
 Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:

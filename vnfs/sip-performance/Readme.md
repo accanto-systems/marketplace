@@ -49,30 +49,6 @@ There are no policies
 
 If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment location)[http://servicelifecyclemanager.com/reference/resource-manager/add-vim/] is configured with the following variables:
 
-### Openstack configuration
-
-Openstack lifecycle manager location variables are as follows: 
-
-```
-os_auth_url: "http://192.168.56.130/identity/v3"
-os_projectname: demo
-os_username: demo
-os_password: secret
-almip: 192.168.56.100
-```
-
-Replace the above with your Openstack credentials.
-
-__Note:__ do not use the admin account, because it can see all other projects, it will cause issues choosing between multiple default security groups.
-
-## k8s RM configuration
-
-```
-k8s_address: 192.168.10.20
-k8s_ssh_user: vagrant
-k8s_ssh_password: vagrant 
-```
-
 ## Deploying this VNF
 
 Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
@@ -99,9 +75,9 @@ The following software must be installed to your local machine to create an IP P
 
 #### Build the image
 
-To deploy to an OpenStack VIM [run the Openstack packer installer](/vnfs/sip-performance/VNFCs/sip-performance/VDUs/packer/openstack/Readme.md).
+To deploy to an OpenStack VIM [run the Openstack packer installer](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/openstack/Readme.md).
 
-To deploy to a container based VIM [run the docker packer installer](/vnfs/sip-performance/VNFCs/sip-performance/VDUs/packer/docker/Readme.md).
+To deploy to a container based VIM [run the docker packer installer](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/docker/Readme.md).
 
 ### Load the VIM image to CICD Hub
 

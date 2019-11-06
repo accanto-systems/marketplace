@@ -1,8 +1,0 @@
----
-ansible_host: {{ dl_properties.hello_world_private_ip }}
-ansible_connection: ssh
-ansible_user: {{ dl_properties.ansible_ssh_user }}
-ansible_ssh_user: {{ dl_properties.ansible_ssh_user }}
-ansible_password: {{ dl_properties.ansible_ssh_pass }}
-ansible_ssh_pass: {{ dl_properties.ansible_ssh_pass }}
-ansible_become_pass: {{ dl_properties.ansible_become_pass }}

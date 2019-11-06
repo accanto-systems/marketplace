@@ -7,7 +7,7 @@ This project provides a set of working lifecycle manager Network Service and VNF
 The VoIP service includes a Voice (SIP & RTP) Gateway that load balances voice traffic across a dynamic pool of IPPBX servers. To test the service a SIP performance test VNF is also included that can simulate voice traffic and demonstrate IPPBX cluster behaviour. 
 
 The following Opensource VNFs are included:
-* [**Voice Gateway**](/vnfs/voip-gatway/Readme.md)
+* [**Voice Gateway**](/vnfs/voip-gateway/Readme.md)
 * [**IPPBX Server**](/vnfs/ip-pbx/Readme.md)
 * [**SIPP traffic simulator**](/vnfs/sip-performance/Readme.md)
 
@@ -19,7 +19,7 @@ The basic VoIP service runs in a single OpenStack region using tenant networking
 
 ![VoIP Service](/docs/images/basic-voip.PNG)
 
-Instructions to run this demo can be found [here](/docs/basic-demo.md)
+Instructions to run this demo can be found [here](/docs/install-jumphost.md)
 
 ## VoIP Service with Provider Networking
 
@@ -27,7 +27,7 @@ An advanced version of the VoIP service is deployed across Openstack and Kuberne
 
 ![VoIP Service](/docs/images/provider-voip.PNG)
 
-Instructions to run this demo can be found [here](/docs/provider-demo.md)
+Instructions to run this demo can be found [here](/docs/install-provider.md)
 
 
 
