@@ -1,4 +1,0 @@
----
-- name: Start Lifecycle Transition
-  hosts: localhost
-  gather_facts: False

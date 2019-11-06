@@ -1,0 +1,10 @@
+name: jumphost
+vnfcs:
+  definitions:
+    jumphost-vnfc:
+      directory: jumphost-vnfc
+  packages:
+    ansible-rm-vnfcs:
+      packaging-type: ansible-rm
+      executions:
+      - vnfc: jumphost-vnfc

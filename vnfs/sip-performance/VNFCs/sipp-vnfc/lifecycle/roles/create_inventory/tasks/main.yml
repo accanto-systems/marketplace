@@ -9,6 +9,22 @@
      ansible_ssh_pass: ubuntu
      ansible_become_pass: ubuntu
      ansible_sudo_pass: ubuntu
+
+- name: add instance with jumphost to hosts inventory
+  when: mgmt_address is defined and jumphost_ip is defined
+  add_host:
+     name: "{{ instance_name }}"
+     groups: voip
+     ansible_user: ubuntu
+     ansible_host: "{{ mgmt_address }}"
+     ansible_connection: ssh
+     ansible_ssh_pass: ubuntu
+     ansible_become_pass: ubuntu
+     ansible_sudo_pass: ubuntu
+     ansible_ssh_common_args: "-o StrictHostKeyChecking=no -o ProxyCommand='sshpass -p {{ jumphost_password }} ssh -o StrictHostKeyChecking=no -W %h:%p {{ jumphost_username }}@{{ jumphost_ip }}'"
+
+- debug:
+    var: "hostvars['{{ instance_name }}']"
      
 - name: add k8s location
   when: type == "Kubernetes" 
@@ -21,4 +37,15 @@
      ansible_ssh_pass: vagrant
      ansible_become_pass: vagrant
      ansible_sudo_pass: vagrant
-     
+
+- name: add jumphost
+  when: jumphost_ip is defined
+  add_host:
+     name: jumphost
+     groups: jumphost
+     ansible_user: "{{ jumphost_username }}"
+     ansible_host: "{{ jumphost_ip }}"
+     ansible_connection: ssh
+     ansible_ssh_pass: "{{ jumphost_password }}"
+     ansible_become_pass: "{{ jumphost_password }}"
+     ansible_sudo_pass: "{{ jumphost_password }}"

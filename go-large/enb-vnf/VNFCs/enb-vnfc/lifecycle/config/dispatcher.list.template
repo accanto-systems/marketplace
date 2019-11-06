@@ -1,3 +1,0 @@
-{% for item in dispatch_list_new %}
-{{ item }}
-{% endfor %}

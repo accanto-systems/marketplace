@@ -1,9 +1,0 @@
-{
-    "projectId": "assembly::epc-ns::1.0.2",
-    "properties": {},
-    "name": "video-service",
-    "descriptorName": "assembly::video-epc::1.0",
-    "createdAt": "2019-06-25T11:39:55.917Z",
-    "description": "video service with epc access",
-    "lastModifiedAt": "2019-07-25T09:45:22.339Z"
-}

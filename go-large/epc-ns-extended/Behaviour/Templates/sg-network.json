@@ -1,9 +1,0 @@
-{
-    "descriptorName": "assembly::logical-network::1.0",
-    "createdAt": "2019-06-25T11:39:44.561Z",
-    "lastModifiedAt": "2019-07-25T09:45:05.205Z",
-    "name": "sg-network",
-    "description": null,
-    "properties": {},
-    "projectId": "assembly::epc-ns::1.1"
-}

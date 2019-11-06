@@ -1,0 +1,23 @@
+---
+- name: create the router instance
+  os_router:
+    state: present
+    name: "{{ router_name }}"
+    network: "{{ network }}"
+    interfaces:
+      - "{{ interface }}"
+  register: router_stat
+
+- debug:
+    var: router_stat
+
+# - name: report INTERNAL_RESOURCE
+#   debug:
+#     msg:
+#      - "routerid: {{ netid}}"
+#      - "type: openstack-network"
+
+- name: report PROPERTIES
+  debug:
+    msg:
+      - "router_id: {{ router_stat.id}}"

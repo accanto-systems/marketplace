@@ -1,0 +1,53 @@
+- name: Find image
+  os_image_facts:
+    image: "{{ imagename }}"
+  register: jumphost_image
+  failed_when: jumphost_image['ansible_facts']['openstack_image']['id'] is not defined
+
+- name: Show image id
+  debug:
+    var: jumphost_image['ansible_facts']['openstack_image']['id']
+
+- os_security_group:
+    state: present
+    name: "{{ jumphostname }}"
+    description: "security group for jumphost {{ jumphostname }}"
+
+- name: add ssh to security group
+  os_security_group_rule:
+    security_group: "{{ jumphostname }}"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+
+- name: Start jumphost
+  os_server:
+    state: present
+    name: "{{ jumphostname }}"
+    auto_ip: true
+    image: "{{ jumphost_image['ansible_facts']['openstack_image']['id'] }}"
+    timeout: 200
+    security_groups: "{{ jumphostname }}"
+    flavor: "{{ flavorname }}"
+    key_name: "{{ keyname }}"
+    config_drive: true
+    userdata: "{{ lookup('file','../config/jumphost-user-data.yml') | string}}"
+    nics: "net-id={{ networkid }}"
+  register: server_result
+
+- debug: 
+    var: server_result
+
+- name: Wait for port 22 to become open
+  wait_for:
+    port: 22
+    host: "{{ server_result['server']['public_v4'] }}"
+    delay: 10
+
+
+- name: report PROPERTIES
+  debug:
+    msg:
+      - "jumphost_id: {{ server_result['server']['id']}}"
+      - "jumphost_ip: {{ server_result['server']['public_v4'] }}"

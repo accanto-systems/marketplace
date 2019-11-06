@@ -1,0 +1,3 @@
+name: jumphost-vnfc
+version: 0.1
+resource-manager: ansible

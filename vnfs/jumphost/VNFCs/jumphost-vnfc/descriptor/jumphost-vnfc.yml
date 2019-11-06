@@ -1,0 +1,42 @@
+name: resource::jumphost-vnfc::0.1
+description: jumphost server vnfc
+
+properties:
+  jumphostname:   
+    type: string
+    description: "the name of the jumphost instance"
+    default: "jumphost"
+  imagename:
+    type: string
+    description: "the openstack image name"
+    value: "xenial-server-cloudimg-amd64-disk1"    
+  networkid:
+    type: string
+    descripion: network id to attach jumphost to
+    required: true
+  keyname:
+    type: string
+    descripion: keyname for jumphost virtual machine
+    required: true
+  flavorname:
+    type: string
+    descripion: openstack flavor for jumphost 
+    value:  m1.small
+  jumphost_username:
+    type: string
+    descripion: admin user name for jumphost
+  jumphost_password:
+    type: string
+    descripion: admin password for jumphost
+  jumphost_id:
+    type: string
+    description: id of the created jumphost virtual machine
+    read_only: true
+  jumphost_ip:
+    type: string
+    description: floating ip assigned to this jumphost
+    read_only: true
+
+lifecycle:
+- Install
+- Uninstall

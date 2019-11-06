@@ -1,0 +1,13 @@
+---  
+- name:  Lifecycle Operation
+  hosts: localhost
+  gather_facts: False
+  tasks:  
+    - name:  Lifecycle Operation
+      debug:
+        msg:
+          "DEBUG: Start Lifecycle Operation"
+    - name: fail if data set to fail 
+      fail:
+        msg: The Statt transition has failed
+      when: data == "fail"

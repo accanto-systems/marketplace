@@ -1,0 +1,91 @@
+name: assembly::provider-base::0.1
+description: Setup management network jumphost and external voice network
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deployed
+    type: string
+    default: core
+    required: true
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+    required: true
+  keyname:
+    description: name of the openstack keyname
+    type: string
+    required: true
+    default: default
+  mgmt_networkid:
+    description: network id for mgmt network
+    type: read_only
+    read-only: true
+    value: ${mgmt_network.networkid}
+  voice_networkid:
+    description: network id for mgmt network
+    type: read_only
+    read-only: true
+    value: ${voice_network.networkid}
+  mgmt_securitygroup_id:
+    description: security group id for mgmt network
+    type: read_only
+    read-only: true
+    value: ${common.mgmt_securitygroup_id}
+  voice_securitygroup_id:
+    description: security group id for voice network
+    type: read_only
+    read-only: true
+    value: ${common.voice_securitygroup_id}
+composition:
+  common:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: assembly::baseinfrastructure::0.1
+    quantity: 1
+  mgmt_network:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      subnet:
+        value: 10.0.30.0/24
+      provider_network:
+        value: true
+      provider_network_type:
+        value: vlan
+      provider_physical_network:
+        value: provider
+      provider_segmentation_id:
+        value: 5
+      startip:
+        value: 10.0.30.2
+      endip:
+        value: 10.0.30.50
+    type: assembly::tenant-neutron-network::1.0
+    quantity: 1
+  voice_network:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      subnet:
+        value: 10.0.10.0/24
+      provider_network:
+        value: true
+      provider_network_type:
+        value: vlan
+      provider_physical_network:
+        value: provider
+      provider_segmentation_id:
+        value: 10
+      startip:
+        value: 10.0.10.2
+      endip:
+        value: 10.0.10.50
+    type: assembly::tenant-neutron-network::1.0
+    quantity: 1

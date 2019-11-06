@@ -1,1 +1,0 @@
-# Kamailio voip gateway

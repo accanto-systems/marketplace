@@ -1,0 +1,9 @@
+## Lmctl has updated this file with the latest schema changes. A backup of your existing project file has been placed in the same directory with a .bak extension
+version: '1.0'
+schema: '2.0'
+name: t_simple
+contains:
+- resource-manager: ansible-rm
+  name: t_simple
+  directory: t_simple
+  type: Resource

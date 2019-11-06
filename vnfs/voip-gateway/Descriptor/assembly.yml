@@ -44,6 +44,15 @@ properties:
     type: string
     read-only: true
     value: ${kamailio.internal_address}
+  jumphost_ip:
+    type: string
+    description: ip assigned to jumphost
+  jumphost_username:
+    type: string
+    description: jumphost username
+  jumphost_password:
+    type: string
+    description: jumphost password
 composition:
   kamailio:
     properties:
@@ -61,6 +70,12 @@ composition:
         value: ${external_network}
       internal_network:
         value: ${internal_network}
+      jumphost_ip:
+        value: ${jumphost_ip}
+      jumphost_username:
+        value: ${jumphost_username}
+      jumphost_password:
+        value: ${jumphost_password}
       deploymentLocation:
         value: ${deploymentLocation}
       resourceManager:

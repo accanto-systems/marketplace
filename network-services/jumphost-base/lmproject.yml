@@ -1,0 +1,4 @@
+name: jumphost-base
+vnfcs:
+  definitions: {}
+  packages: {}

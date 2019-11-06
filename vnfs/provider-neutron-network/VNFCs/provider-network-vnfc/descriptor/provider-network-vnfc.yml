@@ -1,0 +1,45 @@
+name: resource::provider-network-vnfc::1.0
+description: resource package for network vnfc
+properties:
+  # Common properties
+  networkname:
+    type: string
+    description: name of the network
+    value: ${instance.name}
+  subnet:
+    type: string
+    description: subnet for new network
+    default: "10.20.1.0/24"
+  networkid:
+    type: string
+    description: id of network instance
+    read-only: true
+  subnetid:
+    type: string
+    description: id of network subnet instance
+    read-only: true
+  provider_network: 
+    type: string
+    description: set to true if provider network is used
+  provider_network_type: 
+    type: string
+    description: the provider network type 
+    default: vlan
+  provider_physical_network: 
+    type: string
+    description: name of the provider network
+    default: provider
+  provider_segmentation_id: 
+    type: string
+    description: VLAN/VXLAN id
+    default: 10
+  startip:
+    type: string
+    description: start of ip address range
+  endip: 
+    type: string
+    description: end of ip address range
+
+lifecycle:
+- Install
+- Uninstall

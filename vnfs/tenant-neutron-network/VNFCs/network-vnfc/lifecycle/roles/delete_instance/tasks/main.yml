@@ -1,0 +1,9 @@
+- name: Remove subnet
+  os_network:
+    state: absent
+    name: "{{ networkname }}_subnet"
+
+- name: Remove network
+  os_network:
+    state: absent
+    name: "{{ networkname }}"

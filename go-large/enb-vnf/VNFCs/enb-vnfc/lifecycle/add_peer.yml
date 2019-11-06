@@ -1,5 +1,0 @@
----
-- name: add bearer
-  hosts: localhost
-  gather_facts: False
-  

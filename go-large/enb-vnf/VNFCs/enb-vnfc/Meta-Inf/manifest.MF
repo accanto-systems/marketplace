@@ -1,3 +1,0 @@
-name: enb-vnfc
-version: 1.0
-resource-manager: ansible

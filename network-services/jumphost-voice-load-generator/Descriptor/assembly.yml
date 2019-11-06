@@ -1,0 +1,38 @@
+name: assembly::jumphost-voice-load-generator::1.0
+description: Network service to generate a load for the voice network services
+properties:
+  deploymentLocation:
+    type: string
+    default: edge
+  resourceManager:
+    type: string
+    default: defaultrm
+  voice_service:
+    description: target voice service for voip traffic load
+    type: string
+    default: voice
+  instance_name:
+    type: string
+    value: ${instance.name}
+composition:
+  sipp-server:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      instance_name:
+        value: ${instance_name}
+      target_sip_address:
+        value: ${voice_service.voice_service_ipaddress}
+      mgmt_network:
+        value: mgmt
+      data_network:
+        value: voice
+    type: assembly::sip-performance::1.0
+references:
+  voice_service:
+    properties:
+      name:
+        value: ${voice_service}
+    type: assembly::jumphost-voice-service::1.0

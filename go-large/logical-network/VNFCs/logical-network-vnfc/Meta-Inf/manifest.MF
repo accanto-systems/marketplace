@@ -1,3 +1,0 @@
-name: logical-network-vnfc
-version: 1.0
-resource-manager: ansible

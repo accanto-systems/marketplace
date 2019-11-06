@@ -1,0 +1,4 @@
+name: jumphost-voice-load-generator
+vnfcs:
+  definitions: {}
+  packages: {}

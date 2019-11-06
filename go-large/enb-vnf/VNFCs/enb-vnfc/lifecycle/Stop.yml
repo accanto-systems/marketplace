@@ -1,4 +1,0 @@
----
-- name: Stop Lifecycle Transition
-  hosts: localhost
-  gather_facts: False

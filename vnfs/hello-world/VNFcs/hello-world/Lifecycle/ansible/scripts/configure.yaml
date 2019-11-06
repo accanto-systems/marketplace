@@ -1,0 +1,19 @@
+---
+- hosts: testhost
+  gather_facts: no
+  tasks:
+  - name: debug
+    debug:
+      msg: "properties {{ dl_properties.hello_world_private_ip }} {{ dl_properties.ansible_ssh_user }} {{ dl_properties.ansible_ssh_pass }} {{ dl_properties.ansible_become_pass }}"
+
+  - name: create file
+    file:
+      path: "/tmp/test"
+      state: touch
+
+  - name: write file
+    copy: content="{{ system_properties.deployment_location }}" dest=/tmp/test
+
+  - name: set fact
+    set_fact:
+      output__msg: "hello there!"

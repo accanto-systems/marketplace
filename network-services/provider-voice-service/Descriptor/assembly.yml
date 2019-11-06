@@ -1,0 +1,131 @@
+name: assembly::provider-voice-service::1.0
+description: Voice Service
+properties:
+  deploymentLocation:
+    type: string
+    default: devstack
+    required: true
+  resourceManager:
+    type: string
+    default: defaultrm
+    required: true
+  keyname:
+    description: name of the openstack keyname
+    type: string
+    required: true
+    default: default
+  voice_service_ipaddress:
+    description: the ip address of the endpoint for the voice service
+    type: string
+    read-only: true
+    value: ${gateway.external_address}
+  base_infrastructure:
+    type: string
+    default: base
+    required: true
+composition:
+  gateway:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      keyname:
+        value: ${keyname}
+      mgmt_securitygroup_id:
+        value: ${base.mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${base.voice_securitygroup_id}
+      mgmt_network:
+        value: ${base.mgmt_networkid}
+      external_network:
+        value: ${base.voice_networkid}
+      internal_network:
+        value: ${internal.networkid}
+      jumphost_ip:
+        value: ${base.jumphost_ip}
+      jumphost_username:
+        value: ${base.jumphost_username}
+      jumphost_password:
+        value: ${base.jumphost_password}
+    type: assembly::voip-gateway::1.0
+    quantity: 1
+  voip-server:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      gw_address:
+        value: ${gateway.internal_address}
+      keyname:
+        value: ${keyname}
+      mgmt_securitygroup_id:
+        value: ${base.mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${base.voice_securitygroup_id}
+      mgmt_network:
+        value: ${base.mgmt_networkid}
+      data_network:
+        value: ${internal.networkid}
+      data_cidr:
+        value: ${internal.subnet}
+      jumphost_ip:
+        value: ${base.jumphost_ip}
+      jumphost_username:
+        value: ${base.jumphost_username}
+      jumphost_password:
+        value: ${base.jumphost_password}
+    type: assembly::ip-pbx::1.0
+    cluster:
+      initial-quantity: 1
+      minimum-nodes: 1
+      maximum-nodes: 10
+      scaling-increment: 1
+  internal:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      subnet:
+        value: 10.0.0.0/24
+    type: assembly::provider-neutron-network::1.0
+references:
+  base:
+    properties:
+      name:
+        value: ${base_infrastructure}
+    type: assembly::base::0.1
+relationships:
+  manageDispatchList:
+    properties:
+      ipaddr:
+        value: ${source.data_address}
+      port:
+        value: '5060'
+    source-state: Active
+    target-state: Active
+    source-state-modifier: post
+    target-state-modifier: post
+    lifecycle:
+      Create:
+      - target.addToDispatchList
+      Cease:
+      - target.deleteFromDispatchList
+    source-capabilities:
+    - voip-server.poolNode
+    target-requirements:
+    - gateway.poolController
+policies:
+  scaleVoipServer:
+    properties:
+      scaleOut_threshold:
+        value: 58
+      scaleIn_threshold:
+        value: 32
+      smoothing:
+        value: 3
+    type: policy::scale
+    metric: gateway.h_load
+    target: voip-server

@@ -1,0 +1,64 @@
+name: assembly::tenant-neutron-network::1.0
+description: Openstack Neutron network VNF
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    type: string
+    default: local
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+  subnet:
+    description: subnet for new network
+    type: string
+    default: 10.20.1.0/24
+  provider_network:
+    description: set to true if provider network is used
+    type: string
+    default: false
+  provider_network_type:
+    description: the provider network type
+    type: string
+    default: vlan
+  provider_physical_network:
+    description: name of the provider network
+    type: string
+    default: provider
+  provider_segmentation_id:
+    description: VLAN/VXLAN id
+    type: string
+    default: 10
+  networkid:
+    description: id of network instance
+    type: string
+    read-only: true
+    value: ${network.networkid}
+  subnetid:
+    description: id of network subnet instance
+    type: string
+    read-only: true
+    value: ${network.subnetid}
+composition:
+  network:
+    properties:
+      subnet:
+        value: ${subnet}
+      gateway:
+        value: ${gateway}
+      iprange:
+        value: ${iprange}
+      provider_network:
+        value: ${provider_network}
+      provider_network_type:
+        value: ${provider_network_type}
+      provider_physical_network:
+        value: ${provider_physical_network}
+      provider_segmentation_id:
+        value: ${provider_segmentation_id}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::network-vnfc::1.0
+    quantity: 1

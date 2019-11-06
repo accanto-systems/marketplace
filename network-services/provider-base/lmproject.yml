@@ -1,0 +1,4 @@
+name: provider-base
+vnfcs:
+  definitions: {}
+  packages: {}

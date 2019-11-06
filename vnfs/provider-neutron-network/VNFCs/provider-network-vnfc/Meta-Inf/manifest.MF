@@ -1,0 +1,3 @@
+name: provider-network-vnfc
+version: 1.0
+resource-manager: ansible

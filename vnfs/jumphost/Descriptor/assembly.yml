@@ -1,0 +1,53 @@
+name: assembly::jumphost::0.1
+description: basic ssh jumphost
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    type: string
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+  networkid:
+    type: string
+    descripion: network id to attach jumphost to
+    required: true
+  keyname:
+    type: string
+    descripion: keyname for jumphost virtual machine
+    required: true
+  jumphost_id:
+    description: id of the created jumphos
+    type: string
+    value: ${jumphost.jumphost_id}
+  jumphost_ip:
+    description: floating ip assigned to this jumphost
+    type: string
+    value: ${jumphost.jumphost_ip}
+  jumphost_username:
+    description: jumphost username
+    type: string
+    value: ubuntu
+  jumphost_password:
+    description: jumphost password
+    type: string
+    value: ubuntu
+composition:
+  jumphost:
+    properties:
+      jumphostname:
+        value: ${instance.name}
+      networkid:
+        value: ${networkid}
+      keyname:
+        value: ${keyname}
+      jumphost_username:
+        value: ${jumphost_username}
+      jumphost_password:
+        value: ${jumphost_password}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::jumphost-vnfc::0.1
+    quantity: 1
+

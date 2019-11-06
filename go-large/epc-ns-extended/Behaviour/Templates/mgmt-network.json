@@ -1,9 +1,0 @@
-{
-    "descriptorName": "assembly::logical-network::1.0",
-    "createdAt": "2019-06-25T11:39:44.406Z",
-    "lastModifiedAt": "2019-07-25T09:45:04.59Z",
-    "name": "mgmt-network",
-    "description": "Shared Management Network",
-    "properties": {},
-    "projectId": "assembly::epc-ns::1.1"
-}

@@ -1,4 +1,6 @@
-cd vnfs/network
+cd vnfs/tenant-network
+lmctl project $1 $2
+cd ../provider-network
 lmctl project $1 $2
 cd ../baseinfrastructure
 lmctl project $1 $2
