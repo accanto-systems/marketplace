@@ -1,23 +1,34 @@
 # Lifecycle Manager Project Marketplace
 
-This project provides a set of working lifecycle manager Network Service and VNF examples along with a demonstration scenario script. 
+This project provides a set of working lifecycle manager Network Service and VNF examples. An example VoIP Service is implemented around a set of opensource VNFs, as follows: 
 
-## Network Services
+![VoIP Service](/docs/images/voip-service-intro.PNG)
 
-| Project                    | Description                                              | Dependent VNF/NS projects    | 
-|----------------------------|----------------------------------------------------------|------------------------------|
-| [base](/network-services/base/Readme.md) | Create shared infrastructure and jumphost   | baseinfrastructure, network, router, jumphost |
-| [voice-service](/network-services/voice-service/Readme.md) | Create a scaling voice service | voip-gateway, ip-pbx, network |
-| [voice-service2](/network-services/voice-service2/Readme.md) | Clone of voice service1 with different deployment location setup | voip-gateway, ip-pbx, network |
-| [voice-load-generator](/network-services/voice-load-generator/Readme.md) |  Run SIP traffic against voice service | sip-performance | 
+The VoIP service includes a Voice (SIP & RTP) Gateway that load balances voice traffic across a dynamic pool of IPPBX servers. To test the service a SIP performance test VNF is also included that can simulate voice traffic and demonstrate IPPBX cluster behaviour. 
 
-## VNFs
+The following Opensource VNFs are included:
+* [**Voice Gateway**](/vnfs/voip-gatway/Readme.md)
+* [**IPPBX Server**](/vnfs/ip-pbx/Readme.md)
+* [**SIPP traffic simulator**](/vnfs/sip-performance/Readme.md)
 
-| Project                                | Description                           | RM Types  | VIM types         | 
-|----------------------------------------|---------------------------------------|-----------|-------------------|
-| [baseinfrastructure](/vnfs/baseinfrastructure/Readme.md) | Create shared VNF infrastructure  | ARM       | Openstack |
-| [network](/vnfs/network/Readme.md)     | Manage a single network instance      | ARM       | Openstack |
-| [ip-pbx](/vnfs/ip-pbx/Readme.md)       | Asterisk VoIP PBX                     | ARM       | Openstack, Kubernetes |
-| [voip-gateway](vnfs/voip-gateway/Readme.md)  | Kamailio VoIP Gateway           | ARM       | Openstack, Kubernetes |
-| [sip-performance](/vnfs/sip-performance/Readme.md) | SIP Performance tester    | ARM       | Openstack, Kubernetes |
+Two flavours of the VoIP Service are included as described below.
+
+## Basic VoIP Service 
+
+The basic VoIP service runs in a single OpenStack region using tenant networking. 
+
+![VoIP Service](/docs/images/basic-voip.PNG)
+
+Instructions to run this demo can be found [here](/docs/basic-demo.md)
+
+## VoIP Service with Provider Networking
+
+An advanced version of the VoIP service is deployed across Openstack and Kubernetes data centres.
+
+![VoIP Service](/docs/images/provider-voip.PNG)
+
+Instructions to run this demo can be found [here](/docs/provider-demo.md)
+
+
+
 
