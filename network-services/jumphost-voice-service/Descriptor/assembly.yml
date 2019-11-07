@@ -3,7 +3,7 @@ description: Voice Service
 properties:
   deploymentLocation:
     type: string
-    default: devstack
+    default: core
     required: true
   resourceManager:
     type: string

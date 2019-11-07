@@ -1,6 +1,14 @@
 name: assembly::provider-voice-service::1.0
 description: Voice Service
 properties:
+  ippbxDeploymentLocation:
+    type: string
+    default: core
+    required: true
+  gatewayDeploymentLocation:
+    type: string
+    default: core
+    required: true
   resourceManager:
     type: string
     default: defaultrm
@@ -23,7 +31,7 @@ composition:
   gateway:
     properties:
       deploymentLocation:
-        value: core
+        value: ${gatwayeDeploymentLocation}
       resourceManager:
         value: ${resourceManager}
       keyname:
@@ -45,7 +53,7 @@ composition:
   voip-server:
     properties:
       deploymentLocation:
-        value: core
+        value: ${ippbxDeploymentLocation}
       resourceManager:
         value: ${resourceManager}
       gw_address:
@@ -71,7 +79,7 @@ composition:
   internal:
     properties:
       deploymentLocation:
-        value: core
+        value: ${ippbxDeploymentLocation}
       resourceManager:
         value: ${resourceManager}
       subnet:

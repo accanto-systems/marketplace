@@ -3,7 +3,7 @@ description: Network service to generate a load for the voice network services
 properties:
   deploymentLocation:
     type: string
-    default: devstack
+    default: core
   resourceManager:
     type: string
     default: defaultrm
