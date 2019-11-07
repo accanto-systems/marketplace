@@ -1,4 +1,4 @@
-name: resource::network-vnfc::1.0
+name: resource::tenant-network-vnfc::1.0
 description: resource package for network vnfc
 properties:
   # Common properties

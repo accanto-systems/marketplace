@@ -17,10 +17,10 @@ Once AIO is up and running, log in and create the following locations.
 Add a location called "core" with resource manager "defaultRM" and infrastructure type "Openstack" and provide the following properties
 
 ```
-os_auth_url: "http://192.168.10.10/identity/v3"
-os_projectname: demo
-os_username: demo
-os_password: secret
+os_auth_url: "http://192.168.10.10:5000/v3"
+os_projectname: admin
+os_username: admin
+os_password: password
 almip: 192.168.10.5
 ```
 

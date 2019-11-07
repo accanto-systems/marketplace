@@ -1,7 +1,7 @@
 name: provider-neutron-network
 vnfcs:
   definitions:
-    network-vnfc:
+    provider-network-vnfc:
       directory: provider-network-vnfc
   packages:
     ansible-rm-vnfcs:

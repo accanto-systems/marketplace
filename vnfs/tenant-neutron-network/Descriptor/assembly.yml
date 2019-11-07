@@ -60,5 +60,5 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-    type: resource::network-vnfc::1.0
+    type: resource::tenant-network-vnfc::1.0
     quantity: 1

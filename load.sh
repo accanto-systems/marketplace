@@ -2,9 +2,11 @@ cd vnfs/tenant-neutron-network
 lmctl project $1 $2
 cd ../provider-neutron-network
 lmctl project $1 $2
+cd ../neutron-router
+lmctl project $1 $2
 cd ../baseinfrastructure
 lmctl project $1 $2
-cd ../hello-world
+cd ../jumphost
 lmctl project $1 $2
 cd ../ip-pbx
 lmctl project $1 $2

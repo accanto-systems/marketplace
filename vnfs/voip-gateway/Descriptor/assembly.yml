@@ -9,11 +9,10 @@ properties:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
-  instance_name:
-    description: instance name
   keyname:
     type: string
-    description: openstack key name
+    description: "the key name"
+    required: true
   mgmt_securitygroup_id:
     type: string
     description: id of the mgmt security group

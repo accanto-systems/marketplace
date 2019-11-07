@@ -4,7 +4,8 @@ description: kamailio SIP and RTP gateway
 properties:
   instance_name:
     type: string
-    description: hostname address of this container
+    description: ALM instance name 
+    value: ${instance.name}
   instanceid:
     description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
     value: ${instance.id}
