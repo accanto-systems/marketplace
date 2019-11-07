@@ -6,6 +6,8 @@ If you do not have an Openstack instance with appropriate provider networking, a
 
 ## Setup LM
 
+For this scenario, LM must be attached to the provider networks to it can route traffic to/from the mgmt provider vlan. 
+
 If you are using LM AIO project to install LM, then follow the following [guide](/docs/install-AIO.md). Otherwise skip this step and follow your LM instructions. 
 
 ## Configure locations in LM
@@ -38,7 +40,7 @@ almip: 10.0.30.5
 
 ```
 
-Change the above with your k8s cluster and LM Provider IP address. 
+Change the above with your k8s cluster and LM Provider IP address. The IP address of LM Is the one reachable over the Provier network. 
 
 ## Prepare Openstack
 
@@ -56,6 +58,15 @@ The following Openstack images need to be built to support this scenario.
 * [IPPBX Openstack](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md)
 * [Voip Gateway Openstack](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md)
 * [SIPP Openstack](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/openstack/Readme.md)
+
+## Prepare k8s
+
+The following Docker are available on [Dockerhub](https://hub.docker.com/u/accanto) or can be built locally by following the links below: 
+* [IPPBX Openstack](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/docker/Readme.md)
+* [Voip Gateway Openstack](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/docker/Readme.md)
+* [SIPP Openstack](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/docker/Readme.md)
+
+## Install LM packages
 
 [Install LMCTL](/docs/install-lmctl.md) and load the VNFs and Network services into LM by running the following commands. 
 

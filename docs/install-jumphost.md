@@ -6,7 +6,9 @@ If you do not have an Openstack instance, a virtual sandbox can be setup on a ba
 
 ## Setup LM
 
-If you are using LM AIO project to install LM, then follow the following [guide](/docs/install-AIO.md).
+For this scenario LM must be reachable to/from Openstack public network.
+
+If you are using LM AIO project to install LM, then follow the following [guide](/docs/install-AIO.md). 
 
 ## Configure locations in LM
 
@@ -14,17 +16,17 @@ Once AIO is up and running, log in and create the following locations.
 
 ### Add openstack Core location
 
-Add a location called "core" with resource manager "defaultRM" and infrastructure type "Openstack" and provide the following properties
+Add a location called "core" with resource manager "defaultrm" and infrastructure type "Openstack" and provide the following properties
 
 ```
 os_auth_url: "http://192.168.10.10:5000/v3"
 os_projectname: admin
 os_username: admin
 os_password: password
-almip: 192.168.10.5
+almip: 172.24.4.2
 ```
 
-Change the above with your Openstack credentials and your LM IP address. 
+Change the above with your Openstack credentials and your LM IP address. The ALM IP address is the routable address from Openstack public network. 
 
 ## Prepare Openstack
 
