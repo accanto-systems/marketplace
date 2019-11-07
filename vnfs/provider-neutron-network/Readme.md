@@ -1,4 +1,4 @@
-# Network VNF
+# Provider Neutron Network VNF
 
 This VNF manages the lifecycle of an Openstack or Docker network (depending on the VIM type). Install will fail if a network with the same name exists on the target VIM. 
 
@@ -26,26 +26,9 @@ The network VNF has the following properties:
 
 There are no operations. 
 
-## Ansible RM Configuration
-
-If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment location)[http://servicelifecyclemanager.com/reference/resource-manager/add-vim/] is configured with the following variables:
-
-### Openstack configuration
-
-Openstack lifecycle manager location variables are as follows: 
-
-```
-os_auth_url: "http://192.168.56.130/identity/v3"
-os_projectname: admin
-os_username: admin
-os_password: secret
-```
-
-Replace the above with your Openstack credentials.
-
 ## Deploying this VNF
 
-Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. (Configure your lmctl environment)[http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments] and run the following command:
+Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
 
 ```
 lmctl project push

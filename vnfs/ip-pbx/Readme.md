@@ -36,9 +36,6 @@ There are no operations.
 |----------------------|-------------------------------------|
 | **heal**             | healing policy on asterisk vnfc listening to health metrics from above  |
 
-## Ansible RM Configuration
-
-If deploying to Ansible RM, you need to ensure the (Lifecycle Manager deployment location)[http://servicelifecyclemanager.com/reference/resource-manager/add-vim/] is configured with the following variables:
 
 ## Deploying this VNF
 

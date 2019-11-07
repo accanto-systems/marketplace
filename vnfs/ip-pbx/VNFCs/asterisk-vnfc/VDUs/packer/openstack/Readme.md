@@ -29,7 +29,13 @@ In the **ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/ippbx.json** packer sc
 
 Download [Asterisk](https://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-14.7.8.tar.gz) to ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/software/ directory.
 
-Run the following command to build the pbx image.
+Ensure your Openstack Environment has the following artefacts configured:
+* If it does not exist, create an "internal" neutron network
+* Ensure the "internal" network is connected to a router router to public network
+* Create a keypair for Packer to communicate with the VM
+* Ensure a security group with ssh ports open are available for packer to talk to the image
+
+Update the packer configuration file with the IDs of the Openstack assets above and run the following command to build the pbx image.
 
 ```
 packer build ippbx.json

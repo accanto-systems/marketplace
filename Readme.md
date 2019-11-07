@@ -19,7 +19,7 @@ The basic VoIP service runs in a single OpenStack region using tenant networking
 
 ![VoIP Service](/docs/images/basic-voip.PNG)
 
-Instructions to run this demo can be found [here](/docs/install-jumphost.md)
+Instructions to run this example can be found [here](/docs/install-jumphost.md)
 
 ## VoIP Service with Provider Networking
 
@@ -27,7 +27,7 @@ An advanced version of the VoIP service is deployed across Openstack and Kuberne
 
 ![VoIP Service](/docs/images/provider-voip.PNG)
 
-Instructions to run this demo can be found [here](/docs/install-provider.md)
+Instructions to run this example can be found [here](/docs/install-provider.md)
 
 
 

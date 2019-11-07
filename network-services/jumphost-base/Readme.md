@@ -1,1 +1,1 @@
-# base network service
+# Basic shared infrastructure service

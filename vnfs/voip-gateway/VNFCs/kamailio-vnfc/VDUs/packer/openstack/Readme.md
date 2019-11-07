@@ -29,7 +29,13 @@ In the **voip-gateway/VNFCs/asterisk-vnfc/VDUs/packer/openstack/kamailio.json** 
 
 Download [Kamailio](https://www.kamailio.org/pub/kamailio/5.0.2/src/kamailio-5.0.2_src.tar.gz) and [RTP engine](https://github.com/sipwise/rtpengine/archive/mr5.5.10.1.zip) to voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/software/ directory.
 
-Run the following command to build the pbx image.
+Ensure your Openstack Environment has the following artefacts configured:
+* If it does not exist, create an "internal" neutron network
+* Ensure the "internal" network is connected to a router router to public network
+* Create a keypair for Packer to communicate with the VM
+* Ensure a security group with ssh ports open are available for packer to talk to the image
+
+Update the packer configuration file with the IDs of the Openstack assets above and run the following command to build the kamailio image.
 
 ```
 packer build kamailio.json

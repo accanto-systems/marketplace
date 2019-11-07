@@ -2,7 +2,7 @@
 
 ## Setup virtual data centre and VIMs
 
-If you do not have an Openstack instance with appropriate provider networking, an virtual sandbox can be setup on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment). 
+If you do not have an Openstack instance with appropriate provider networking, a virtual sandbox can be setup on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment). 
 
 ## Setup LM
 
@@ -14,7 +14,7 @@ Once AIO is up and running, log onto LM and create the following locations.
 
 ### Add openstack Core location
 
-Add a location called "core" with resource manager "defaultRM" and infrastructure type "Openstack" and provide the following properties
+Add a location called "core-provider" with resource manager "defaultRM" and infrastructure type "Openstack" and provide the following properties
 
 ```
 os_auth_url: "http://192.168.10.10:5000/v3"
@@ -23,6 +23,8 @@ os_username: admin
 os_password: password
 almip: 10.0.30.5
 ```
+
+Change the above with your Openstack credentials and your LM Provider IP address. 
 
 ### Add k8s edge location
 
@@ -33,13 +35,24 @@ k8s_address: 192.168.10.50
 k8s_ssh_user: vagrant
 k8s_ssh_password: vagrant 
 almip: 10.0.30.5
+
 ```
+
+Change the above with your k8s cluster and LM Provider IP address. 
+
+## Prepare Openstack
+
+Create a key called "default".
+
+The Jumphost and other images below depend on Openstack having a Xenial ubuntu image pre-loaded. Xenial cloud image can be downloaded from [here](https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img).
 
 ## Load VNFs and Network Services
 
 As required, build VNF images as per each VNF readme and load into target VIM.
 
-Build the following Openstack images
+The Jumphost and other images below depend on Openstack having a Xenial ubuntu image pre-loaded. Xenial cloud image can be downloaded from [here](https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img).
+
+The following Openstack images need to be built to support this scenario. 
 * [IPPBX Openstack](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md)
 * [Voip Gateway Openstack](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md)
 * [SIPP Openstack](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/openstack/Readme.md)
