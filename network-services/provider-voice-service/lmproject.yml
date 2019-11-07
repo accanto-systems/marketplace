@@ -1,4 +1,4 @@
-name: voice-service
+name: provider-voice-service
 vnfcs:
   definitions: {}
   packages: {}

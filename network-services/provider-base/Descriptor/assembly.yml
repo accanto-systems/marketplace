@@ -65,7 +65,7 @@ composition:
         value: 10.0.30.2
       endip:
         value: 10.0.30.50
-    type: assembly::tenant-neutron-network::1.0
+    type: assembly::provider-neutron-network::1.0
     quantity: 1
   voice_network:
     properties:
@@ -87,5 +87,5 @@ composition:
         value: 10.0.10.2
       endip:
         value: 10.0.10.50
-    type: assembly::tenant-neutron-network::1.0
+    type: assembly::provider-neutron-network::1.0
     quantity: 1

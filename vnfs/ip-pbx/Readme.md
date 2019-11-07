@@ -37,24 +37,7 @@ There are no operations.
 | **heal**             | healing policy on asterisk vnfc listening to health metrics from above  |
 
 
-## Deploying this VNF
-
-Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
-
-```
-lmctl project push
-```
-
-## VIM Images
-
-Follow the steps below to build VIM images and load the VNF package
-* [Build a VIM run time image](#create-the-vim-image)
-* [Load VIM image to CICD Hub](#load-the-vim-image-to-cicd-hub)
-* [Create VNF package](#push-vnf-package)
-
-### Create the VIM image
-
-To run this VNF an image must be built appropriate for the target VIM. 
+## Building IP PBX VNF Images
 
 #### Software dependencies
 
@@ -73,3 +56,11 @@ Load the VIM image you created above to the CICD Hub image repository and to you
 
 
 The [CICD user guide](http://servicelifecyclemanager.com/user-guides/cicd/getting-started/) has more information on managing VNF packages across LM environments. 
+
+## Deploying this VNF
+
+Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
+
+```
+lmctl project push
+```

@@ -3,17 +3,22 @@ description: Network service to generate a load for the voice network services
 properties:
   deploymentLocation:
     type: string
-    default: edge
+    default: core
   resourceManager:
     type: string
     default: defaultrm
+  keyname:
+    description: openstack keypair name
+    type: string
+    required: true
+    default: default
+  base_infrastructure:
+    type: string
+    default: base
   voice_service:
     description: target voice service for voip traffic load
     type: string
     default: voice
-  instance_name:
-    type: string
-    value: ${instance.name}
 composition:
   sipp-server:
     properties:
@@ -21,16 +26,31 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-      instance_name:
-        value: ${instance_name}
+      keyname:
+        value: ${keyname}
       target_sip_address:
         value: ${voice_service.voice_service_ipaddress}
+      mgmt_securitygroup_id:
+        value: ${base.mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${base.voice_securitygroup_id}
       mgmt_network:
-        value: mgmt
+        value: ${base.mgmt_networkid}
       data_network:
-        value: voice
+        value: ${base.voice_networkid}
+      jumphost_ip:
+        value: ${base.jumphost_ip}
+      jumphost_username:
+        value: ${base.jumphost_username}
+      jumphost_password:
+        value: ${base.jumphost_password}
     type: assembly::sip-performance::1.0
 references:
+  base:
+    properties:
+      name:
+        value: ${base_infrastructure}
+    type: assembly::jumphost-base::0.1
   voice_service:
     properties:
       name:

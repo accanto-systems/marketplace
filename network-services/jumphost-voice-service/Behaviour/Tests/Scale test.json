@@ -1,7 +1,24 @@
 {
-    "name": "Scale test",
-    "projectId": "assembly::voice-service::1.0",
+    "assemblyActors": [
+        {
+            "assemblyConfigurationRef": "voice",
+            "provided": false,
+            "uninstallOnExit": true,
+            "initialState": "Active",
+            "instanceName": "voice"
+        },
+        {
+            "assemblyConfigurationRef": "sipp",
+            "provided": false,
+            "uninstallOnExit": true,
+            "initialState": "Active",
+            "instanceName": "sipp"
+        }
+    ],
     "description": "Test that the Voip Server cluster scales",
+    "projectId": "assembly::voice-service::1.0",
+    "lastModifiedAt": "2019-08-24T10:03:19.559Z",
+    "name": "Scale test",
     "stages": [
         {
             "name": "Scaling",
@@ -89,22 +106,5 @@
             ]
         }
     ],
-    "assemblyActors": [
-        {
-            "instanceName": "voice",
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "voice"
-        },
-        {
-            "instanceName": "sipp",
-            "initialState": "Active",
-            "uninstallOnExit": true,
-            "provided": false,
-            "assemblyConfigurationRef": "sipp"
-        }
-    ],
-    "createdAt": "2019-08-22T16:04:20.069Z",
-    "lastModifiedAt": "2019-09-15T18:56:27.008Z"
+    "createdAt": "2019-08-22T16:04:20.069Z"
 }

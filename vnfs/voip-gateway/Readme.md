@@ -21,6 +21,9 @@ The network VNF has the following properties:
 | **keyname**                   | openstack key name                  | Input     |
 | **mgmt_securitygroup_id**     | id of the mgmt security group       | Input     |
 | **voice_securitygroup_id**    | id of the voice security group      | Input     |
+| **jumphost_ip**      | ip assigned to jumphost             | Input     |
+| **jumphost_username** | jumphost username                  | Input     |
+| **jumphost_password** | jumphost password                  | Input     |
 
 ### Operations
 
@@ -42,16 +45,6 @@ This VNF produces the following metrics:
 ### Policies
 
 There are no policies 
-
-## Deploying this VNF
-
-Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
-
-```
-lmctl project push
-```
-
-The [CICD user guide](http://servicelifecyclemanager.com/cicd/introduction/) has more information on managing VNF packages across LM environments. 
 
 ## VIM Images
 
@@ -78,3 +71,13 @@ To deploy to a container based VIM [run the docker packer installer](/vnfs/voip-
 ## Load the VIM image to CICD Hub
 
 Load the VIM image you created above to the CICD Hub image repository and to your target VIM. You can follow the instructions [here](http://servicelifecyclemanager.com/user-guides/cicd/upload-images/).
+
+## Deploying this VNF
+
+Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
+
+```
+lmctl project push
+```
+
+The [CICD user guide](http://servicelifecyclemanager.com/cicd/introduction/) has more information on managing VNF packages across LM environments. 

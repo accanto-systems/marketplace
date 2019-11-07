@@ -1,10 +1,6 @@
 name: assembly::provider-voice-service::1.0
 description: Voice Service
 properties:
-  deploymentLocation:
-    type: string
-    default: devstack
-    required: true
   resourceManager:
     type: string
     default: defaultrm
@@ -27,11 +23,13 @@ composition:
   gateway:
     properties:
       deploymentLocation:
-        value: ${deploymentLocation}
+        value: core
       resourceManager:
         value: ${resourceManager}
       keyname:
         value: ${keyname}
+      instance_name:
+        value: ${instance.name}
       mgmt_securitygroup_id:
         value: ${base.mgmt_securitygroup_id}
       voice_securitygroup_id:
@@ -42,18 +40,12 @@ composition:
         value: ${base.voice_networkid}
       internal_network:
         value: ${internal.networkid}
-      jumphost_ip:
-        value: ${base.jumphost_ip}
-      jumphost_username:
-        value: ${base.jumphost_username}
-      jumphost_password:
-        value: ${base.jumphost_password}
     type: assembly::voip-gateway::1.0
     quantity: 1
   voip-server:
     properties:
       deploymentLocation:
-        value: ${deploymentLocation}
+        value: core
       resourceManager:
         value: ${resourceManager}
       gw_address:
@@ -70,12 +62,6 @@ composition:
         value: ${internal.networkid}
       data_cidr:
         value: ${internal.subnet}
-      jumphost_ip:
-        value: ${base.jumphost_ip}
-      jumphost_username:
-        value: ${base.jumphost_username}
-      jumphost_password:
-        value: ${base.jumphost_password}
     type: assembly::ip-pbx::1.0
     cluster:
       initial-quantity: 1
@@ -85,18 +71,30 @@ composition:
   internal:
     properties:
       deploymentLocation:
-        value: ${deploymentLocation}
+        value: core
       resourceManager:
         value: ${resourceManager}
       subnet:
-        value: 10.0.0.0/24
+        value: 10.0.20.0/24
+      provider_network:
+        value: true
+      provider_network_type:
+        value: vlan
+      provider_physical_network:
+        value: provider
+      provider_segmentation_id:
+        value: 50
+      startip:
+        value: 10.0.20.2
+      endip:
+        value: 10.0.20.50
     type: assembly::provider-neutron-network::1.0
 references:
   base:
     properties:
       name:
         value: ${base_infrastructure}
-    type: assembly::base::0.1
+    type: assembly::jumphost-base::0.1
 relationships:
   manageDispatchList:
     properties:
@@ -125,7 +123,8 @@ policies:
       scaleIn_threshold:
         value: 32
       smoothing:
-        value: 3
+        value: 12
     type: policy::scale
     metric: gateway.h_load
     target: voip-server
+

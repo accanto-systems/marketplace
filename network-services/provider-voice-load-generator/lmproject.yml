@@ -1,4 +1,4 @@
-name: voice-load-generator
+name: provider-voice-load-generator
 vnfcs:
   definitions: {}
   packages: {}

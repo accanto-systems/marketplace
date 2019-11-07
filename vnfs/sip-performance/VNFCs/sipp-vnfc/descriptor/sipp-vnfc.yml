@@ -39,7 +39,15 @@ properties:
     type: string
     description: address of SIP server to send traffic to
     required: true 
-
+  jumphost_ip:
+    type: string
+    description: ip assigned to jumphost
+  jumphost_username:
+    type: string
+    description: jumphost username
+  jumphost_password:
+    type: string
+    description: jumphost password
 lifecycle:
 - Install
 - Configure

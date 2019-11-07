@@ -1,4 +1,4 @@
-name: assembly::voice-load-generator::1.0
+name: assembly::provider-voice-load-generator::1.0
 description: Network service to generate a load for the voice network services
 properties:
   deploymentLocation:
@@ -38,12 +38,6 @@ composition:
         value: ${base.mgmt_networkid}
       data_network:
         value: ${base.voice_networkid}
-      jumphost_ip:
-        value: ${base.jumphost_ip}
-      jumphost_username:
-        value: ${base.jumphost_username}
-      jumphost_password:
-        value: ${base.jumphost_password}
     type: assembly::sip-performance::1.0
 references:
   base:

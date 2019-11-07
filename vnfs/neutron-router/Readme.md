@@ -26,5 +26,3 @@ Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this 
 ```
 lmctl project push
 ```
-
-The [CICD user guide](http://servicelifecyclemanager.com/cicd/introduction/) has more information on managing VNF packages across LM environments. 
