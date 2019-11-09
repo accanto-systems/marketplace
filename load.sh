@@ -1,5 +1,7 @@
 cd vnfs/ip-pbx
 lmctl project $1 $2
+cd ../vyos
+lmctl project $1 $2
 cd ../voip-gateway
 lmctl project $1 $2
 cd ../sip-performance
@@ -15,4 +17,6 @@ lmctl project $1 $2
 cd ../voice-load-generator
 lmctl project $1 $2
 cd ../voice-load-generator-provider
+lmctl project $1 $2
+cd ../vpn
 lmctl project $1 $2

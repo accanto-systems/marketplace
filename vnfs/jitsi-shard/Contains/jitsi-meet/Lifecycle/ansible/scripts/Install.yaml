@@ -44,15 +44,3 @@
       args:
         executable: /bin/bash
 
-    # - name: install full jitsi meet
-    
-    #   shell: |
-    #     apt-get update
-    #     export DEBIAN_FRONTEND=noninteractive 
-    #     debconf-set-selections <<< 'jitsi-meet-prosody jitsi-meet/jvb-hostname string {{ properties.public_ip }}';
-    #     debconf-set-selections <<< 'jitsi-meet jitsi-meet/jvb-hostname string {{ properties.public_ip }}';
-    #     debconf-set-selections <<< 'jitsi-meet-prosody jitsi-meet-prosody/jvb-hostname string {{ properties.public_ip }}';
-    #     debconf-set-selections <<< 'jitsi-meet jitsi-meet-prosody/jvb-hostname string {{ properties.public_ip }}';
-    #     apt-get install -y jitsi-meet
-    #   args:
-    #     executable: /bin/bash

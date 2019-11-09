@@ -1,0 +1,35 @@
+description: descriptor for vyosvnfc
+
+properties:
+  instance_name:
+    description: the name of this resource instance
+    value: ${instance.name}
+  key_name:
+     description: Openstack key
+     value: default
+  image_id:
+    description: "the image name"
+    value: vyos
+  flavor:
+    description: "Type of instance (flavor) to be used"
+    default: m1.small
+  mgmt_network_id:
+    description: mgmt network id
+  mgmt_secgroup_id:
+    description: mgmt security group id
+  internal_network_id:
+    description: internal network id
+  external_network_id:
+    description: external network id
+  mgmt_ip: 
+    read-only: true
+  internal_ip: 
+    read-only: true
+  external_ip: 
+    read-only: true
+  floating_ip: 
+    read-only: true
+
+lifecycle:
+- Create
+- Delete

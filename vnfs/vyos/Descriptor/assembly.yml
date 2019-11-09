@@ -1,0 +1,45 @@
+description: descriptor for vyos
+
+properties:
+
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    required: true
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: brent
+  mgmt_network_id:
+    description: mgmt network id
+  mgmt_secgroup_id:
+    description: mgmt security group id
+  internal_network_id:
+    description: internal network id
+  external_network_id:
+    description: external network id
+  mgmt_ip: 
+    value: ${vyos.mgmt_ip}
+  internal_ip: 
+    value: ${vyos.internal_ip}
+  external_ip: 
+    value: ${vyos.external_ip}
+  floating_ip: 
+    value: ${vyos.floating_ip}
+
+composition:
+  vyos:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      mgmt_network_id:
+        value: ${mgmt_network_id}
+      mgmt_secgroup_id:
+        value: ${mgmt_secgroup_id}
+      internal_network_id:
+        value: ${internal_network_id}
+      external_network_id:
+        value: ${external_network_id}
+    type: $lmctl:/contains:/vyosvnfc:/descriptor_name
+    quantity: 1
