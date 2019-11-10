@@ -1,4 +1,6 @@
 #!/bin/sh -eux
+echo "wait for 30 seconds"
+sleep 30
 
 sudo apt-get update 
 sudo apt-get install -y python python-yaml gcc flex bison libmysqlclient-dev git-core build-essential collectd
