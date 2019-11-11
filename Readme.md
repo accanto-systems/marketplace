@@ -33,13 +33,15 @@ The diagram below shows a logical VoIP Network Service deployment with some beha
 
 The use case behaviour from above is translated into the lifecycle manager's programming model of lifecycle dependencies, relationships  and policies. The diagram below shows the main artefacts of the lifecycle VoIP service model. 
 
-![![VNF relationships](/docs/images/vnf-relationships.PNG)
+![VNF relationships](/docs/images/vnf-relationships.PNG)
 
 The following lifecycle manager model artefacts are in place to automate the behaviour described above. 
 * **VoIP Server dependency on GW external address**: The VoIP servers need the gateway external IP address and CIDR to handle NAT SIP requests.
 * **VoIP Server scaling policy**: Load metrics from the gateway trigger policies defined against the VoIP server cluster to scale in and out. 
 * **DispatchList Relationship**: New VoIP servers as a result of the scaling policy trigger a lifecycle relationship that adds information about the new VoIP server to the gateway dispatch pool or removes VoIP servers that no longer exist. 
 * **SIPP dependency on GW external address**: The SIPP VNF needs the external IP address of the gateway to send simulated traffic to. 
+
+These progamming artefacts are captured in all of the VoIP Network Service models/packages included in this project.
 
 ### Network Service flavours
 
