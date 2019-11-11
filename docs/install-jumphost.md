@@ -1,6 +1,6 @@
 # Single VIM deployment with Tenant Networking
 
-This flavour of the VoIP network service deploys to a single Openstack region and is depicted in the diagram below. 
+This flavour of the VoIP network service deploys to a single Openstack region. The network service VNF and Openstack infrastrcuture components are depicted in the diagram below. 
 
 ![VoIP Service](/docs/images/basic-voip.PNG)
 
@@ -10,19 +10,22 @@ The Openstack virtual machine and network infrastructure artefacts to deliver wh
 
 ![OpenStack Infrastructure](/docs/images/basic-openstack.PNG)
 
-
-
-
+* **Shared Region Infrastructure**: All VNFs deployed into this Openstack region attach to the same neutron management network and security groups. 
+* **Shared Voice Infrastructure**: All VNFs in a particular VoIP network instances attach to the same voice and internal networks and security groups.
+* **VoIP Server Infrastructure**: Virtual machine and network ports that attach to shared networks for the VoIP server. 
+* **GW Infrastructure**: Virtual machine and network ports that attach to shared networks for the gateway. 
 
 ## Setup target virtual data centre and VIMs
 
-If you do not have an Openstack instance, a virtual sandbox can be setup on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment) or by installing a standard [DevStack environment](https://docs.openstack.org/devstack/latest/). 
+You can use an existing Openstack region or create your own virtual Openstack instance on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment) or by installing a standard [DevStack environment](https://docs.openstack.org/devstack/latest/) instance. 
+
+The single VIM tenant scenario relies on Openstack being configure with a public external network. If you have a different setup, e.g. a provider based public network, you may have to reconfigure the provided packages. 
 
 ### Setup LM
 
-For this scenario LM must be reachable to/from Openstack public network.
+For this demonstration scenario LM must be reachable to/from Openstacks public network.
 
-If you are using LM AIO project to install LM, then follow the following [guide](/docs/install-AIO.md). 
+If you are using the LM AIO project to install LM, then follow the following [guide](/docs/install-AIO.md). 
 
 ### Configure locations in LM
 
@@ -51,7 +54,7 @@ The Jumphost and other images below depend on Openstack having a Xenial ubuntu i
 ### Build Images and load VNFs/Network Services
 
 The following Openstack images need to be built to support this scenario. 
-* [IPPBX Openstack](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md)
+* [VoIP PBX Openstack](/vnfs/ip-pbx/VNFCs/asterisk-vnfc/VDUs/packer/openstack/Readme.md)
 * [Voip Gateway Openstack](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md)
 * [SIPP Openstack](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/openstack/Readme.md)
 

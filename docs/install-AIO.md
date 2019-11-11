@@ -35,6 +35,12 @@ lm_theme_name: bluerinse
 
 ### Add NFVI interface to AIO VM
 
+Change the network in the Vagrantfile in the base directory of the AIO project so it aligns with the NFVI project. The Vagrantfile network configuration should like as follows:
+
+```
+    nodeconfig.vm.network 'private_network', ip: '192.168.10.5'
+```
+
 The NFVI infrastructure creates a set of provider networks that are used by Openstack and Kubernetes VIMs. The AIO VM must have a vNIC attached to the provider switching network, public openstack network and the management network. To attach the AIO to the provider and openstack public networks, add the following to your **lm-allinone/Vagrantfile** as the last vNICs in the list, as follows: 
 
 ```
