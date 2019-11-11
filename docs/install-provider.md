@@ -1,4 +1,4 @@
-# Provide Service Setup
+# Multiple VIMs with Provider Networking
 
 ![VoIP Service](/docs/images/provider-voip.PNG)
 

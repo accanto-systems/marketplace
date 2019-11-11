@@ -1,6 +1,6 @@
 # Openstack Jumphost VNF
 
-This VNF manages the lifecycle of an Openstack Jumphost machine. The jumphost attaches to a single internal openstack network and is assigned a floating ip address.
+This VNF manages the lifecycle of an Openstack Jumphost machine. The jumphost attaches to a single internal openstack network and is assigned a floating ip address. The jumphost connects to an internal management network in the target Openstack region and provides an ssh bastion host that allows external provisioning and monitoring tools to connect to the VNF virtual infrastructure under management. 
 
 ## Metrics
 

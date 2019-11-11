@@ -1,4 +1,4 @@
-# Basic VoIP Service Setup
+# Single VIM deployment with Tenant Networking
 
 
 ![VoIP Service](/docs/images/basic-voip.PNG)

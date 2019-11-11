@@ -1,6 +1,6 @@
 # Provider Neutron Network VNF
 
-This VNF manages the lifecycle of an Openstack or Docker network (depending on the VIM type). Install will fail if a network with the same name exists on the target VIM. 
+This VNF manages the lifecycle of an Openstack neutron provider network. Install will fail if a network with the same name exists on the target VIM. 
 
 ## Metrics
 
