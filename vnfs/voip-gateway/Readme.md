@@ -1,14 +1,48 @@
 # Kamailio VoIP Gateway VNF
 
-This VNF packages a [Kamailio SIP Gateway](https://www.kamailio.org/w/) with the LM standard lifecycle API.
+A Voice Gateway VNF proxies VoIP SIP signalling and RTP traffic and load balances across a pool of registered VoIP servers. 
 
-This VNF manages the lifecycle of an Openstack or Docker network (depending on the VIM type). Install will fail if a network with the same name exists on the target VIM. 
+This gateway VNF has a single VNFC with [Kamailio SIP Gateway](https://www.kamailio.org/w/) and RTP Engine applications deployed on a single virtual machine. 
 
-## Properties & Operations
+![Overview](/docs/vnfs/voip-gateway/images/overview.PNG)
 
-### Properties
+The picture above shows the various external lifecycle manager capabilities of the VNF that can be used by other VNFs or require input from other VNFs for it to work.
 
-The network VNF has the following properties:
+## Infrastructure
+
+Networks and security groups are required to be provided externally to this gateway VNF, as follows:
+* **Mgmt**: The management network and security group for all operational provisioning and metrics are carried on
+* **External**: External voice traffic appears on this network/security group
+* **Internal**: Internal voice traffic to voip servers is routed on this network/security group.
+
+## Operations
+
+The following operations are provided.
+
+### DispatchList
+
+Add/Delete VoIP servers to the Gateway dispatch list or pool.
+
+| Operation                     |  Description                               |
+|-------------------------------|--------------------------------------------|
+| **addToDispatchList**         | Add a voip server to the gateway pool      |
+| **deleteFromDispatchList**    | Remove a voip server from the gateway pool |
+  
+## Metrics
+
+This VNF produces the following metrics:
+
+| Metric                   |  Description                        |
+|--------------------------|-------------------------------------|
+| **h_load**               | current number of sessions          |
+
+## Policies
+
+There are no policies 
+
+## Properties
+
+The gateway VNF has the following properties:
 
 | Property                      |  Description                        | Type      |
 |-------------------------------|-------------------------------------|-----------|
@@ -25,59 +59,22 @@ The network VNF has the following properties:
 | **jumphost_username** | jumphost username                  | Input     |
 | **jumphost_password** | jumphost password                  | Input     |
 
-### Operations
-
-There following operation are available. 
-
-| Operation                     |  Description                               |
-|-------------------------------|--------------------------------------------|
-| **addToDispatchList**         | Add a voip server to the gateway pool      |
-| **deleteFromDispatchList**    | Remove a voip server from the gateway pool |
-  
-### Metrics
-
-This VNF produces the following metrics:
-
-| Metric                   |  Description                        |
-|--------------------------|-------------------------------------|
-| **h_load**               | current number of sessions          |
-
-### Policies
-
-There are no policies 
 
 ## VIM Images
-
-Follow the steps below to build VIM images and load the VNF package
-* [Build a VIM run time image](#create-the-vim-image)
-* [Load VIM image to CICD Hub](#load-the-vim-image-to-cicd-hub)
-* [Create VNF package](#push-vnf-package)
-
-## Create the VIM image
-
-To run this VNF an image must be built appropriate for the target VIM. 
-
-### Software dependencies
 
 The following software must be installed to your local machine to create an IP PBX VIM image. 
 * [Packer](https://packer.io/)
 
-### Build the image
+### Build the gateway image(s)
 
 To deploy to an OpenStack VIM [run the Openstack packer installer](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/openstack/Readme.md).
 
 To deploy to a container based VIM [run the docker packer installer](/vnfs/voip-gateway/VNFCs/kamailio-vnfc/VDUs/packer/docker/Readme.md).
 
-## Load the VIM image to CICD Hub
-
-Load the VIM image you created above to the CICD Hub image repository and to your target VIM. You can follow the instructions [here](http://servicelifecyclemanager.com/user-guides/cicd/upload-images/).
-
 ## Deploying this VNF
 
-Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
+Install [lmctl](/docs/install-lmctl.md) and deploy this VNF project by running the following command in this directory:
 
 ```
 lmctl project push
 ```
-
-The [CICD user guide](http://servicelifecyclemanager.com/cicd/introduction/) has more information on managing VNF packages across LM environments. 

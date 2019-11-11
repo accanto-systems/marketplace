@@ -1,5 +1,7 @@
 # Provide Service Setup
 
+![VoIP Service](/docs/images/provider-voip.PNG)
+
 ## Setup virtual data centre and VIMs
 
 If you do not have an Openstack instance with appropriate provider networking, a virtual sandbox can be setup on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment). 

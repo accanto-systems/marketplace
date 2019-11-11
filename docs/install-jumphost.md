@@ -1,5 +1,9 @@
 # Basic VoIP Service Setup
 
+
+![VoIP Service](/docs/images/basic-voip.PNG)
+
+
 ## Setup virtual data centre and VIMs
 
 If you do not have an Openstack instance, a virtual sandbox can be setup on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment) or by installing a standard [DevStack environment](https://docs.openstack.org/devstack/latest/). 

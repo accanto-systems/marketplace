@@ -1,12 +1,37 @@
 # SIP Performance Test VNF# IP PBX VNF
 
-This VNF packages a [SIP Performance tester](http://sipp.sourceforge.net/) with the LM standard lifecycle API.
+SIP Performance VNF generates simulated SIP and RTP traffic This SIP Performance VNF has a single VNFC with [SIP Performance tester](http://sipp.sourceforge.net/) deployed on a single virtual machine. 
 
-## Properties & Operations
+![Overview](/docs/vnfs/sip-performance/images/overview.PNG)
 
-### Properties
+The picture above shows the various external lifecycle manager capabilities of the VNF that can be used by other VNFs or require input from other VNFs for it to work.
 
-The network VNF has the following properties:
+## Operations
+
+There are no operations. 
+
+## Metrics
+
+This VNF produces the following metrics:
+
+| Metric                      |  Description                        |
+|-----------------------------|-------------------------------------|
+| **call rate**               | |
+| **outgoing calls**          | |
+| **total calls created**     | |
+| **total successful calls**  | |
+| **successful calls**        | |
+| **failed calls**            | |
+| **total failed calls**      | |
+| **current calls**           | |
+
+## Policies
+
+There are no policies 
+
+## Properties
+
+The SIPP VNF has the following properties:
 
 | Property              |  Description                                  | Type      |
 |-----------------------|-----------------------------------------------|-----------|
@@ -25,33 +50,7 @@ The network VNF has the following properties:
 | **jumphost_username** | jumphost username                  | Input     |
 | **jumphost_password** | jumphost password                  | Input     |
 
-### Operations
-
-There are no operations. 
-
-### Metrics
-
-This VNF produces the following metrics:
-
-| Metric                      |  Description                        |
-|-----------------------------|-------------------------------------|
-| **call rate**               | |
-| **outgoing calls**          | |
-| **total calls created**     | |
-| **total successful calls**  | |
-| **successful calls**        | |
-| **failed calls**            | |
-| **total failed calls**      | |
-| **current calls**           | |
-
-### Policies
-
-There are no policies 
-
-
 ## Build SIPP Images
-
-#### Software dependencies
 
 The following software must be installed to your local machine to create an IP PBX VIM image. 
 * [Packer](https://packer.io/)
@@ -62,15 +61,9 @@ To deploy to an OpenStack VIM [run the Openstack packer installer](/vnfs/sip-per
 
 To deploy to a container based VIM [run the docker packer installer](/vnfs/sip-performance/VNFCs/sipp-vnfc/VDUs/packer/docker/Readme.md).
 
-### Load the VIM image to CICD Hub
-
-Load the VIM image you created above to the CICD Hub image repository and to your target VIM. You can follow the instructions [here](http://servicelifecyclemanager.com/user-guides/cicd/upload-images/).
-
-The [CICD user guide](http://servicelifecyclemanager.com/user-guides/cicd/getting-started/) has more information on managing VNF packages across LM environments. 
-
 ## Deploying this VNF
 
-Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
+Install [lmctl](/docs/install-lmctl.md) and deploy this VNF project by running the following command in this directory:
 
 ```
 lmctl project push
