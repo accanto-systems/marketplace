@@ -6,7 +6,7 @@ This gateway VNF has a single VNFC with [Kamailio SIP Gateway](https://www.kamai
 
 ![Overview](/vnfs/voip-gateway/images/overview.PNG)
 
-The picture above shows the various external lifecycle manager capabilities of the VNF that can be used by other VNFs or require input from other VNFs for it to work.
+The picture above shows the various external lifecycle manager capabilities of the VNF that can be used by other VNFs or require input from other VNFs for it to work. These are described in more detail below. 
 
 ## Infrastructure
 

@@ -17,8 +17,8 @@ The network VNF has the following properties:
 | Property             |  Description                        | Type      |
 |----------------------|-------------------------------------|-----------|
 | **routername**       | Name of the new router to create    | Input     |
-| **network**          | network to attach router to         | Input     |
-| **interfaces**       | comma separated list of subnet ids to attach to router | Input |
+| **network**          | external network name or id to attach router to         | Input     |
+| **interface**        | subnet id of network interface to attach to router | Input |
 | **router_id**        | Openstack ID of the router created  | Read_only |
 
 ## Deploying this VNF

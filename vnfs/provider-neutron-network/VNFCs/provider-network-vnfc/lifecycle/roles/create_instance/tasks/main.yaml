@@ -11,12 +11,6 @@
     msg: "A network with the name {{ networkname }} already exists." 
   when: net_info['ansible_facts']['openstack_networks'][0] is defined
 
-- name: create network
-  os_network:
-    state: present
-    name: "{{ networkname }}"
-  when: provider_network is not defined or not( provider_network | default(false) | bool)
-
 - name: create openstack provider network
   os_network:
     state: present
@@ -24,7 +18,6 @@
     provider_network_type: "{{ provider_network_type }}"
     provider_physical_network: "{{ provider_physical_network }}"
     provider_segmentation_id: "{{ provider_segmentation_id }}"
-  when: provider_network is defined and provider_network | bool
 
 - name: Check network exists
   os_networks_facts:

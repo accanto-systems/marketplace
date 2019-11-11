@@ -25,12 +25,6 @@ Below are description of the properties
 | **networkid**                 | id of the network in target VIM     | Read_only |
 | **subnetid**                  | id of the subnet in target VIM      | Read_only |
 | **gateway**                   | Gateway IP address                  | Input     |
-| **iprange**                   | IP Range for docker VIM             | Input     |
-| **bridgeid**                  | bridge id of docker network         | Read_only |
-| **provider_network**          | Boolean to specify provider network parameters | Input |
-| **provider_network_type**     | Openstack provider network type     | Input     |
-| **provider_physical_network** | Openstack provider network name     | Input     |
-| **provider_segmentation_id**  | Openstack provider network id       | Input     |
 
 ## Deploying this VNF
 
