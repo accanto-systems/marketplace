@@ -2,9 +2,15 @@
 
 This VNF manages the lifecycle of an Openstack Neutron Router. Install will fail if a router with the same name exists on the target VIM. 
 
-## Properties & Operations
+## Metrics
 
-### Properties
+There are no metrics
+
+## Operations
+
+There are no operations. 
+
+## Properties
 
 The network VNF has the following properties:
 
@@ -15,13 +21,9 @@ The network VNF has the following properties:
 | **interfaces**       | comma separated list of subnet ids to attach to router | Input |
 | **router_id**        | Openstack ID of the router created  | Read_only |
 
-### Operations
-
-There are no operations. 
-
 ## Deploying this VNF
 
-Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
+Install [lmctl](/docs/install-lmctl.md) and deploy this VNF project by running the following command in this directory:
 
 ```
 lmctl project push

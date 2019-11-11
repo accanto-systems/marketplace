@@ -2,7 +2,7 @@
 
 The VoIP Server VNF is a PBX provisioned with a set of Dial Plan entries that answer voice calls and respond with a recorded message. This VoIP VNF has a single VNFC with [Asterisk VoIP server](https://www.asterisk.org/) deployed on a single virtual machine. 
 
-![Overview](/docs/vnfs/ip-pbx/images/overview.PNG)
+![Overview](/vnfs/ip-pbx/images/overview.PNG)
 
 The picture above shows the various external lifecycle manager capabilities of the VNF that can be used by other VNFs or require input from other VNFs for it to work.
 

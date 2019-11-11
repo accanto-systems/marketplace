@@ -2,9 +2,9 @@
 
 A Voice Gateway VNF proxies VoIP SIP signalling and RTP traffic and load balances across a pool of registered VoIP servers. 
 
-This gateway VNF has a single VNFC with [Kamailio SIP Gateway](https://www.kamailio.org/w/) and RTP Engine applications deployed on a single virtual machine. 
+This gateway VNF has a single VNFC with [Kamailio SIP Gateway](https://www.kamailio.org/w/) and [RTP engine](https://github.com/sipwise/rtpengine) applications deployed on a single virtual machine. 
 
-![Overview](/docs/vnfs/voip-gateway/images/overview.PNG)
+![Overview](/vnfs/voip-gateway/images/overview.PNG)
 
 The picture above shows the various external lifecycle manager capabilities of the VNF that can be used by other VNFs or require input from other VNFs for it to work.
 
