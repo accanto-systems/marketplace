@@ -2,6 +2,7 @@
 
 ## Pre-requisites
 
+* [Packer](https://packer.io/) running on your host machine.
 * A running OpenStack environment
 * [Ubuntu Xenial image](http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img) pre-loaded to your OpenStack.
 * Ensure you have a private neutron network connected to a router which is bound to a public network. Packer will deploy a build VM to this private network.

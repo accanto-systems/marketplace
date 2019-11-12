@@ -10,16 +10,16 @@ The Openstack virtual machine and network infrastructure artefacts to deliver wh
 
 ![OpenStack Infrastructure](/docs/images/basic-openstack.PNG)
 
-* **Shared Region Infrastructure**: All VNFs deployed into this Openstack region attach to the same neutron management network and security groups. 
-* **Shared Voice Infrastructure**: All VNFs in a particular VoIP network instances attach to the same voice and internal networks and security groups.
-* **VoIP Server Infrastructure**: Virtual machine and network ports that attach to shared networks for the VoIP server. 
-* **GW Infrastructure**: Virtual machine and network ports that attach to shared networks for the gateway. 
+* **Shared Region Infrastructure**: All VNFs deployed into this Openstack region attach to the same neutron management network and security groups. This infrastructure is modelled in the [**jumphost-base**](/network-services/jumphost-base/Readme.md) network service. 
+* **Shared Voice Infrastructure**: All VNFs in a particular VoIP network instances attach to the same voice and internal networks and security groups. This infrastructure is modelled in the [**jumphost-voice-service**](/network-services/jumphost-voice-service/Readme.md) network service. 
+* **VoIP Server Infrastructure**: Virtual machine and network ports that attach to shared networks for the VoIP server. This infrastructure is modelled in the [**ip-pbx**](/vnfs/ip-pbx/Readme.md) VNF.
+* **GW Infrastructure**: Virtual machine and network ports that attach to shared networks for the gateway. This infrastructure is modelled in the [**voip-gateway**](/vnfs/voip-gateway/Readme.md) VNF. 
 
 ## Setup target virtual data centre and VIMs
 
-You can use an existing Openstack region or create your own virtual Openstack instance on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment) or by installing a standard [DevStack environment](https://docs.openstack.org/devstack/latest/) instance. 
+You can use an existing Openstack region or create your own virtual Openstack instance on a bare metal machine by deploying an [NFVI underlay project](https://github.com/accanto-systems/nfvi-environment) or by installing a standard [DevStack environment](https://docs.openstack.org/devstack/latest/) instance. A helper project to install Devstack can be found [here](https://github.com/accanto-systems/devstack-environment). 
 
-The single VIM tenant scenario relies on Openstack being configure with a public external network. If you have a different setup, e.g. a provider based public network, you may have to reconfigure the provided packages. 
+The single VIM tenant scenario relies on Openstack being configured with a public external network. If you have a different setup, e.g. a provider based public network, you may have to reconfigure the **jumphost-base** packages to reflect your networking setup. 
 
 ### Setup LM
 
@@ -43,7 +43,7 @@ os_password: password
 almip: 192.168.10.5
 ```
 
-Change the above with your Openstack credentials and your LM IP address. The ALM IP address is the routable address from Openstack public network. 
+Change the above with your Openstack credentials and your LM IP address. The LM IP address is the routable address from Openstack public network. 
 
 ### Prepare Openstack
 
