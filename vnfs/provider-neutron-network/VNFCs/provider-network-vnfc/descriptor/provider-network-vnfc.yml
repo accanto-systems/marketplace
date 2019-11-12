@@ -18,9 +18,6 @@ properties:
     type: string
     description: id of network subnet instance
     read-only: true
-  provider_network: 
-    type: string
-    description: set to true if provider network is used
   provider_network_type: 
     type: string
     description: the provider network type 

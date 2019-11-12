@@ -84,8 +84,6 @@ composition:
         value: ${resourceManager}
       subnet:
         value: 10.0.20.0/24
-      provider_network:
-        value: true
       provider_network_type:
         value: vlan
       provider_physical_network:

@@ -13,10 +13,6 @@ properties:
     description: subnet for new network
     type: string
     default: 10.20.1.0/24
-  provider_network:
-    description: set to true if provider network is used
-    type: string
-    default: false
   provider_network_type:
     description: the provider network type
     type: string

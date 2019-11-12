@@ -1,10 +1,16 @@
 # Openstack Jumphost VNF
 
-This VNF manages the lifecycle of an Openstack Jumphost machine. The jumphost attaches to a single internal openstack network and is assigned a floating ip address.
+This VNF manages the lifecycle of an Openstack Jumphost machine. The jumphost attaches to a single internal openstack network and is assigned a floating ip address. The jumphost connects to an internal management network in the target Openstack region and provides an ssh bastion host that allows external provisioning and monitoring tools to connect to the VNF virtual infrastructure under management. 
 
-## Properties & Operations
+## Metrics
 
-### Properties
+There are no metrics
+
+## Operations
+
+There are no operations. 
+
+## Properties
 
 The network VNF has the following properties:
 
@@ -18,17 +24,13 @@ The network VNF has the following properties:
 | **jumphost_username**  | Username                            | Input     |
 | **jumphost_password**  | Password                            | Input     |
 
-### Operations
-
-There are no operations. 
-
 ## Jumphost Image
 
 The jumphost uses the latest Ubuntu Xenial image, this can be downloaded from [here](https://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-disk1.img)
 
 ## Deploying this VNF
 
-Use [lmctl](http://servicelifecyclemanager.com/reference/lmctl/) to deploy this project. [Configure your lmctl environment](http://servicelifecyclemanager.com/reference/lmctl/#configure-lmctl-environments) and run the following command:
+Install [lmctl](/docs/install-lmctl.md) and deploy this VNF project by running the following command in this directory:
 
 ```
 lmctl project push

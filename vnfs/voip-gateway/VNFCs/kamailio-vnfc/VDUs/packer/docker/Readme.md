@@ -2,6 +2,7 @@
 
 ## Pre-requisites
 
+* [Packer](https://packer.io/) running on your host machine.
 * Docker running on your local machine
 
 ## Create the Kamailio Image
