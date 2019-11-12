@@ -33,13 +33,17 @@ lm_theme_directory: .
 lm_theme_name: bluerinse
 ```
 
-### Add NFVI interface to AIO VM
+### Configure AIO IP Address
 
 Change the network in the Vagrantfile in the base directory of the AIO project so it aligns with the NFVI project. The Vagrantfile network configuration should like as follows:
 
 ```
     nodeconfig.vm.network 'private_network', ip: '192.168.10.5'
 ```
+
+### NFVI Provider pre install cconfiguration
+
+If you are running the multi VIM provider demo then you need to configure the following additional interfaces to your AIO VM
 
 The NFVI infrastructure creates a set of provider networks that are used by Openstack and Kubernetes VIMs. The AIO VM must have a vNIC attached to the provider switching network, public openstack network and the management network. To attach the AIO to the provider and openstack public networks, add the following to your **lm-allinone/Vagrantfile** as the last vNICs in the list, as follows: 
 
@@ -56,9 +60,9 @@ Create your AIO by running the following command:
 vagrant up
 ```
 
-### Configure the mgmt interface on the AIO virtual machine
+### NFVI Provider post install configuration
 
-Once the AIO VM is up you need to configure the NIC attached to the provider switches with the correct VLAN and IPAM. The Mgmt interface is on VLAN with id 5. Add a VLAN subinterface by running the following commands in the AIO directory on your host machine as follows:
+If you are running the multi VIM provider demonstration scenario, and once the AIO VM is up you need to configure the NIC attached to the provider switches with the correct VLAN and IPAM. The Mgmt interface is on VLAN with id 5. Add a VLAN subinterface by running the following commands in the AIO directory on your host machine as follows:
 
 ```
 cd lm-allinone
