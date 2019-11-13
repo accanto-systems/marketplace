@@ -50,4 +50,3 @@ composition:
         value: ${resourceManager}
     type: resource::jumphost-vnfc::0.1
     quantity: 1
-

@@ -1,24 +1,7 @@
 {
-    "assemblyActors": [
-        {
-            "assemblyConfigurationRef": "voice",
-            "provided": false,
-            "uninstallOnExit": true,
-            "initialState": "Active",
-            "instanceName": "voice"
-        },
-        {
-            "assemblyConfigurationRef": "sipp",
-            "provided": false,
-            "uninstallOnExit": true,
-            "initialState": "Active",
-            "instanceName": "sipp"
-        }
-    ],
-    "description": "Test that the Voip Server cluster scales",
-    "projectId": "assembly::voice-service::1.0",
-    "lastModifiedAt": "2019-08-24T10:03:19.559Z",
     "name": "Scale test",
+    "projectId": "assembly::jumphost-voice-service::1.0",
+    "description": "Test that the Voip Server cluster scales",
     "stages": [
         {
             "name": "Scaling",
@@ -37,7 +20,7 @@
                     "stepDefinitionName": "MetricRecording::StartRecordingMultipleMetrics",
                     "properties": {
                         "metrics": "[{\"Metric Id\":\"current transactions\",\"Metric Name\":\"Current Transactions\"},{\"Metric Id\":\"Load\",\"Metric Name\":\"Load For Scale\"},{\"Metric Id\":\"managed_servers\",\"Metric Name\":\"Servers\"}]",
-                        "resourceId": "voice__gateway__kamailio",
+                        "resourceId": "voice_gateway",
                         "topicName": "resource_metrics",
                         "metricDefinitionName": "collectd"
                     }
@@ -46,7 +29,7 @@
                     "stepDefinitionName": "MetricRecording::StartRecordingMultipleMetrics",
                     "properties": {
                         "metrics": "[{\"Metric Id\":\"failed calls\",\"Metric Name\":\"Sipp Failed Calls\"},{\"Metric Id\":\"current calls\",\"Metric Name\":\"Sipp Current Calls\"},{\"Metric Id\":\"call rate\",\"Metric Name\":\"Sipp Call Rate\"},{\"Metric Id\":\"outgoing calls\",\"Metric Name\":\"Sipp Outgoing Calls\"}]",
-                        "resourceId": "sipp__sipp-server__sipp",
+                        "resourceId": "sipp",
                         "topicName": "resource_metrics",
                         "metricDefinitionName": "collectd"
                     }
@@ -55,7 +38,7 @@
                     "stepDefinitionName": "MetricRecording::StartRecordingMetrics",
                     "properties": {
                         "metricDefinitionName": "collectd",
-                        "resourceId": "voice__gateway__kamailio",
+                        "resourceId": "voice_gateway",
                         "topicName": "resource_metrics",
                         "metricType": "current_transactions",
                         "metricName": "Load"
@@ -65,7 +48,7 @@
                     "stepDefinitionName": "IntentEngine::CreateAssembly",
                     "properties": {
                         "initialState": "Active",
-                        "descriptorName": "assembly::voice-load-generator::1.0",
+                        "descriptorName": "assembly::jumphost-voice-load-generator::1.0",
                         "assemblyName": "sipp2"
                     }
                 },
@@ -106,5 +89,29 @@
             ]
         }
     ],
-    "createdAt": "2019-08-22T16:04:20.069Z"
+    "assemblyActors": [
+        {
+            "instanceName": "base",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "base"
+        },
+        {
+            "instanceName": "voice",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "voice"
+        },
+        {
+            "instanceName": "sipp",
+            "initialState": "Active",
+            "uninstallOnExit": true,
+            "provided": false,
+            "assemblyConfigurationRef": "sipp"
+        }
+    ],
+    "createdAt": "2019-08-22T16:04:20.069Z",
+    "lastModifiedAt": "2019-11-13T16:29:10.78Z"
 }

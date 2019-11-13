@@ -143,4 +143,3 @@ policies:
     type: policy::scale
     metric: gateway.h_load
     target: voip-server
-

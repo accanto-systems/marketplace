@@ -38,4 +38,3 @@ composition:
         value: ${resourceManager}
     type: resource::router-vnfc::0.1
     quantity: 1
-

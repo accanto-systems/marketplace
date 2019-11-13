@@ -1,11 +1,11 @@
 {
     "name": "sipp",
-    "projectId": "assembly::voice-service::1.0",
+    "projectId": "assembly::provider-voice-service-core::1.0",
     "description": null,
     "descriptorName": "assembly::voice-load-generator::1.0",
     "properties": {
         "keyname": "default"
     },
     "createdAt": "2019-08-22T16:04:18.268Z",
-    "lastModifiedAt": "2019-09-15T18:56:26.406Z"
+    "lastModifiedAt": "2019-11-13T16:27:54.747Z"
 }

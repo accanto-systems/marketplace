@@ -10,11 +10,11 @@ properties:
     default: defaultrm
   instance_name:
     type: string
-    description: "the LM instance name"
+    description: the LM instance name
     required: true
   keyname:
     type: string
-    description: "the key name"
+    description: the key name
     required: true
   mgmt_securitygroup_id:
     type: string
