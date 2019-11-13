@@ -26,6 +26,8 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+      instance_name:
+        value: ${instance.name}
       keyname:
         value: ${keyname}
       target_sip_address:

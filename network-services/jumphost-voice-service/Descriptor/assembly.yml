@@ -30,6 +30,8 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+      instance_name:
+        value: ${instance.name}
       keyname:
         value: ${keyname}
       mgmt_securitygroup_id:
