@@ -3,7 +3,7 @@ description: Network service to generate a load for the voice network services
 properties:
   deploymentLocation:
     type: string
-    default: core
+    default: edge
   resourceManager:
     type: string
     default: defaultrm
@@ -14,7 +14,7 @@ properties:
     default: default
   base_infrastructure:
     type: string
-    default: base
+    default: edgebase
   voice_service:
     description: target voice service for voip traffic load
     type: string
@@ -26,27 +26,23 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
-      keyname:
-        value: ${keyname}
+      instance_name:
+        value: ${instance.name}
       target_sip_address:
         value: ${voice_service.voice_service_ipaddress}
-      mgmt_securitygroup_id:
-        value: ${base.mgmt_securitygroup_id}
-      voice_securitygroup_id:
-        value: ${base.voice_securitygroup_id}
       mgmt_network:
-        value: ${base.mgmt_networkid}
+        value: mgmt
       data_network:
-        value: ${base.voice_networkid}
+        value: voice
     type: assembly::sip-performance::1.0
 references:
   base:
     properties:
       name:
         value: ${base_infrastructure}
-    type: assembly::provider-base::0.1
+    type: assembly::edge-provider-base::0.1
   voice_service:
     properties:
       name:
         value: ${voice_service}
-    type: assembly::provider-voice-service::1.0
+    type: assembly::provider-voice-service-core::1.0

@@ -4,11 +4,13 @@ properties:
   deploymentLocation:
     description: the name of the location for this assembly
     type: string
-    default: edge
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  instance_name:
+    type: string
+    description: the name of this resource instance
   target_sip_address:
     description: name of sip-server component to send traffic to
     type: string

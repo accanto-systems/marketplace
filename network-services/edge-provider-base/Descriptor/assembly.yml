@@ -1,0 +1,27 @@
+name: assembly::edge-provider-base::0.1
+description: Setup management network jumphost and external voice network
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deployed
+    type: string
+    default: edge
+    required: true
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: defaultrm
+    required: true
+  keyname:
+    description: name of the openstack keyname
+    type: string
+    default: default
+  mgmt_networkid:
+    description: network id for mgmt network
+    value: mgmt
+  voice_networkid:
+    description: network id for mgmt network
+    value: voice
+  mgmt_securitygroup_id:
+    description: security group id for mgmt network
+  voice_securitygroup_id:
+    description: security group id for voice network

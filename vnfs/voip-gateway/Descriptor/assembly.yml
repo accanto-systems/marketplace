@@ -4,11 +4,14 @@ properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
     type: string
-    default: core
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  instance_name:
+    type: string
+    description: "the LM instance name"
+    required: true
   keyname:
     type: string
     description: "the key name"

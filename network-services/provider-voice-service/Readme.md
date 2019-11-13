@@ -1,1 +1,0 @@
-# Basic Voice network service

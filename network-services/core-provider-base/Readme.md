@@ -1,4 +1,4 @@
-# Provider base network service
+# Core Provider base network service
 
 This network service assembly creates Site specific Openstack infrastructure that will be shared amongst other network service and VNF Assemblies. 
 

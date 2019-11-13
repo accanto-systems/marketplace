@@ -1,0 +1,146 @@
+name: assembly::provider-voice-service-edge::1.0
+description: Voice Service
+properties:
+  coreDeploymentLocation:
+    type: string
+    default: core-provider
+  edgeDeploymentLocation:
+    type: string
+    default: edge
+  core_base_infrastructure:
+    type: string
+    default: corebase
+    required: true
+  edge_base_infrastructure:
+    type: string
+    default: edgebase
+    required: true
+  resourceManager:
+    type: string
+    default: defaultrm
+    required: true
+  keyname:
+    description: name of the openstack keyname
+    type: string
+    required: true
+    default: default
+  voice_service_ipaddress:
+    description: the ip address of the endpoint for the voice service
+    type: string
+    read-only: true
+    value: ${gateway.external_address}
+composition:
+  gateway:
+    properties:
+      deploymentLocation:
+        value: ${edgeDeploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      instance_name:
+        value: ${instance.name}
+      mgmt_network:
+        value: ${edge-base.mgmt_networkid}
+      external_network:
+        value: ${edge-base.voice_networkid}
+      internal_network:
+        value: ${internal-edge.networkid}
+    type: assembly::voip-gateway::1.0
+    quantity: 1
+  voip-server:
+    properties:
+      deploymentLocation:
+        value: ${coreDeploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      gw_address:
+        value: ${gateway.internal_address}
+      keyname:
+        value: ${keyname}
+      mgmt_securitygroup_id:
+        value: ${core-base.mgmt_securitygroup_id}
+      voice_securitygroup_id:
+        value: ${core-base.voice_securitygroup_id}
+      mgmt_network:
+        value: ${core-base.mgmt_networkid}
+      data_network:
+        value: ${internal-core.networkid}
+      data_cidr:
+        value: ${internal-core.subnet}
+    type: assembly::ip-pbx::1.0
+    cluster:
+      initial-quantity: 1
+      minimum-nodes: 1
+      maximum-nodes: 10
+      scaling-increment: 1
+  internal-core:
+    properties:
+      deploymentLocation:
+        value: ${coreDeploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      subnet:
+        value: 10.0.20.0/24
+      provider_network_type:
+        value: vlan
+      provider_physical_network:
+        value: provider
+      provider_segmentation_id:
+        value: 50
+      startip:
+        value: 10.0.20.2
+      endip:
+        value: 10.0.20.50
+    type: assembly::provider-neutron-network::1.0
+  internal-edge:
+    properties:
+      deploymentLocation:
+        value: ${edgeDeploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      networkid:
+        value: internal
+    type: assembly::provider-multus-network::1.0
+references:
+  core-base:
+    properties:
+      name:
+        value: ${core_base_infrastructure}
+    type: assembly::core-provider-base::0.1
+  edge-base:
+    properties:
+      name:
+        value: ${edge_base_infrastructure}
+    type: assembly::edge-provider-base::0.1
+relationships:
+  manageDispatchList:
+    properties:
+      ipaddr:
+        value: ${source.data_address}
+      port:
+        value: '5060'
+    source-state: Active
+    target-state: Active
+    source-state-modifier: post
+    target-state-modifier: post
+    lifecycle:
+      Create:
+      - target.addToDispatchList
+      Cease:
+      - target.deleteFromDispatchList
+    source-capabilities:
+    - voip-server.poolNode
+    target-requirements:
+    - gateway.poolController
+policies:
+  scaleVoipServer:
+    properties:
+      scaleOut_threshold:
+        value: 58
+      scaleIn_threshold:
+        value: 32
+      smoothing:
+        value: 12
+    type: policy::scale
+    metric: gateway.h_load
+    target: voip-server
+

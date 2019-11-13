@@ -54,7 +54,6 @@ k8s_address: 192.168.10.50
 k8s_ssh_user: vagrant
 k8s_ssh_password: vagrant 
 almip: 10.0.30.5
-
 ```
 
 Change the above with your k8s cluster and LM Provider IP address. The IP address of LM Is the one reachable over the Provier network. 
@@ -85,13 +84,22 @@ The following Docker are available on [Dockerhub](https://hub.docker.com/u/accan
 
 ## Accessing the k8s dashboard
 
-To access the kubernetes dashboard, you need to first get and admin-user token by running the following command. 
+To access the [kubernetes dashboard](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md), you need to first get and admin-user token by running the following command. 
 
 ```
-kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | a
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
 ```
 
-Enter this token into the login screen of the kubernetes dashboard. 
+If you are using the kubeadm cluster with the NFVI project you will have to log into the kubeadm master virtual machine and configure kubectl with its credentials, as follows:
+
+```
+ssh vagrant@192.168.10.50
+sudo su -
+export KUBECONFIG=/etc/kubernetes/admin.conf
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+```
+
+Copy the generated token and paste into the dashboard UI. 
 
 ## Install LM packages
 

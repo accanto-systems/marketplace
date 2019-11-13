@@ -1,13 +1,12 @@
-name: assembly::provider-voice-service::1.0
+name: assembly::provider-voice-service-core::1.0
 description: Voice Service
 properties:
-  ippbxDeploymentLocation:
+  coreDeploymentLocation:
     type: string
-    default: core
-    required: true
-  gatewayDeploymentLocation:
+    default: core-provider
+  core_base_infrastructure:
     type: string
-    default: core
+    default: corebase
     required: true
   resourceManager:
     type: string
@@ -23,15 +22,11 @@ properties:
     type: string
     read-only: true
     value: ${gateway.external_address}
-  base_infrastructure:
-    type: string
-    default: base
-    required: true
 composition:
   gateway:
     properties:
       deploymentLocation:
-        value: ${gatwayeDeploymentLocation}
+        value: ${coreDeploymentLocation}
       resourceManager:
         value: ${resourceManager}
       keyname:
@@ -39,21 +34,21 @@ composition:
       instance_name:
         value: ${instance.name}
       mgmt_securitygroup_id:
-        value: ${base.mgmt_securitygroup_id}
+        value: ${core-base.mgmt_securitygroup_id}
       voice_securitygroup_id:
-        value: ${base.voice_securitygroup_id}
+        value: ${core-base.voice_securitygroup_id}
       mgmt_network:
-        value: ${base.mgmt_networkid}
+        value: ${core-base.mgmt_networkid}
       external_network:
-        value: ${base.voice_networkid}
+        value: ${core-base.voice_networkid}
       internal_network:
-        value: ${internal.networkid}
+        value: ${internal-core.networkid}
     type: assembly::voip-gateway::1.0
     quantity: 1
   voip-server:
     properties:
       deploymentLocation:
-        value: ${ippbxDeploymentLocation}
+        value: ${coreDeploymentLocation}
       resourceManager:
         value: ${resourceManager}
       gw_address:
@@ -61,25 +56,25 @@ composition:
       keyname:
         value: ${keyname}
       mgmt_securitygroup_id:
-        value: ${base.mgmt_securitygroup_id}
+        value: ${core-base.mgmt_securitygroup_id}
       voice_securitygroup_id:
-        value: ${base.voice_securitygroup_id}
+        value: ${core-base.voice_securitygroup_id}
       mgmt_network:
-        value: ${base.mgmt_networkid}
+        value: ${core-base.mgmt_networkid}
       data_network:
-        value: ${internal.networkid}
+        value: ${internal-core.networkid}
       data_cidr:
-        value: ${internal.subnet}
+        value: ${internal-core.subnet}
     type: assembly::ip-pbx::1.0
     cluster:
       initial-quantity: 1
       minimum-nodes: 1
       maximum-nodes: 10
       scaling-increment: 1
-  internal:
+  internal-core:
     properties:
       deploymentLocation:
-        value: ${ippbxDeploymentLocation}
+        value: ${coreDeploymentLocation}
       resourceManager:
         value: ${resourceManager}
       subnet:
@@ -96,11 +91,11 @@ composition:
         value: 10.0.20.50
     type: assembly::provider-neutron-network::1.0
 references:
-  base:
+  core-base:
     properties:
       name:
-        value: ${base_infrastructure}
-    type: assembly::jumphost-base::0.1
+        value: ${core_base_infrastructure}
+    type: assembly::core-provider-base::0.1
 relationships:
   manageDispatchList:
     properties:

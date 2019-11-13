@@ -1,0 +1,4 @@
+name: edge-provider-base
+vnfcs:
+  definitions: {}
+  packages: {}

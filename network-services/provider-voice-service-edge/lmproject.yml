@@ -1,0 +1,4 @@
+name: provider-voice-service-edge
+vnfcs:
+  definitions: {}
+  packages: {}

@@ -1,4 +1,4 @@
-name: provider-voice-service
+name: provider-multus-network
 vnfcs:
   definitions: {}
   packages: {}

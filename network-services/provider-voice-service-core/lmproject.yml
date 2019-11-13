@@ -1,4 +1,4 @@
-name: provider-base
+name: provider-voice-service-core
 vnfcs:
   definitions: {}
   packages: {}

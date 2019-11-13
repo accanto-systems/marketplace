@@ -23,3 +23,14 @@ Run another SIPP traffic simulator by again creating an Assembly of type **"asse
 ## Kill a VoIP PBX virtual machine
 
 In the Openstack UI, kill a VoIP Server VM. After 3 periods of missing integrity metrics, a healing event will be triggered in the lifecycle manager. This will bring the VoIP PBX instance through a set of opinionated patterns until the VoIP network service is brought back into an overall state of Active.  
+
+
+## Using Behaviour Runner to Automate scale testing
+
+Clean up environment by doing XYZ
+
+...
+
+## Using behaviour running in CICD
+
+...

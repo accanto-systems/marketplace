@@ -2,7 +2,7 @@
 
 SIP Performance VNF generates simulated SIP and RTP traffic This SIP Performance VNF has a single VNFC with [SIP Performance tester](http://sipp.sourceforge.net/) deployed on a single virtual machine. 
 
-![Overview](/vnfs/sip-performance/images/overview.PNG)
+![Overview](/vnfs/sip-performance/images/Overview.PNG)
 
 The picture above shows the various external lifecycle manager capabilities of the VNF that can be used by other VNFs or require input from other VNFs for it to work. These are described in more detail below. 
 
