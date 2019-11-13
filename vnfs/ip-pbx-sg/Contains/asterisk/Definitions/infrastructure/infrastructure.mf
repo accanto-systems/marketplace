@@ -1,5 +1,0 @@
-templates:
-  - file: openstack.yaml
-    infrastructure_type: Openstack
-  - file: k8s.yaml
-    infrastructure_type: Kubernetes

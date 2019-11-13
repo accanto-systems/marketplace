@@ -1,0 +1,12 @@
+---
+
+- name: Configure Lifecycle Transition
+  hosts: resource
+  gather_facts: False
+  become: true
+
+  tasks:
+  - name: fail if data set to fail 
+    fail:
+      msg: The Configure transition has failed
+    when: properties.fail == "Configure"

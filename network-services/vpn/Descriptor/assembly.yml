@@ -1,0 +1,44 @@
+description: descriptor for vpn
+
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    required: true
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: brent
+  mgmt_ip: 
+    value: ${vyos.mgmt_ip}
+  internal_ip: 
+    value: ${vyos.internal_ip}
+  external_ip: 
+    value: ${vyos.external_ip}
+  floating_ip: 
+    value: ${vyos.floating_ip}
+
+composition:
+  base:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: $lmctl:/contains:/base:/descriptor_name
+    quantity: 1
+  vyos:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      mgmt_network_id:
+        value: ${base.mgmt_network_id}
+      mgmt_secgroup_id:
+        value: ${base.mgmt_secgroup_id}
+      internal_network_id:
+        value: ${base.internal_network_id}
+      external_network_id:
+        value: ${base.external_network_id}
+    type: assembly::vyos::1.0
+    quantity: 1

@@ -1,0 +1,14 @@
+---
+
+- name: do_something Operation Transition
+  hosts: resource
+  gather_facts: False
+  become: true
+
+  tasks:
+  - name: pause
+    shell: python --version
+  - name: fail if data set to fail 
+    fail:
+      msg: The do_something transition has failed
+    when: fail == "do_something"

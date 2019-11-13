@@ -1,0 +1,26 @@
+description: descriptor for jitsi-meet
+
+properties:
+  key_name:
+    default: default
+    description: Name of key-pair to be used for compute instance
+  image_id:
+    default: bionic-server-cloudimg-amd64
+    description: Image to be used for compute instance
+  flavor:
+    default: m1.small
+    description: Type of instance (flavor) to be used
+    
+  internal_ip: 
+    read-only: true
+  public_ip: 
+    read-only: true
+
+
+lifecycle:
+  - Create
+  - Install
+  - Configure
+  - Start
+  - Stop
+  - Delete

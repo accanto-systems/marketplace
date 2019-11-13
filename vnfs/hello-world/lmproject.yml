@@ -1,0 +1,5 @@
+schema: '2.0'
+type: Resource
+version: '1.0'
+name: hello-world
+resource-manager: lm

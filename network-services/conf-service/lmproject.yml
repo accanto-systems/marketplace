@@ -1,0 +1,9 @@
+schema: '2.0'
+name: conf-service
+version: '1.0'
+type: Assembly
+contains:
+- name: infra
+  type: Resource
+  resource-manager: lm
+  directory: infra

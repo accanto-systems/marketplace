@@ -1,0 +1,9 @@
+schema: '2.0'
+name: jitsi-shard
+version: '1.0'
+type: Assembly
+contains:
+- name: jitsi-meet
+  type: Resource
+  resource-manager: lm
+  directory: jitsi-meet

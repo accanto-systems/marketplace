@@ -1,0 +1,15 @@
+description: descriptor for base
+
+properties:
+  internal_network_id: 
+    read_only: true
+  external_network_id: 
+    read_only: true
+  mgmt_network_id: 
+    read_only: true
+  mgmt_secgroup_id: 
+    read_only: true
+
+lifecycle:
+- Create
+- Delete

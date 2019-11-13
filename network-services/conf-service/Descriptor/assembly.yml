@@ -1,0 +1,37 @@
+description: descriptor for video conference service using JITSI-meet
+properties:
+  deployment_location:
+    type: string
+    default: core
+    required: true
+  mgmt_infra_name:
+    type: string
+    default: mgmt
+    required: true
+  conf_network_id:
+    read-only: true
+    value: ${conf_infra.conf_network_id}
+  conf_security_group_id:
+    read-only: true
+    value: ${conf_infra.conf_security_group_id}
+  conf_service_access_ip:
+    type: string
+    read-only: true
+    value: ${gateway.conf_address}
+composition:
+  conf_infra:
+    properties:
+      deploymentLocation:
+        value: ${deployment_location}
+      resourceManager:
+        value: brent
+    type: $lmctl:/contains:/infra:/descriptor_name
+
+references:
+  mgmt_infra:
+    properties:
+      name:
+        value: ${mgmt_infra_name}
+    type: assembly::mgmt_infra::1.0
+
+

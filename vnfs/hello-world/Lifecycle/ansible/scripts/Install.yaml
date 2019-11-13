@@ -1,0 +1,15 @@
+---
+
+- name: Install Lifecycle Transition
+  hosts: resource
+  gather_facts: False
+  become: true
+
+  tasks:
+  - name: If needed, install Python
+    raw: apt-get update && apt-get -y install python3 
+
+  - name: fail if data set to fail 
+    fail:
+      msg: The Install transition has failed
+    when: properties.fail == "Install"

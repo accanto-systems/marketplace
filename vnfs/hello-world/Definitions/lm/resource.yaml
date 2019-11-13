@@ -1,0 +1,36 @@
+description: descriptor for hello-world
+properties:
+  key_name:
+    default: default
+    description: Name of key-pair to be used for compute instance
+  image_id:
+    default: xenial-server-cloudimg-amd64-disk1
+    description: Image to be used for compute instance
+  flavor:
+    default: m1.small
+    description: Type of instance (flavor) to be used
+    
+  internal_ip: 
+    read-only: true
+  public_ip: 
+    read-only: true
+
+
+
+  fail:
+    default: no
+    description: set to lifecyle name (Install, Configure, Start, Stop or Uninstall) to casue the transition to fail
+  
+lifecycle:
+  - Create
+  - Install
+  - Configure
+  - Start
+  - Stop
+  - Delete
+
+operations:
+  do_something:
+    properties:
+      fail:
+        default: no

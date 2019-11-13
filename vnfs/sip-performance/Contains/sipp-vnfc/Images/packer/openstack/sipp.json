@@ -18,7 +18,7 @@
       "flavor": "m1.small",
       "security_groups":["<YOUR SECURITY GROUP>"],
       "insecure": "true",
-      "user_data": "#cloud-config\nmanage_etc_hosts: true\nbootcmd:\n - [ sh, -c, echo 'nameserver 8.8.8.8' > /etc/resolv.conf ]\npackage_update: false"
+      "user_data": "#cloud-config\nmanage_etc_hosts: true\nbootcmd:\n - [ sh, -c, echo 'nameserver 8.8.8.8' > /etc/resolv.conf ]\npackage_update: false\napt:\n  primary:\n    - arches: [default]\n      uri: http://us.archive.ubuntu.com/ubuntu/"
     }
   ],
   "provisioners": [

@@ -1,0 +1,9 @@
+schema: '2.0'
+name: vyos
+version: '1.0'
+type: Assembly
+contains:
+- name: vyosvnfc
+  type: Resource
+  resource-manager: brent
+  directory: vyosvnfc

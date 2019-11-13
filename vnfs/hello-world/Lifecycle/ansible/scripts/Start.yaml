@@ -1,0 +1,13 @@
+---
+
+- name: Start Lifecycle Transition
+  hosts: resource
+  gather_facts: False
+  become: true
+
+  tasks:
+
+  - name: fail if data set to fail 
+    fail:
+      msg: The Start transition has failed
+    when: properties.fail == "Start"

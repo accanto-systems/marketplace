@@ -1,6 +1,6 @@
 ---
 
-- name: Configure Lifecycle Transition
+- name: Install Lifecycle Transition
   hosts: resource
   gather_facts: False
   become: true

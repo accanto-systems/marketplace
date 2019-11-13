@@ -1,0 +1,9 @@
+schema: '2.0'
+name: vpn
+version: '1.0'
+type: Assembly
+contains:
+- name: base
+  type: Resource
+  resource-manager: brent
+  directory: base

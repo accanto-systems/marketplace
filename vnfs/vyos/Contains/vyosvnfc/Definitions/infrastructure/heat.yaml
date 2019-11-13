@@ -1,0 +1,119 @@
+heat_template_version: "2018-08-31"
+description: Infrastructure for Vyos Router"
+
+parameters:
+
+  instance_name:
+    type: string
+    label: name of the ALM instance
+    description: Name of ALM instance
+  key_name:
+    type: string
+    label: Key Name
+    description: Name of key-pair to be used for compute instance
+  image_id:
+    type: string
+    label: Image ID
+    description: Image to be used for compute instance
+  flavor:
+    type: string
+    label: Instance Type
+    description: Type of instance (flavor) to be used
+  mgmt_network_id:
+    type: string
+    label: ID of mgmt network
+    description: ID of mgmt network
+  mgmt_secgroup_id:
+    type: string
+    label: ID of mgmt security group
+    description: ID of mgmt security group
+  internal_network_id:
+    type: string
+    label: ID of internal network
+    description: ID of internal network
+  external_network_id:
+    type: string
+    label: ID of external network
+    description: ID of external network
+
+resources:
+
+  vyos_security_group: 
+    type: "OS::Neutron::SecurityGroup"
+    properties: 
+      rules:
+        - port_range_min: 1
+          port_range_max: 65535
+          protocol: udp 
+        - port_range_min: 1
+          port_range_max: 65535
+          protocol: tcp
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: icmp
+      name: { get_param: instance_name }
+
+  mgmt_port: 
+    type: "OS::Neutron::Port"
+    properties: 
+      admin_state_up: true
+      security_groups: 
+        - { get_param: mgmt_secgroup_id }
+      name: { get_param: instance_name }
+      network: { get_param: mgmt_network_id }
+
+  internal_port: 
+    type: "OS::Neutron::Port"
+    properties: 
+      admin_state_up: true
+#      port_security_enabled: false
+      security_groups: 
+        - { get_resource: vyos_security_group }
+      name: { get_param: instance_name }
+      network: { get_param: internal_network_id }
+
+  external_port: 
+    type: "OS::Neutron::Port"
+    properties: 
+      admin_state_up: true
+      security_groups: 
+        - { get_resource: vyos_security_group }
+      name: { get_param: instance_name }
+      network: { get_param: external_network_id }
+
+  vyos: 
+    type: "OS::Nova::Server"
+    properties: 
+      networks: 
+        - port: { get_resource: mgmt_port }
+        - port: { get_resource: internal_port }
+        - port: { get_resource: external_port }
+      name: vyos
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      image: { get_param: image_id }
+      config_drive: true
+      user_data_format: RAW
+      user_data: |
+        #!/bin/vbash
+        source /opt/vyatta/etc/functions/script-template
+
+        set system hostname testvyos
+        commit
+        save
+
+  vyos_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: "public"
+      port_id: { get_resource: external_port }
+
+outputs:
+  mgmt_ip: 
+    value: { get_attr: [ mgmt_port , fixed_ips, 0, ip_address ] }
+  internal_ip: 
+    value: { get_attr: [ internal_port , fixed_ips, 0, ip_address ] }
+  external_ip: 
+    value: { get_attr: [ external_port , fixed_ips, 0, ip_address ] }
+  floating_ip: 
+    value: { get_attr: [ vyos_floating_ip , floating_ip_address ] }
+

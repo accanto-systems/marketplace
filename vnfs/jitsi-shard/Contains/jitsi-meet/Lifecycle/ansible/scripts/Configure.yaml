@@ -1,0 +1,4 @@
+---
+- name: Configure
+  hosts: resource
+  gather_facts: False

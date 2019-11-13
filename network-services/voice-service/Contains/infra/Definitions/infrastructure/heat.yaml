@@ -61,7 +61,20 @@ resources:
       enable_dhcp: true
       cidr: "10.0.2.0/24"
 
+  voice_router: 
+    type: "OS::Neutron::Router"
+    properties: 
+      admin_state_up: true
+      name: voice_router
+      external_gateway_info:
+        network: "public"
 
+
+  voice_routerinterface: 
+    type: "OS::Neutron::RouterInterface"
+    properties: 
+      router: { get_resource: voice_router }
+      subnet: { get_resource: voice_subnet }
 
 outputs:
   voice_network_id: 

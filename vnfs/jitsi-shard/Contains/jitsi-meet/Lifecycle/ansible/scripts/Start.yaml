@@ -1,0 +1,4 @@
+---
+- name: Start
+  hosts: resource
+  gather_facts: False

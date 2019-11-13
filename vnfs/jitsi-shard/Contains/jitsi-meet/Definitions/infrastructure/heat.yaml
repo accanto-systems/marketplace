@@ -1,0 +1,110 @@
+heat_template_version: "2018-08-31"
+description: "Infrastructure for jitsi"
+
+parameters:
+  key_name:
+    type: string
+    label: Key Name
+    description: Name of key-pair to be used for compute instance
+  image_id:
+    type: string
+    label: Image ID
+    description: Image to be used for compute instance
+  flavor:
+    type: string
+    label: Instance Type
+    description: Type of instance (flavor) to be used
+
+resources:
+  jitsi_security_group: 
+    type: "OS::Neutron::SecurityGroup"
+    properties: 
+      rules: 
+        - port_range_min: 1
+          port_range_max: 65535
+          protocol: udp 
+        - port_range_min: 1
+          port_range_max: 65535
+          protocol: tcp
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: icmp
+      name: jitsi_security_group
+
+  jitsi_net: 
+    type: "OS::Neutron::Net"
+    properties: 
+      admin_state_up: true
+      name: jitsi_net
+
+  jitsi_subnet: 
+    type: "OS::Neutron::Subnet"
+    properties: 
+      network: { get_resource: jitsi_net }
+      name: jitsi_subnet
+      enable_dhcp: true
+      cidr: "10.0.0.0/24"
+  jitsi_port: 
+    type: "OS::Neutron::Port"
+    properties: 
+      admin_state_up: true
+      fixed_ips: 
+        - subnet: { get_resource: jitsi_subnet }
+      security_groups: 
+        - { get_resource: jitsi_security_group }
+      name: jitsi_port
+      network: { get_resource: jitsi_net }
+
+
+
+  floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: "public"
+      port_id: { get_resource: jitsi_port }
+
+  jitsi: 
+    type: "OS::Nova::Server"
+    properties: 
+      networks: 
+        - port: { get_resource: jitsi_port }
+      name: jitsi
+      flavor: { get_param: flavor }
+      key_name: { get_param: key_name }
+      image: { get_param: image_id }
+      config_drive: true
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        manage_etc_hosts: true
+        bootcmd: 
+         - [ sysctl, net.ipv4.ip_forward=1 ]
+         - [ sh, -c, echo 'nameserver 8.8.8.8' > /etc/resolv.conf ]
+        ssh_pwauth: True
+        password: ubuntu
+        chpasswd:
+          list: |
+            ubuntu:ubuntu
+          expire: False
+
+
+  jitsi_router: 
+    type: "OS::Neutron::Router"
+    properties: 
+      admin_state_up: true
+      name: jitsi_router
+      external_gateway_info:
+        network: "public"
+
+
+  jitsi_routerinterface: 
+    type: "OS::Neutron::RouterInterface"
+    properties: 
+      router: { get_resource: jitsi_router }
+      subnet: { get_resource: jitsi_subnet }
+
+outputs:
+  internal_ip: 
+    value: { get_attr: [ jitsi , first_address ] }
+  public_ip: 
+    value: { get_attr: [ floating_ip , floating_ip_address ] }
+

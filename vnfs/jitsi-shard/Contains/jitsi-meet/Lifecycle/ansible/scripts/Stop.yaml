@@ -1,0 +1,4 @@
+---
+- name: Stop
+  hosts: resource
+  gather_facts: False
