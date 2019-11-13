@@ -26,6 +26,14 @@ node_types:
     properties:
       name:
         type: string
+      bridge:
+        type: string
+      subnet:
+        type: string
+      range_start:
+        type: string
+      range_end:
+        type: string
     attributes:
       address:
         type: string
@@ -74,10 +82,28 @@ topology_template:
       type: accanto.nodes.K8sNetwork
       properties:
         name: mgmt
-    voice_network:
+        bridge: br-mgmt
+        subnet: "10.0.30.0/24"
+        range_start: "10.0.30.55"
+        range_end: "10.0.30.100"
+
+    internal_network:
       type: accanto.nodes.K8sNetwork
       properties:
         name: internal
+        bridge: br-internal
+        subnet: "10.0.20.0/24"
+        range_start: "10.0.20.55"
+        range_end: "10.0.20.100"
+
+    voice_network:
+      type: accanto.nodes.K8sNetwork
+      properties:
+        name: voice
+        bridge: br-voice
+        subnet: "10.0.10.0/24"
+        range_start: "10.0.10.55"
+        range_end: "10.0.10.100"
 
   outputs:
     mgmt_ip_address:
