@@ -31,7 +31,7 @@ composition:
       resourceManager:
         value: ${resourceManager}
       instance_name:
-        value: ${instance.name}
+        value: ${instance.name}_gateway
       keyname:
         value: ${keyname}
       mgmt_securitygroup_id:
@@ -131,3 +131,23 @@ policies:
     type: policy::scale
     metric: gateway.h_load
     target: voip-server
+designerLayout:
+  description: The following information is solely used to determine the presentation
+    of this Assembly Design in the LM UI. It does not form part of operational/behavioural
+    description of the Assembly and should not be edited directly.
+  elements:
+    gateway:
+      x: 650
+      y: 40
+    voip-server:
+      x: 610
+      y: 220
+    internal:
+      x: 490
+      y: 400
+    base:
+      x: 290
+      y: 580
+    assembly::jumphost-voice-service::1.0:
+      x: 0
+      y: 180
