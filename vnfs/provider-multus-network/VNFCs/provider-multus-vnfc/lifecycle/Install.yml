@@ -6,7 +6,7 @@
     - { role: create_inventory }
 
 - name: create a new k8s multus network instance
-  hosts: "localhost"
+  hosts: k8s
   gather_facts: False
   become: true 
   roles:

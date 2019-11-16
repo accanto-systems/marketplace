@@ -1,12 +1,12 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: "{{ network_name }}"
+  name: "{{ networkid }}"
 spec:
   config: '{
-            "name": "{{ network_name }}",
+            "name": "{{ networkid }}",
             "type": "bridge",
-            "bridge": "br-{{ network_name }}",
+            "bridge": "br-{{ networkid }}",
             "isDefaultGateway": true,
             "forceAddress": false,
             "ipMasq": true,
@@ -14,7 +14,7 @@ spec:
             "ipam": {
               "type": "host-local",
               "subnet": "{{ subnet }}",
-              "rangeStart": "{{ start_ip }}",
-              "rangeEnd": "{{ end_ip }}"
+              "rangeStart": "{{ startip }}",
+              "rangeEnd": "{{ endip }}"
             }
         }'

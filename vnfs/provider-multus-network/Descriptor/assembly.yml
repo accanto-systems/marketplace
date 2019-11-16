@@ -24,6 +24,8 @@ properties:
 composition:
   network:
     properties:
+      networkid:
+        value: ${networkid}
       subnet: 
         value: ${subnet}
       startip:
