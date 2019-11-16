@@ -1,0 +1,20 @@
+name: resource::provider-multus-vnfc::1.0
+description: resource package for k8s multus network vnfc
+properties:
+  networkname:
+    type: string
+    description: name of the network
+    value: ${instance.name}
+  subnet: 
+    type: string
+    description: CIDR for the network
+  startip:
+    type: string
+    description: start of ip address range
+  endip:
+    type: string
+    description: end of ip address range
+
+lifecycle:
+- Install
+#- Uninstall

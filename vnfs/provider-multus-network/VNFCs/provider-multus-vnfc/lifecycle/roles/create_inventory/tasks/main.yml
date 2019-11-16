@@ -1,0 +1,13 @@
+   
+- name: add k8s location
+  when: type == "Kubernetes" 
+  add_host:
+     name: "k8s"
+     groups: k8s
+     ansible_host: "{{ k8s_address }}"
+     ansible_user: vagrant
+     ansible_connection: ssh
+     ansible_ssh_pass: vagrant
+     ansible_become_pass: vagrant
+     ansible_sudo_pass: vagrant
+     

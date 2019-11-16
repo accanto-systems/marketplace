@@ -25,3 +25,34 @@ properties:
     description: security group id for mgmt network
   voice_securitygroup_id:
     description: security group id for voice network
+composition:
+  mgmt-network:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      networkid:
+        value: ${mgmt_networkid}
+      subnet: 
+        value: 10.0.30.0/24
+      startip:
+        value: 10.0.30.51
+      endip:
+        value: 10.0.30.100
+    type: assembly::provider-multus-network::1.0
+  voice-network:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      networkid:
+        value: ${voice_networkid}
+      subnet: 
+        value: 10.0.10.0/24
+      startip:
+        value: 10.0.10.51
+      endip:
+        value: 10.0.10.100
+    type: assembly::provider-multus-network::1.0

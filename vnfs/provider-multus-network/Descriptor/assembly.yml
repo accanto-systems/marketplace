@@ -2,13 +2,16 @@ name: assembly::provider-multus-network::1.0
 description: Kubernetes Multus network VNF
 properties:
   deploymentLocation:
-    description: the name of the location for this assemblies resources to be deploy
+    description: the name of the location for this assembly's resources to be deploy
     type: string
     default: local
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string
     default: defaultrm
+  subnet: 
+    type: string
+    description: CIDR for the network
   startip:
     type: string
     description: start of ip address range
@@ -18,3 +21,19 @@ properties:
   networkid:
     description: id of network instance
     type: string
+composition:
+  network:
+    properties:
+      subnet: 
+        value: ${subnet}
+      startip:
+        value: ${startip}
+      endip:
+        value: ${endip}
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+    type: resource::provider-multus-vnfc::1.0
+    quantity: 1
+ 

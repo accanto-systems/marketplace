@@ -1,0 +1,13 @@
+---
+
+- name: template the network descriptor
+  delegate_to: k8s
+  template:
+    src: multus-network.yaml
+    dest: "/opt/{{ networkname }}.yaml"
+
+- name: Create multus network CRD
+  delegate_to: k8s
+  command: "kubectl apply -f /opt/{{ networkname }}.yaml"
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf

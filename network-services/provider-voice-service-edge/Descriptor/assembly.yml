@@ -99,6 +99,12 @@ composition:
         value: ${resourceManager}
       networkid:
         value: internal
+      subnet: 
+        value: 10.0.20.0/24
+      startip:
+        value: 10.0.20.51
+      endip:
+        value: 10.0.20.100
     type: assembly::provider-multus-network::1.0
 references:
   core-base:

@@ -1,0 +1,13 @@
+---
+- name: create k8s location inventory
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - { role: create_inventory }
+
+- name: create a new k8s multus network instance
+  hosts: "localhost"
+  gather_facts: False
+  become: true 
+  roles:
+    - { role: create_instance }
