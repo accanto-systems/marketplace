@@ -98,6 +98,13 @@ resources:
         source /opt/vyatta/etc/functions/script-template
 
         set system hostname testvyos
+        set service ssh port '22'
+        set interface ethernet eth0 address 'dhcp'
+        set interface ethernet eth0 mtu '1450'
+        set interface ethernet eth1 address 'dhcp'
+        set interface ethernet eth1 mtu '1450'
+        set interface ethernet eth2 'dhcp'
+        set interface ethernet eth2 address mtu '1450'
         commit
         save
 
