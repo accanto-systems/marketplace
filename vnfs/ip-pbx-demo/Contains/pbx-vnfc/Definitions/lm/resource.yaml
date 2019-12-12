@@ -60,10 +60,10 @@ properties:
   output_private_key:
     type: key
     read-only: true
-  input_private_key_drv:
+  input_private_key_name:
     type: string
     read-only: true
-  input_private_key_drv_path:
+  input_private_key_path:
     type: string
     read-only: true
 

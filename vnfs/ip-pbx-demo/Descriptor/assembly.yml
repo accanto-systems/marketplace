@@ -46,14 +46,14 @@ properties:
     type: key
     read-only: true
     value: ${asterisk.output_private_key}
-  input_private_key_drv:
+  input_private_key_path:
     type: string
     read-only: true
-    value: ${asterisk.input_private_key_drv}
-  input_private_key_drv_path:
+    value: ${asterisk.input_private_key_path}
+  input_private_key_name:
     type: string
     read-only: true
-    value: ${asterisk.input_private_key_drv_path}
+    value: ${asterisk.input_private_key_name}
 composition:
   asterisk:
     properties:
