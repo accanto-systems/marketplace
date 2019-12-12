@@ -1,0 +1,9 @@
+schema: '2.0'
+name: ip-pbx-demo
+version: '1.0'
+type: Assembly
+contains:
+- name: pbx-vnfc
+  type: Resource
+  resource-manager: brent
+  directory: pbx-vnfc

@@ -1,0 +1,102 @@
+description: descriptor for ip-pbx
+properties:
+  deploymentLocation:
+    description: the name of the location for this assemblies resources to be deploy
+    type: string
+    default: mereen
+  resourceManager:
+    description: the name of the resource manager that manages the resources
+    type: string
+    default: brent
+  instance_index:
+    type: string
+    value: ${instance.index}
+  gw_address:
+    description: if a gw is in front then pass in its private or internal ip address
+    type: string
+  keyname:
+    type: string
+    default: default
+  mgmt_address:
+    description: managemet ip address of this vnfc
+    type: string
+    read-only: true
+    value: ${asterisk.mgmt_address}
+  voice_network:
+    type: string
+    descripion: id of data network
+  voice_security_group:
+    description: voice security group
+  voice_address:
+    description: assigned ip address on voip network. This is the voip endpoint
+    type: string
+    read-only: true
+    value: ${asterisk.voice_ip_address}
+  mgmt_infra_name:
+    description: managemet infrastructure instance name
+    default: mgmt
+  voice_cidr:
+    type: string
+    default: 10.220.217.113/24
+    required: true
+  input_private_key:
+    type: key
+    value: sg1
+  output_private_key:
+    type: key
+    read-only: true
+    value: ${asterisk.output_private_key}
+  input_private_key_drv:
+    type: string
+    read-only: true
+    value: ${asterisk.input_private_key_drv}
+  input_private_key_drv_path:
+    type: string
+    read-only: true
+    value: ${asterisk.input_private_key_drv_path}
+composition:
+  asterisk:
+    properties:
+      key_name:
+        value: ${keyname}
+      image_id:
+        value: ippbx
+      flavor:
+        value: m1.small
+      mgmt_network_id:
+        value: 192.168.99.101
+      mgmt_secgroup_id:
+        value: 192.168.99.101
+      voice_network_id:
+        value: ${voice_network}
+      voice_cidr:
+        value: ${voice_cidr}
+      voice_secgroup_id:
+        value: ${voice_security_group}
+      gw_address:
+        value: ${gw_address}
+      integrity_smoothing:
+        value: 3
+      publication_period:
+        value: 60
+      jumphost_ip:
+        value: 192.168.99.101
+      jumphost_username:
+        value: accanto
+      jumphost_password:
+        value: accanto
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      input_private_key:
+        value: ${input_private_key}
+    type: $lmctl:/contains:/pbx-vnfc:/descriptor_name
+    quantity: 1
+designerLayout:
+  description: >-
+    The following information is solely used to determine the presentation of
+    this Assembly Design in the LM UI. It does not form part of
+    operational/behavioural description of the Assembly and should not be edited
+    directly.
+
