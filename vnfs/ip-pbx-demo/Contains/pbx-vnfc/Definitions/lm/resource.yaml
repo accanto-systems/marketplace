@@ -55,15 +55,15 @@ properties:
   jumphost_password:
     description: jumphost password
 
-  input_private_key:
+  input_key:
     type: key
-  output_private_key:
+  output_key:
     type: key
     read-only: true
-  input_private_key_name:
+  input_key_name:
     type: string
     read-only: true
-  input_private_key_path:
+  input_key_path:
     type: string
     read-only: true
 

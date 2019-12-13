@@ -112,7 +112,7 @@ topology_template:
     voice_ip_address:
       description: The private IP address of ippbx
       value: { get_attribute: [voice_network, address] }
-    output_private_key:
+    output_key:
       description: The private SSH key of the VM
       value: "-----BEGIN RSA PRIVATE KEY-----
 MIIEpQIBAAKCAQEA3Tz2mr7SZiAMfQyuvBjM9Oi..Z1BjP5CE/Wm/Rr500P

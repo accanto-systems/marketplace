@@ -9,5 +9,5 @@ templates:
         type: string
       voice_ip_address:
         type: string
-      output_private_key:
+      output_key:
         type: key
