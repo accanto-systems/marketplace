@@ -7,9 +7,9 @@
 - debug:
     var: net_info
 
-- fail:
-    msg: "A network with the name {{ networkname }} already exists." 
-  when: net_info['ansible_facts']['openstack_networks'][0] is defined
+#- fail:
+#    msg: "A network with the name {{ networkname }} already exists."
+#  when: net_info['ansible_facts']['openstack_networks'][0] is defined
 
 - name: create openstack provider network
   os_network:
