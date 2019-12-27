@@ -44,10 +44,10 @@ composition:
     properties:
       subnet:
         value: ${subnet}
-      gateway:
-        value: ${gateway}
-      iprange:
-        value: ${iprange}
+      #gateway:
+        #value: ${gateway}
+      #iprange:
+        #value: ${iprange}
       provider_network:
         value: ${provider_network}
       provider_network_type:

@@ -48,6 +48,10 @@ properties:
   jumphost_password:
     type: string
     description: jumphost password
+  imagename:
+    type: string
+    description: sipp server's image name
+    default: sipp
 composition:
   sipp:
     properties:
@@ -75,5 +79,7 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+      imagename:
+        value: ${imagename}
     type: resource::sipp-vnfc::1.0
     quantity: 1

@@ -48,12 +48,12 @@ composition:
     properties:
       subnet:
         value: ${subnet}
-      gateway:
-        value: ${gateway}
-      iprange:
-        value: ${iprange}
-      provider_network:
-        value: ${provider_network}
+      #gateway:
+        #value: ${gateway}
+      #iprange:
+        #value: ${iprange}
+      #provider_network:
+        #value: ${provider_network}
       provider_network_type:
         value: ${provider_network_type}
       provider_physical_network:

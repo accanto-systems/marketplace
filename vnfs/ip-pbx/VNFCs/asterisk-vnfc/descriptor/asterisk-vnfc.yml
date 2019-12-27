@@ -14,7 +14,7 @@ properties:
   imagename:
     type: string
     description: "the image name"
-    value: ippbx
+    default: ippbx
     
   instance_index:
     type: string
