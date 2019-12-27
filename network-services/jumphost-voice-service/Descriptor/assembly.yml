@@ -23,6 +23,14 @@ properties:
     type: string
     default: base
     required: true
+  gateway_image:
+    type: string
+    description: Kamailio's image name
+    default: kamailio
+  voip_server_image:
+    type: string
+    description: Asterisk's image name
+    default: ippbx
 composition:
   gateway:
     properties:
@@ -50,6 +58,8 @@ composition:
         value: ${base.jumphost_username}
       jumphost_password:
         value: ${base.jumphost_password}
+      imagename:
+        value: ${gateway_image}
     type: assembly::voip-gateway::1.0
     quantity: 1
   voip-server:
@@ -78,6 +88,8 @@ composition:
         value: ${base.jumphost_username}
       jumphost_password:
         value: ${base.jumphost_password}
+      imagename:
+        value: ${voip_server_image}
     type: assembly::ip-pbx::1.0
     cluster:
       initial-quantity: 1

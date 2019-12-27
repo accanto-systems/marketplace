@@ -58,6 +58,10 @@ properties:
   jumphost_password:
     type: string
     description: jumphost password
+  imagename:
+    type: string
+    description: Asterisk's image name
+    default: ippbx
 composition:
   asterisk:
     properties:
@@ -91,5 +95,7 @@ composition:
         value: ${deploymentLocation}
       resourceManager:
         value: ${resourceManager}
+      imagename:
+        value: ${imagename}
     type: resource::asterisk-vnfc::1.0
     quantity: 1

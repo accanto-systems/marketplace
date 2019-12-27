@@ -19,6 +19,10 @@ properties:
     description: target voice service for voip traffic load
     type: string
     default: voice
+  sipp_server_image:
+    type: string
+    description: sipp server's image name
+    default: sipp
 composition:
   sipp-server:
     properties:
@@ -46,6 +50,8 @@ composition:
         value: ${base.jumphost_username}
       jumphost_password:
         value: ${base.jumphost_password}
+      imagename:
+        value: ${sipp_server_image}
     type: assembly::sip-performance::1.0
 references:
   base:
