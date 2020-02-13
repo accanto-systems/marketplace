@@ -1,6 +1,0 @@
-templates: 
-  - file: heat.yaml
-    infrastructure_type: Openstack
-    template_type: HEAT
-  - file: k8s.yaml
-    infrastructure_type: Kubernetes

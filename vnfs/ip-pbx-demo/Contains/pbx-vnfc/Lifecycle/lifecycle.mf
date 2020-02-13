@@ -1,7 +1,0 @@
-types: 
-  - lifecycle_type: ansible
-    infrastructure_type: '*'
-    output_properties:
-      # key type -> persist in secure repository
-      output_key:
-        type: key

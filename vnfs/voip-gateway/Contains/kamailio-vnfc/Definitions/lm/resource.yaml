@@ -56,15 +56,42 @@ properties:
     description: jumphost username
   jumphost_password:
     description: jumphost password
-
+infrastructure:
+  Kubernetes:
+    template:
+      file: k8s.yaml
+  Openstack:
+    template:
+      file: heat.yaml
+      template_type: HEAT
 lifecycle:
-- Create
-- Configure
-- Start
-- Integrity
-- Stop
-- Delete
-
+  Create:
+  Configure:
+    drivers:
+      ansible:
+        infrastructure_type:
+        - '*'
+  Install:
+    drivers:
+      ansible:
+        infrastructure_type:
+        - '*'
+  Integrity:
+    drivers:
+      ansible:
+        infrastructure_type:
+        - '*'
+  Start:
+    drivers:
+      ansible:
+        infrastructure_type:
+        - '*'
+  Stop:
+    drivers:
+      ansible:
+        infrastructure_type:
+        - '*'
+  Delete:
 operations:
   addToDispatchList:
     properties:

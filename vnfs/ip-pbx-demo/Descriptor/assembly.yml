@@ -61,7 +61,121 @@ properties:
     read-only: true
     value: ${asterisk.input_key_name}
 composition:
-  asterisk:
+  asterisk1:
+    properties:
+      key_name:
+        value: ${keyname}
+      image_id:
+        value: ippbx
+      flavor:
+        value: m1.small
+      mgmt_network_id:
+        value: 192.168.99.101
+      mgmt_secgroup_id:
+        value: 192.168.99.101
+      voice_network_id:
+        value: ${voice_network}
+      voice_cidr:
+        value: ${voice_cidr}
+      voice_secgroup_id:
+        value: ${voice_security_group}
+      gw_address:
+        value: ${gw_address}
+      integrity_smoothing:
+        value: 3
+      publication_period:
+        value: 60
+      jumphost_ip:
+        value: 192.168.99.101
+      jumphost_username:
+        value: accanto
+      jumphost_password:
+        value: accanto
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      input_key:
+        value: ${input_key}
+    type: $lmctl:/contains:/pbx-vnfc:/descriptor_name
+    quantity: 1
+  asterisk2:
+    properties:
+      key_name:
+        value: ${keyname}
+      image_id:
+        value: ippbx
+      flavor:
+        value: m1.small
+      mgmt_network_id:
+        value: 192.168.99.101
+      mgmt_secgroup_id:
+        value: 192.168.99.101
+      voice_network_id:
+        value: ${voice_network}
+      voice_cidr:
+        value: ${voice_cidr}
+      voice_secgroup_id:
+        value: ${voice_security_group}
+      gw_address:
+        value: ${gw_address}
+      integrity_smoothing:
+        value: 3
+      publication_period:
+        value: 60
+      jumphost_ip:
+        value: 192.168.99.101
+      jumphost_username:
+        value: accanto
+      jumphost_password:
+        value: accanto
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      input_key:
+        value: ${input_key}
+    type: $lmctl:/contains:/pbx-vnfc:/descriptor_name
+    quantity: 1
+  asterisk3:
+    properties:
+      key_name:
+        value: ${keyname}
+      image_id:
+        value: ippbx
+      flavor:
+        value: m1.small
+      mgmt_network_id:
+        value: 192.168.99.101
+      mgmt_secgroup_id:
+        value: 192.168.99.101
+      voice_network_id:
+        value: ${voice_network}
+      voice_cidr:
+        value: ${voice_cidr}
+      voice_secgroup_id:
+        value: ${voice_security_group}
+      gw_address:
+        value: ${gw_address}
+      integrity_smoothing:
+        value: 3
+      publication_period:
+        value: 60
+      jumphost_ip:
+        value: 192.168.99.101
+      jumphost_username:
+        value: accanto
+      jumphost_password:
+        value: accanto
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      input_key:
+        value: ${input_key}
+    type: $lmctl:/contains:/pbx-vnfc:/descriptor_name
+    quantity: 1
+  asterisk4:
     properties:
       key_name:
         value: ${keyname}

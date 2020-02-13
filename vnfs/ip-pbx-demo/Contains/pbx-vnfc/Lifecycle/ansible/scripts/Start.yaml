@@ -1,6 +1,6 @@
 ---
 - name: Start Lifecycle Transition
-  hosts: host
+  hosts: resource
   gather_facts: False
   become: true
 
