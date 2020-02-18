@@ -2,6 +2,10 @@ heat_template_version: "2018-08-31"
 description: "Infrastructure for pbx"
 
 parameters:
+  pbx_ssh_key_name:
+    type: string
+    label: PBX Server SSH Key Name
+    description: Name of SSH key pair
   instance_name:
     type: string
     label: Instance Name
@@ -63,7 +67,8 @@ resources:
         - port: { get_resource: voice_port }
       name: { get_param: instance_name }
       flavor: { get_param: flavor }
-      key_name: { get_param: key_name }
+      key_name: { get_resource: pbx_ssh_key }
+#      key_name: { get_param: key_name }
       image: { get_param: image_id }
       config_drive: true
       user_data_format: RAW
@@ -83,8 +88,29 @@ resources:
           expire: False
         package_update: false
 
+  pbx_ssh_key:
+    type: OS::Nova::KeyPair
+    properties:
+      name: { get_param: pbx_ssh_key_name }
+      save_private_key: True
+
 outputs:
   mgmt_ip_address: 
     value: { get_attr: [ mgmt_port , fixed_ips, 0, ip_address ] }
   voice_ip_address:
     value: { get_attr: [ voice_port, fixed_ips, 0, ip_address ] }
+  pbx_ssh_key:
+    constraints:
+      - custom_constraint: nova.keypair
+        description: Must name a public key (pair) known to Nova
+    str_replace:
+      template: |
+        {
+          "privateKey": "$private_key",
+          "publicKey": "$public_key",
+          "name": "$key_name"
+        }
+      params:
+          $key_name: { get_param: [ pbx_ssh_key_name ] }
+          $private_key: { get_attr: [ pbx_ssh_key, private_key ] }
+          $public_key: { get_attr: [ pbx_ssh_key, public_key ] }

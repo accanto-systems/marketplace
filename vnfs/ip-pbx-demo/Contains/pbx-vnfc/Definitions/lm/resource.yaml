@@ -67,6 +67,9 @@ properties:
     type: string
     read-only: true
 
+  pbx_ssh_key_name:
+    type: string
+
   infrastructure_id:
     type: string
     read-only: true
@@ -75,6 +78,9 @@ properties:
     type: string
     default: mgmt
 private-properties:
+  pbx_ssh_key:
+    description: Name of an infrastructure key-pair to be used for compute instance
+    type: key
   output_key:
     type: key
 infrastructure:
