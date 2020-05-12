@@ -1,0 +1,5 @@
+- import_tasks: install.yaml
+  # run on ALD/Ansible controller
+  delegate_to: localhost
+  # do not run as root (no need in this case, and Alpine Linux does not support it)
+  become: no

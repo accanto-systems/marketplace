@@ -66,7 +66,8 @@ properties:
   input_key_path:
     type: string
     read-only: true
-
+  externalId:
+    type: string
   pbx_ssh_key_name:
     type: string
 
@@ -77,46 +78,67 @@ properties:
   networks:
     type: string
     default: mgmt
-private-properties:
-  pbx_ssh_key:
-    description: Name of an infrastructure key-pair to be used for compute instance
-    type: key
-  output_key:
-    type: key
+# private-properties:
+  # this is an SSH key created by the Openstack VIM driver.
+  # pbx_ssh_key:
+  #   description: Name of an infrastructure key-pair to be used for compute instance
+  #   type: key
+  # output_key:
+  #   type: key
 infrastructure:
-  Openstack:
-    template:
-      file: heat.yaml
-      template-type: HEAT
-  Kubernetes:
-    template:
-      file: k8s-tosca.yaml
-      template-type: TOSCA
+  Openstack: {}
+  Kubernetes: {}
 lifecycle:
-  Create: {}
+  Create:
+    drivers:
+      kubernetes:
+        selector:
+          infrastructure-type:
+          - 'kubernetes'
   Install:
     drivers:
       ansible:
-        infrastructure-type:
-        - '*'
+        selector:
+          infrastructure-type:
+          - '*'
   Configure:
     drivers:
       ansible:
-        infrastructure-type:
-        - '*'
+        selector:
+          infrastructure-type:
+          - '*'
   Integrity:
     drivers:
       ansible:
-        infrastructure-type:
-        - '*'
+        selector:
+          infrastructure-type:
+          - '*'
   Start:
     drivers:
       ansible:
-        infrastructure-type:
-        - '*'
+        selector:
+          infrastructure-type:
+          - '*'
   Stop:
     drivers:
       ansible:
-        infrastructure-type:
-        - '*'
-  Delete: {}
+        selector:
+          infrastructure-type:
+          - '*'
+  Delete:
+    drivers:
+      kubernetes:
+        selector:
+          infrastructure-type:
+          - 'kubernetes'
+metrics:
+  h_integrity:
+    type: "metric::integrity"
+    publication-period: "10"
+policies:
+  heal:
+    metric: "h_integrity"
+    type: "policy::heal"
+    properties:
+      smoothing:
+        value: ${integrity_smoothing}

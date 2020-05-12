@@ -1,0 +1,153 @@
+heat_template_version: "2018-08-31"
+description: "Base infrastructure for an Apache2 example"
+
+parameters:
+  server1_ssh_key:
+    type: string
+    label: Key Name
+    description: Name of an existing Openstack SSH key pair
+  server2_ssh_key_name:
+    type: string
+    description: Name of new Openstack SSH key pair created by the HEAT template
+  image_id:
+    type: string
+    label: Image ID
+    description: Image to be used for compute instance
+  flavor:
+    type: string
+    label: Instance Type
+    description: Type of instance (flavor) to be used
+
+resources:
+  ap_security_group: 
+    type: "OS::Neutron::SecurityGroup"
+    properties: 
+      rules: 
+        - port_range_min: 1
+          port_range_max: 100
+          protocol: tcp
+        - remote_ip_prefix: 0.0.0.0/0
+          protocol: icmp
+      name: ap_security_group
+
+  ap_net: 
+    type: "OS::Neutron::Net"
+    properties: 
+      admin_state_up: true
+      name: ap_net
+
+  ap_subnet: 
+    type: "OS::Neutron::Subnet"
+    properties: 
+      network: { get_resource: ap_net }
+      name: ap_subnet
+      enable_dhcp: true
+      cidr: "10.10.10.0/24"
+  ap_port1:
+    type: "OS::Neutron::Port"
+    properties: 
+      admin_state_up: true
+      fixed_ips: 
+        - subnet: { get_resource: ap_subnet }
+      security_groups: 
+        - { get_resource: ap_security_group }
+      name: ap_port
+      network: { get_resource: ap_net }
+  ap_port2:
+    type: "OS::Neutron::Port"
+    properties: 
+      admin_state_up: true
+      fixed_ips: 
+        - subnet: { get_resource: ap_subnet }
+      security_groups: 
+        - { get_resource: ap_security_group }
+      name: ap_port
+      network: { get_resource: ap_net }
+
+  ap_router: 
+    type: "OS::Neutron::Router"
+    properties: 
+      admin_state_up: true
+      name: ap_router
+      external_gateway_info:
+        network: "public"
+
+  ap_routerinterface: 
+    type: "OS::Neutron::RouterInterface"
+    properties: 
+      router: { get_resource: ap_router }
+      subnet: { get_resource: ap_subnet }
+
+  apache_server1_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: "public"
+      port_id: { get_resource: ap_port1 }
+
+  apache_server2_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: "public"
+      port_id: { get_resource: ap_port2 }
+
+  apache_server1: 
+    type: "OS::Nova::Server"
+    properties: 
+      networks: 
+        - port: { get_resource: ap_port1 }
+      name: apache_server
+      flavor: { get_param: flavor }
+      key_name: { get_param: server1_ssh_key }
+      image: { get_param: image_id }
+      config_drive: true
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        manage_etc_hosts: true
+        bootcmd: 
+         - [ sysctl, net.ipv4.ip_forward=1 ]
+         - [ sh, -c, echo 'nameserver 8.8.8.8' > /etc/resolv.conf ]
+        packages:
+         - "python"
+  apache_server2: 
+    type: "OS::Nova::Server"
+    properties: 
+      networks: 
+        - port: { get_resource: ap_port2 }
+      name: apache_server
+      flavor: { get_param: flavor }
+      key_name: { get_resource: server2_ssh_key }
+      image: { get_param: image_id }
+      config_drive: true
+      user_data_format: RAW
+      user_data: |
+        #cloud-config
+        manage_etc_hosts: true
+        bootcmd: 
+         - [ sysctl, net.ipv4.ip_forward=1 ]
+         - [ sh, -c, echo 'nameserver 8.8.8.8' > /etc/resolv.conf ]
+        packages:
+         - "python"
+  server2_ssh_key:
+    type: OS::Nova::KeyPair
+    properties:
+      name: { get_param: server2_ssh_key_name }
+      save_private_key: True
+
+outputs:
+  server1_internal_ip: 
+    value: { get_attr: [ apache_server1 , first_address ] }
+  server1_public_ip: 
+    value: { get_attr: [ apache_server1_floating_ip , floating_ip_address ] }
+  server2_internal_ip: 
+    value: { get_attr: [ apache_server2 , first_address ] }
+  server2_public_ip: 
+    value: { get_attr: [ apache_server2_floating_ip , floating_ip_address ] }
+  server2_ssh_key:
+    value:
+      str_replace:
+        template: $key_name#$private_key#$public_key
+        params:
+            $key_name: { get_param: [ server2_ssh_key_name ] }
+            $private_key: { get_attr: [ server2_ssh_key, private_key ] }
+            $public_key: { get_attr: [ server2_ssh_key, public_key ] }

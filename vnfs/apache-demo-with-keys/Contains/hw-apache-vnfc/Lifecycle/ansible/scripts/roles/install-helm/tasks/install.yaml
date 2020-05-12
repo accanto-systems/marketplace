@@ -1,0 +1,48 @@
+- name: Check if Helm is already installed
+  stat:
+    path: "{{helm_install_dir}}/helm"
+  register: helm_result
+
+- name: Gather Helm version
+  shell: helm version -c
+  when: helm_result.stat.exists == True
+  register: helm_version_command
+  changed_when: false
+  failed_when: false
+
+- when: helm_result.stat.exists == False or helm_version_command is undefined or helm_version not in helm_version_command.stdout 
+  block:
+    - name: Download Helm
+      get_url: 
+        url: "{{helm_mirror}}/helm-{{ helm_version }}-{{ helm_platform }}.tar.gz"
+        dest: /tmp/helm-{{ helm_version }}-{{ helm_platform }}.tar.gz
+
+    - name: Create extraction directory
+      file:
+        path: /tmp/helm-{{ helm_version }}
+        state: directory
+        mode: 0755
+
+    - name: Unarchive Helm
+      # note: unarchive module doesn't currently work for ALD due to non-GNU version on tar
+      # (see https://github.com/ansible/ansible-modules-core/issues/5394)
+      shell: tar -C /tmp/helm-{{ helm_version }} -zxvf /tmp/helm-{{ helm_version }}-{{ helm_platform }}.tar.gz
+
+    - name: Include Helm in /usr/local/bin/
+      copy:
+        src: /tmp/helm-{{ helm_version }}/{{ helm_platform }}/helm
+        dest: "{{helm_install_dir}}/helm"
+        mode: 0755
+
+    - name: Helm init
+      shell: helm --kubeconfig {{ dl_properties.kubeconfig_path }} --home /tmp/{{ dl_properties.name }}.helm init --client-only
+
+# example Helm install
+#    - name: Helm install
+#      shell: helm --kubeconfig {{ dl_properties.kubeconfig_path }} --home /tmp/{{ dl_properties.name }}.helm list 
+
+  always:
+    - name: Cleanup tmp files
+      file:
+        path: /tmp/helm-{{ helm_version }}-{{ helm_platform }}.tar.gz
+        state: absent

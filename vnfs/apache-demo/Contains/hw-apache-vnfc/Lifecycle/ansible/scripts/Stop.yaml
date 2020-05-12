@@ -1,0 +1,10 @@
+---
+- name: Stop
+  hosts: apache1,apache2
+  become: yes
+  gather_facts: False
+  tasks:
+    - name: Stop apache2
+      systemd:
+        state: stopped
+        name: apache2

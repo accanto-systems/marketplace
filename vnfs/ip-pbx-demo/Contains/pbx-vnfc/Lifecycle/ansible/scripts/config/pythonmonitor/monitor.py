@@ -80,7 +80,7 @@ def read_callback(data=None):
   collectd.info('reading value')
   
   
-  send_integrity_metric()
+  # send_integrity_metric()
     
   dispatch_service_metrics()
   

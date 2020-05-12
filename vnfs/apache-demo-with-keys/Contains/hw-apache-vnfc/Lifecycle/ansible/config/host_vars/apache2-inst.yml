@@ -1,0 +1,6 @@
+---
+ansible_host: {{ properties.server2_public_ip }}
+ansible_user: ubuntu
+ansible_become_pass: ubuntu
+ansible_sudo_pass: ubuntu
+ansible_ssh_common_args: "-i {{ properties.server2_ssh_key_path }} -o 'UserKnownHostsFile=/dev/null' -o StrictHostKeyChecking=no"
