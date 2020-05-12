@@ -1,5 +1,5 @@
-name: assembly::apache-demo::1.0
-description: assembly descriptor for apache
+name: assembly::apache-demo-keys::1.0
+description: assembly descriptor for apache using infrastructure keys
 properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
@@ -67,7 +67,7 @@ composition:
         value: ${image_id}
       flavor:
         value: ${flavor}
-    type: resource::hw-apache-vnfc::1.0
+    type: resource::hw-apache-vnfc-keys::1.0
     quantity: 1
   hw-apache2:
     properties:
