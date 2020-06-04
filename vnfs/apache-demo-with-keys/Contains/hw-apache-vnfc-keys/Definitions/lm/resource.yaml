@@ -1,4 +1,4 @@
-name: resource::hw-apache-vnfc-keys::1.0
+name: resource::hw-apache-vnfc-keys-apache-demo-keys::1.0
 description: descriptor for hw-apache2 (using infrastructure keys)
 properties:
   server1_ssh_key:

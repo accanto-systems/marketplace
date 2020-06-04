@@ -1,4 +1,4 @@
-name: resource::hw-apache-vnfc::1.0
+name: resource::hw-apache-vnfc-apache-demo::1.0
 description: descriptor for hw-apache2
 properties:
   key_name:

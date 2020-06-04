@@ -1,0 +1,9 @@
+---
+- name: Install
+  hosts:  host
+  gather_facts: False
+
+  # tasks:
+  # - name: fail
+  #   fail:
+  #     msg: oops, failed.

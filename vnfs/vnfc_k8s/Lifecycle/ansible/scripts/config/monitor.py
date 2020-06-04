@@ -44,7 +44,7 @@ def dispatchMetric(params, name, position):
   metric.type = 'gauge'
   metric.interval = 5
   metric.type_instance=name
-  metric.value = float(params[position])
+  metric.values = [float(params[position])]
   collectd.info('dispatching metric:' + name + " values:"+str(metric.values))
   metric.dispatch()
   

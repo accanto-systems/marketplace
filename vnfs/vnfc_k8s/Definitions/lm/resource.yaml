@@ -1,0 +1,71 @@
+description: descriptor for sipp
+properties:
+  instance_name:
+    description: the name of this resource instance
+    value: ${instance.name}
+  # properties for metrics and policies
+  instanceid:
+    description: this is here to get metric key, which is curretly the same as instance id. This will be removed soon.
+    value: ${instance.id}    
+  podname:
+    read-only: true
+  integrity_smoothing:
+    description: Integrity smoothing
+    default: 3
+  publication_period:
+    description: Metric publication period in seconds
+    default: 60
+infrastructure:
+  Openstack: {}
+lifecycle:
+  Create:
+    drivers:
+      kubernetes:
+        selector:
+          infrastructure-type:
+          - Kubernetes
+      openstack:
+        selector:
+          infrastructure-type:
+          - Openstack
+  Install: {}
+  Uninstall: {}
+  Start: {}
+  Integrity: {}
+  Stop: {}
+  Delete:
+    drivers:
+      kubernetes:
+        selector:
+          infrastructure-type:
+          - Kubernetes
+      openstack:
+        selector:
+          infrastructure-type:
+          - Openstack
+default-driver:
+  ansible:
+    selector:
+      infrastructure-type:
+      - '*'
+
+operations:
+  Attach:
+    properties:
+      instance_name:
+        description: Name of the backend server
+        type: string
+        default: 'Null'
+  Detach: {}
+
+# metrics:
+#   h_integrity:
+#     type: "metric::integrity"
+#     publication-period: ${publication_period}
+# policies:
+#   heal:
+#     metric: "h_integrity"
+#     type: "policy::heal"
+#     properties:
+#       smoothing:
+#         value: ${integrity_smoothing}

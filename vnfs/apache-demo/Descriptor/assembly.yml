@@ -45,7 +45,7 @@ composition:
         value: ${image_id}
       flavor:
         value: ${flavor}
-    type: resource::hw-apache-vnfc::1.0
+    type: resource::hw-apache-vnfc-apache-demo::1.0
     quantity: 1
 designerLayout:
   description: >-

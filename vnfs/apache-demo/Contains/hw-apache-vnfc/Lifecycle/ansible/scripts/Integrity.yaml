@@ -1,9 +1,7 @@
----
-- name: Integrity Lifecycle Transition
-  hosts: resource
+- name: Integrity
+  hosts: apache
+  become: yes
   gather_facts: False
-  become: true
-
   tasks:
   - name: Check if Asterisk is running
     shell: "ps aux"

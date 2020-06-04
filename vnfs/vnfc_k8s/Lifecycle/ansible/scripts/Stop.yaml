@@ -1,0 +1,12 @@
+---
+- name: Stop
+  hosts: host
+  gather_facts: False
+  become: true
+  ignore_errors: yes
+  
+  tasks:
+  # - name: Stop collectd
+  #   become: yes
+  #   shell: "pkill collectd" 
+  #   ignore_errors: yes

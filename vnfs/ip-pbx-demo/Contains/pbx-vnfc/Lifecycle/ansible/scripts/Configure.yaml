@@ -6,8 +6,8 @@
   become: true
 
   vars: 
-    bindIP: "{{ properties.voice_ip_address }}"
-    subnet: "{{ properties.voice_cidr.split('/')[0] }}"
+    bindIP: "{{ voice_ip_address }}"
+    subnet: "{{ voice_cidr.split('/')[0] }}"
   tasks:
   - name: copy
     copy:
@@ -43,6 +43,6 @@
       dest: /etc/collectd/collectd.conf
       
   - name: add kafka.lm to hosts
-    shell: "echo {{ dl_properties.almip }} kafka.lm >> /etc/hosts"
+    shell: "echo {{ deployment_location.properties.alm_ip }} kafka.lm >> /etc/hosts"
 
 

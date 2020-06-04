@@ -1,0 +1,9 @@
+---
+- name: Start
+  hosts: host
+  gather_facts: False
+
+  tasks:
+  - name: Start Collectd for metric publication
+    become: yes
+    raw: "nohup collectd -C /etc/collectd/collectd.conf < /dev/null > /dev/null 2>&1"

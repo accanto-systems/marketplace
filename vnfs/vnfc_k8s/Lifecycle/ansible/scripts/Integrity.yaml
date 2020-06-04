@@ -1,0 +1,5 @@
+---
+- name: Integrity
+  hosts: host
+  gather_facts: False
+

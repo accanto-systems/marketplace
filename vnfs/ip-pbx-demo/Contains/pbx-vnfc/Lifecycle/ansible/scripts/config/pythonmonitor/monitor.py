@@ -4,8 +4,9 @@ import socket
 import urllib
 import urllib2
 import json
+from random import randint
 
-hostname = "{{properties.instance_name}}"
+hostname = "{{instance_name}}"
 
 def configer(ObjConfiguration):
   collectd.info('Configuring Stuff') 
@@ -14,7 +15,7 @@ def initer():
   collectd.info('initing stuff')
 
 def get_metric_key():
-  metric_key = "{{properties.instanceid}}"
+  metric_key = "{{instanceid}}"
   
   collectd.info(metric_key)
   if metric_key == "no params file found":
@@ -54,7 +55,7 @@ def send_integrity_metric():
 	state = 'BROKEN'
 	state_int = 0
 	
-  url = 'http://{{dl_properties.almip}}:31285/api/send/integrity/' + metric_key + '?metricName=h_integrity&integrity=' + state
+  url = 'http://{{deployment_location.properties.alm_ip}}:31285/api/send/integrity/' + metric_key + '?metricName=h_integrity&integrity=' + state
   collectd.info(url) 
   try:  urllib2.urlopen(url)
   except Exception as e:
@@ -71,7 +72,8 @@ def dispatch_service_metrics():
   lines = raw.splitlines()
   if len(lines) < 1:
     return    
-  active_calls = int(lines[0].split()[0])
+  #active_calls = int(lines[0].split()[0])
+  active_calls = randint(0, 10)
   collectd.info('Send service metric request' + str(active_calls))
   dispatch_metric('asterisk', 'active_calls', active_calls) 
   

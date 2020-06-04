@@ -4,7 +4,7 @@ properties:
   deploymentLocation:
     description: the name of the location for this assemblies resources to be deploy
     type: string
-    default: mereen
+    default: theeast
   resourceManager:
     description: the name of the resource manager that manages the resources
     type: string
@@ -61,6 +61,9 @@ properties:
     type: string
     read-only: true
     value: ${asterisk.input_key_name}
+  ref_name:
+    type: string
+    value: pbx250-asterisk1-0ed6142e-a54f-4f4f-a0a4-49d3e111c00d
 composition:
   asterisk1:
     properties:
@@ -100,6 +103,20 @@ composition:
         value: ${input_key}
     type: resource::pbx-vnfc-ip-pbx-demo::1.0
     quantity: 1
+references:
+  another_pbx:
+    properties:
+      deploymentLocation:
+        value: ${deploymentLocation}
+      resourceManager:
+        value: ${resourceManager}
+      name:
+        value: ${ref_name}
+      voice_ip_address:
+        read-only: true
+      mgmt_ip_address:
+        read-only: true
+    type: resource::pbx-vnfc-ip-pbx-demo::1.0
 designerLayout:
   description: >-
     The following information is solely used to determine the presentation of

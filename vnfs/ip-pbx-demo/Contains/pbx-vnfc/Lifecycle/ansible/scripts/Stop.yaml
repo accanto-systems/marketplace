@@ -26,7 +26,6 @@
        state: absent
      when: asterisk_status.stdout.find('asterisk') != -1
      ignore_errors: yes
-   
 
    - name: Stop collectd
      become: yes

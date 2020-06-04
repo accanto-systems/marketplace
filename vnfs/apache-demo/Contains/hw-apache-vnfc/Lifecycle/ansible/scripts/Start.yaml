@@ -1,6 +1,5 @@
----
 - name: Start
-  hosts: apache1,apache2
+  hosts: apache
   become: yes
   gather_facts: False
   tasks:

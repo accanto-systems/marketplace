@@ -1,0 +1,8 @@
+compose:
+    - name: Create
+      deploy:
+        - objects:
+            file: sipp_pod.yaml
+      checkReady:
+        script: check-ready-on-create.py
+      getOutputs: outputs-on-create.py        

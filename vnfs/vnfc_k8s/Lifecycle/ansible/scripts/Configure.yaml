@@ -1,0 +1,35 @@
+---
+- name: Configure
+  hosts: host
+  gather_facts: False
+
+  tasks:
+  
+  - name: copy myuac.xml
+    copy:
+      src: ./config/myuac.xml
+      dest: /
+
+  - name: create pythonmonitor
+    file: 
+      path: /pythonmonitor
+      state: directory
+
+  - name: copy monitor.py
+    template:
+      src: ./config/monitor.py
+      dest: /pythonmonitor
+
+  - name: create /etc/collectd
+    file: 
+      path: /etc/collectd
+      state: directory
+
+  - name: copy collectd.conf
+    template:
+      src: ./config/collectd.conf
+      dest: /etc/collectd/
+
+  - name: add kafka.lm to hosts
+    become: yes
+    shell: "echo {{ deployment_location.properties.almip }} kafka.lm >> /etc/hosts"

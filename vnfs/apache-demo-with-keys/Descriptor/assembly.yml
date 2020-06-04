@@ -67,7 +67,7 @@ composition:
         value: ${image_id}
       flavor:
         value: ${flavor}
-    type: resource::hw-apache-vnfc-keys::1.0
+    type: resource::hw-apache-vnfc-keys-apache-demo-keys::1.0
     quantity: 1
   hw-apache2:
     properties:
@@ -83,7 +83,7 @@ composition:
         value: ${image_id}
       flavor:
         value: ${flavor}
-    type: resource::hw-apache-vnfc::1.0
+    type: resource::hw-apache-vnfc-keys-apache-demo-keys::1.0
     quantity: 1
   hw-apache3:
     properties:
@@ -99,7 +99,7 @@ composition:
         value: ${image_id}
       flavor:
         value: ${flavor}
-    type: resource::hw-apache-vnfc::1.0
+    type: resource::hw-apache-vnfc-keys-apache-demo-keys::1.0
     quantity: 1
   hw-apache4:
     properties:
@@ -115,7 +115,7 @@ composition:
         value: ${image_id}
       flavor:
         value: ${flavor}
-    type: resource::hw-apache-vnfc::1.0
+    type: resource::hw-apache-vnfc-keys-apache-demo-keys::1.0
     quantity: 1
 designerLayout:
   description: >-

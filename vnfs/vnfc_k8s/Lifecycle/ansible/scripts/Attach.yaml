@@ -1,0 +1,5 @@
+---
+- name: Attach
+  hosts: localhost
+  connection: local
+  gather_facts: False

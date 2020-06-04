@@ -1,0 +1,35 @@
+name: assembly::asm-assembly-resource::1.0
+description: Assembly with a single resource
+properties:
+  dl:
+    type: string
+    default: thenorth
+  rm:
+    type: string
+    default: brent
+composition:
+  resource:
+    properties:
+      deploymentLocation:
+        value: ${dl}
+      resourceManager:
+        value: ${rm}
+    type: resource::vnfc_k8s::1.0
+designerLayout:
+  description: >-
+    The following information is solely used to determine the presentation of
+    this Assembly Design in the LM UI. It does not form part of
+    operational/behavioural description of the Assembly and should not be edited
+    directly.
+  elements:
+    resource:
+      x: 840
+      y: 26.666666666666668
+    assembly::asm-assembly-resource::1.0:
+      x: 0
+      y: 180
+  canvas:
+    translate:
+      x: 20
+      y: 20
+    scale: 0.75
