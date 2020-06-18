@@ -8,3 +8,6 @@
   - name: pause
     shell: python --version
 
+  - name: set result
+    set_fact:
+      output__sg: "hello3"

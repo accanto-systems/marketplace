@@ -75,6 +75,10 @@ properties:
     type: string
     read-only: true
 
+  sg:
+    type: string
+    read-only: true
+
   podname:
     type: string
 
@@ -94,7 +98,7 @@ infrastructure:
 lifecycle:
   Create:
     drivers:
-      kubernetes:
+      Kubernetes:
         selector:
           infrastructure-type:
           - 'kubernetes'
@@ -130,7 +134,7 @@ lifecycle:
           - '*'
   Delete:
     drivers:
-      kubernetes:
+      Kubernetes:
         selector:
           infrastructure-type:
           - 'kubernetes'
@@ -142,14 +146,14 @@ queries:
         selector:
           infrastructure-type:
           - 'kubernetes'
-# metrics:
-#   h_integrity:
-#     type: "metric::integrity"
-#     publication-period: "10"
-# policies:
-#   heal:
-#     metric: "h_integrity"
-#     type: "policy::heal"
-#     properties:
-#       smoothing:
-#         value: ${integrity_smoothing}
+metrics:
+  h_integrity:
+    type: "metric::integrity"
+    publication-period: "10"
+policies:
+  heal:
+    metric: "h_integrity"
+    type: "policy::heal"
+    properties:
+      smoothing:
+        value: ${integrity_smoothing}
